@@ -5,6 +5,8 @@
 [기능 정의서](https://docs.google.com/spreadsheets/d/1uNGqb8jLbEXDDbZiSiF3P0Q2t1UjB-v-Cu3_RzDfo2M/edit?usp=sharing)
 ## 와이어 프레임
 [와이어 프레임](https://miro.com/app/board/o9J_lP-hMKk=/)
+## 시스템 구성도
+[시스템 구성도](https://docs.google.com/presentation/d/11bQkDWvyQLBqAm3rW7P5UiRKPAqQkbl_VmNB_Q31h2U/edit#slide=id.gc44cc550f2_4_0)
 ## 작업 룰
 ### Commit Rule
 ```bash
