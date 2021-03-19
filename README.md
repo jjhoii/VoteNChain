@@ -42,4 +42,4 @@ feat: 로그인 기능 구현 / fix: 회원가입 수정
 ```
 - master : 배포 가능한 상태로 유지
 - develop : 개발용 최상위 branch
-- fetaure : 기능별 branch
+- feature : 기능별 branch
