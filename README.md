@@ -7,6 +7,8 @@
 [와이어 프레임](https://miro.com/app/board/o9J_lP-hMKk=/)
 ## 시스템 구성도
 [시스템 구성도](https://docs.google.com/presentation/d/11bQkDWvyQLBqAm3rW7P5UiRKPAqQkbl_VmNB_Q31h2U/edit#slide=id.gc44cc550f2_4_0)
+## ERD
+[ERD](https://www.erdcloud.com/d/9XCkpxa6CwCowEdJ5)
 ## 작업 룰
 ### Commit Rule
 ```bash
