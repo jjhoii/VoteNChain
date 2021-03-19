@@ -35,7 +35,7 @@
 | :------------: | :---------: | :----------------------------------------- |
 |    OpenJDK     |      11     | Java                                       |
 |   SpringBoot   |    2.4.2    | Rest API 웹 애플리케이션 개발              |
-|     Maven      |    4.0.0    | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
+|     Gradle      |      -     | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
 |     Mysql      |      -      | DB                                        |
 |      JPA       |    2.1.2    | 서버와 DB의 연동을 위해 사용               |
 |     Ubuntu     | 20.04.2 LTS | 서비스 제공을 위해 리눅스 서버 구축        |
@@ -45,8 +45,6 @@
 |  Spring 라이브러리  |  Version   | Comment                      |
 | :-----------------: | :--------: | :--------------------------- |
 |     Spring Web      |     -      |      Rest API 서버 구축      |
-|     WebSocket       |     -      |       소켓 서버 구축         |
-| Spring Data MongoDB |     -      |        MongoDB 연결          |
 |   Spring Data JPA   |     -      |      DB와의 연결 관리        |
 |       Lombok        |     -      | Getter, Setter 등 빠른 구현  |
 |   Spring Data JDBC  |     -      | JDBC                         |
