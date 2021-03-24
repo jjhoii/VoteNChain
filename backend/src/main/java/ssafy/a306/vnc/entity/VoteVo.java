@@ -7,7 +7,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name="Vote")
+//@Entity(name="Vote")
 public class VoteVo {
 	
 	@Id 
@@ -21,6 +21,7 @@ public class VoteVo {
 	private int isPublic;
 	public VoteVo() {
 		// TODO Auto-generated constructor stub
+		System.out.println("hihi");
 	}
 	@Builder
 	public VoteVo(int userIdx, String contractAddress, String title, int category, int isPublic) {
@@ -30,6 +31,7 @@ public class VoteVo {
 		this.title = title;
 		this.category = category;
 		this.isPublic = isPublic;
+		System.out.println("hihi22");
 	}
 
 	@Override
