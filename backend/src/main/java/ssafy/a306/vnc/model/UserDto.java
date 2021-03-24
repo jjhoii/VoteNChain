@@ -6,5 +6,5 @@ public class UserDto {
 	private String userName;
 	private String loginType;
 	private String privateKey;
-	
+
 }

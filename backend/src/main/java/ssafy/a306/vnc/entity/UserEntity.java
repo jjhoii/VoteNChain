@@ -1,9 +1,12 @@
 package ssafy.a306.vnc.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class UserEntity {
+
+	@Id
 	private int userIdx;
 	private String userEmail;
 	private String userName;
@@ -22,7 +25,7 @@ public class UserEntity {
 		return userEmail;
 	}
 
-	public void setUserEmail(String userEmail) {
+	 public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
 
