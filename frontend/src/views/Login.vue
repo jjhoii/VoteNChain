@@ -1,54 +1,50 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div id="login-form" class="col-md-6 mx-auto bg-white">
-        <div class="mt-4">
-          <div class="form-group">
-            <!-- <label for="email">email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="email"
-              v-model="user.email"
-              placeholder="이메일"
-            /> -->
-
-            <button type="submit" class="btn btn-primary form-control" v-on:click="kakaoLogin">
-              카카오로 로그인
-            </button>
-          </div>
-          <div class="form-group">
-            <!-- <label for="password">비밀번호</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              v-model="user.password"
-              placeholder="비밀번호"
-            /> -->
-            <button type="submit" class="btn btn-primary form-control" v-on:click="googleLogin">
-              구글로 로그인
-            </button>
-          </div>
-          <!-- <button type="submit" class="btn btn-primary" v-on:click="login">
-            로그인
-          </button> -->
-
+   <div class="body1">
+      <header class="vid-header container">
+        <div class="fullscreen-vid-wrap">
+          <video
+            src="video/VoteVideo.mp4"
+            muted="muted"
+            autoplay="true"
+            loop="true"
+          ></video>
         </div>
-      </div>
+        <div class="header-overlay"></div>
+        <div class="header-content">
+          
+          <h1>hello ! Vote And Chain</h1>
+          <p>asdasdasdasdasdadasdasdadasda</p>
+          <div style=" display:flex; justify-content: center;">
+            <table>
+              <th>
+                <Button :word="word1"/>
+              </th>
+              <th>
+                <Button :word="word2"/>
+              </th>
+            </table>
+          </div>
+        </div>
+      </header>
     </div>
   </div>
 </template>
 
 <script>
-
+import Button from "@/components/home/Button";
 export default {
+  components:{
+      Button,
+  },
   data() {
     return {
       user: {
         email: "",
         password: ""
-      }
+      },
+      word1: '카카오로그인',
+      word2: '구글 로그인'
     };
   },
   methods: {
@@ -84,4 +80,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.content{
+  height: 830px;
+}
+</style>
