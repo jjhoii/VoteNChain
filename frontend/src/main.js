@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-<<<<<<< Updated upstream
 import HNav from "./components/common/HNav.vue"
 import HBreadcumb from "./components/common/HBreadcrumb.vue"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -14,12 +13,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
-=======
-import HNav from "./components/common/HNav.vue";
-import HBreadcumb from "./components/common/HBreadcrumb.vue";
-// import GoogleLogin from "vue-google-login";
-
->>>>>>> Stashed changes
 Vue.config.productionTip = false
 Vue.filter("truncate", function(text, length, clamp) {
   if (text) {
@@ -35,4 +28,3 @@ new Vue({
 
 Vue.component("HNav", HNav);
 Vue.component("HBreadcrumb", HBreadcumb);
-// Vue.component("GoogleLoing", GoogleLogin);
