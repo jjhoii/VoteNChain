@@ -1,22 +1,14 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-light">
     <div class="container">
-      <img id="nav-icon" src="../../../public/images/locos.png">
-      <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
-      <router-link class="navbar-brand" to="/">Vote & Chain</router-link>
+      <img id="nav-icon" src="../../../public/images/horizontal_on_white_by_logaster__3_-removebg-preview.png">
+      <router-link  style="color : black" class="navbar-brand" to="/">Vote & Chain</router-link>
       <div
         class="navbar-collapse offcanvas-collapse"
         id="navbarsExampleDefault"
       >
         <ul class="navbar-nav ml-auto">
-          <!-- <li class="nav-item">
-            <router-link class="nav-link" to="/explorer/dashboard"
-              >Explorer</router-link
-            >
-          </li> -->
-          <!-- <li class="nav-item">
-            <router-link class="nav-link" to="/shop">Shop</router-link>
-          </li> -->
+         
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link
               class="nav-link"
@@ -32,13 +24,13 @@
             >
           </li>
           <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/login">Sign In</router-link>
+            <router-link style="color : black" class="nav-link" to="/login">Sign In</router-link>
           </li>
           <!-- <li class="nav-item" v-if="!$store.state.isSigned">
             <router-link class="nav-link" to="/register">Sign Up</router-link>
           </li> -->
           <li class="nav-item" v-if="$store.state.isSigned">
-            <router-link class="nav-link" to="/logout">Sign out</router-link>
+            <router-link style="color : black" class="nav-link" to="/logout">Sign out</router-link>
           </li>
         </ul>
       </div>
@@ -52,7 +44,8 @@ export default {};
 
 <style>
 #nav-icon {
-  height: 40px;
+  height: 60px;
   padding-right: 0.5rem;
 }
+
 </style>
