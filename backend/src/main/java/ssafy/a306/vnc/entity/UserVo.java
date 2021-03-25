@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class UserVo {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int userIdx;
+    private Long userIdx;
 
 //    @Column(name="userEmail")
     private String userEmail;
@@ -30,7 +30,7 @@ public class UserVo {
     private String privateKey;
     
     
-    public UserVo(int userIdx, String userEmail, String userName, String loginType, String privateKey) {
+    public UserVo(Long userIdx, String userEmail, String userName, String loginType, String privateKey) {
         this.userIdx = userIdx;
         this.userEmail = userEmail;
         this.userName = userName;

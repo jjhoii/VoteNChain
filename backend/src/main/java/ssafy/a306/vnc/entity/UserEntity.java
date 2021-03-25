@@ -9,17 +9,17 @@ import javax.persistence.Id;
 public class UserEntity {
 	
 	@Id
-	private int userIdx;
+	private Long userIdx;
 	private String userEmail;
 	private String userName;
 	private String loginType;
 	private String privateKey;
 
-	public int getUserIdx() {
+	public Long getUserIdx() {
 		return userIdx;
 	}
 
-	public void setUserIdx(int userIdx) {
+	public void setUserIdx(Long userIdx) {
 		this.userIdx = userIdx;
 	}
 
