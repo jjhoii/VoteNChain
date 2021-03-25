@@ -1,9 +1,8 @@
 <template>
-  <div class="container"  style="margin: 10%">
-
-
+  <div>
+    <div class="container">
       <div style="text-align:right;">
-          <b-button>진행중인 투표</b-button>
+        <b-button>진행중인 투표</b-button>
       </div>
       <div style="display : flex">
           <div name="category" style="width : 30%">
@@ -21,20 +20,22 @@
             <div><VoteCard/></div> -->
           </div>
       </div>
-   
-      
-      
+    </div>
+    <div >
+      <FootBar class="footbar" />
+    </div>
   </div>
 </template>
 
 <script>
-import VoteCard from '@/components/votelist/VoteCard';
 import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
+import VoteCard from "@/components/vote/VoteCard";
+import FootBar from "../components/common/FootBar";
 export default {
-components :{
-    VoteCard,
+  components: {
+    VoteCard,FootBar
 },
 data() {
   return {
@@ -63,6 +64,4 @@ created() {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -9,14 +9,14 @@ import ssafy.a306.vnc.entity.UserVo;
 @Data
 @NoArgsConstructor
 public class UserDto {
-	private int userIdx;
+	private Long userIdx;
 	private String userEmail;
 	private String userName;
 	private String loginType;
 	private String privateKey;
 
 	@Builder
-	public UserDto(int userIdx,String userEmail, String userName, String loginType, String privateKey) {
+	public UserDto(Long userIdx,String userEmail, String userName, String loginType, String privateKey) {
 		this.userIdx=userIdx;
 		this.userEmail = userEmail;
 		this.userName = userName;

@@ -5,6 +5,8 @@ import Login from "@/views/Login.vue";
 import VoteMake from '@/views/VoteMake.vue';
 import VoteList from '@/views/VoteList.vue';
 import VotePage from '@/views/VotePage.vue';
+import MyPage from '@/views/MyPage.vue';
+import VoteGraph from '@/views/VoteGraph.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -52,6 +54,16 @@ const routes = [
     name: "votepage",
     path: "/votepage",
     component: VotePage,
+  },
+  {
+    name: "mypage",
+    path: "/mypage",
+    component: MyPage,
+  },
+  {
+    name: "votegraph",
+    path: "/votegraph",
+    component: VoteGraph,
   },
 ]
 

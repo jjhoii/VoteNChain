@@ -43,7 +43,8 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		String email = userDto.getUserEmail();
-
+		System.out.println("checkUser / email : " + userDto.getUserEmail());
+		System.out.println("checkUser / key : " + userDto.getPrivateKey());
 		try {
 			// 이메일 중복 검사
 			int userExists = userService.selectUserEmail(userDto);
@@ -70,6 +71,8 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
+		System.out.println("signup / email : " + userDto.getUserEmail());
+		System.out.println("signup / key : " + userDto.getPrivateKey());
 		try {
 			userService.add(userDto);
 			resultMap.put("message", "success");
