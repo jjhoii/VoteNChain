@@ -1,25 +1,25 @@
 <template>
   <div id="app">
-    <div class="total">
+    <div class="total" >
+      <div >
       <HNav />
-      <router-view class= 'content'/>
-      <FootBar class="footbar" />
+      </div>
+      <div style="margin-top: 8%">
+      <router-view />
+      </div>
     </div>
   </div>
 </template>
-<script>  
+<script>
 import HNav from "@/components/common/HNav";
-import FootBar from "@/components/common/FootBar"
 export default {
-    components: {
-    FootBar,
+  components: { 
     HNav,
-  }
-}
+  },
+};
 </script>
 <style>
 #app {
-
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -43,28 +43,16 @@ export default {
 .form-group .content {
   font-size: 1.2rem;
 }
-.total{
+.total {
   position: relative;
 }
-.content{
-  height: 1500px;
-}
-.footbar{
-   position: absolute;
 
-    left: 0;
-
-    bottom: 0;
-
-    width: 100%;
-  margin: 0px 5;
-	padding: 15px 0;
-
-	text-align: center;
-
-	
-
-	background: #333;
-  
+.footbar {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0;
+  text-align: center;
+  background: #333;
 }
 </style>

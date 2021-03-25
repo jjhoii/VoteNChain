@@ -57,6 +57,7 @@
               style="width: 70%;"
             ></b-form-file
             ><br />
+
             <img class="profile_image" :src="previewImageData" /><br />
 
             <span>설명</span><br />
@@ -105,12 +106,20 @@
         </div>
       </header>
     </div>
+
+     <div>
+          <FootBar class="footbar" />
+        </div>
+        
   </div>
 </template>
 
 <script>
+import FootBar from "../components/common/FootBar";
 export default {
-  components: {},
+  components: {
+      FootBar
+  },
   data() {
     return {
       previewImageData: "https://source.unsplash.com/random",
@@ -141,7 +150,6 @@ export default {
 <style>
 .vote-make-header {
   color: #233;
-  margin: 40%;
 }
 #vote-make {
   margin: 0px 0px 0px 15%;
