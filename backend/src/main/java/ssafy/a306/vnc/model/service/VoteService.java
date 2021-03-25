@@ -13,7 +13,7 @@ public class VoteService {
 	@Autowired
 	private VoteRepository voteRepository;
 	
-	public VoteDto save(VoteDto vote) {
+	public VoteVo save(VoteVo vote) {
 		voteRepository.save(vote);
 		return vote;
 	}

@@ -16,25 +16,30 @@
           <div id="vote-make">
             <span>투표성격</span><br />
             <b-button-group>
-              <b-button>공개</b-button>
-              <b-button>비공개</b-button> </b-button-group
+              <b-button @click="isPublic = 1">공개</b-button>
+              <b-button @click="isPublic = 0">
+                비공개</b-button
+              > </b-button-group
             ><br />
 
             <span>투표명</span><br />
             <b-form-input
-              v-model="text"
+              v-model="title"
               placeholder="Enter your name"
             ></b-form-input>
             <span>카테고리 선택</span><br />
             <table>
               <th>
                 <b-form-input
-                  v-model="text"
+                  v-model="categoryName"
                   placeholder="Enter your name"
                 ></b-form-input>
               </th>
               <th>
-                <b-button>선택</b-button>
+                <b-button v-b-modal.category>선택</b-button>
+                <b-modal id="category" title="Category">
+                  <button v-for="(categoryItem,index) in categoryItems" v-bind:key="index" @click="category=index;categoryName=categoryItem.category">{{categoryItem.category}}</button>
+                </b-modal>
               </th>
             </table>
 
@@ -57,6 +62,7 @@
               style="width: 70%;"
             ></b-form-file
             ><br />
+
             <img class="profile_image" :src="previewImageData" /><br />
 
             <span>설명</span><br />
@@ -101,19 +107,40 @@
               <span>~</span>
               <b-form-input style="width:30%" type="date"></b-form-input>
             </div>
+            <b-button @click="createVote">제출</b-button>
           </div>
         </div>
       </header>
     </div>
+
+     <div>
+          <FootBar class="footbar" />
+        </div>
+        
   </div>
 </template>
 
 <script>
+import FootBar from "../components/common/FootBar";
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
-  components: {},
+  components: {
+      FootBar
+  },
   data() {
     return {
-      previewImageData: "https://source.unsplash.com/random",
+      previewImageData: 'https://source.unsplash.com/random',
+      isPublic: 1,
+      title: '',
+      categoryName:'',
+      categoryItems: [
+          { category: '운동'  },
+          { category: '음악'  },
+          { category: '병원'  },
+          { category: '선거'  }
+        ]
     };
   },
   methods: {
@@ -129,6 +156,29 @@ export default {
         this.previewImageData = null;
       }
     },
+    createVote(){
+      this.form = {
+        "userIdx" : 1,
+        "contractAddress" : "tmp_contractAddress",
+        "title" : this.title,
+        "category" : this.category,
+        "isPublic" : this.isPublic
+      }
+      axios
+        .post(`${SERVER_URL}/vote/create`,this.form,{
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json; charset = utf-8'
+        }
+      } )
+        .then((response) => {
+          console.log("테스트"+response.title + " " + response.voteIdx);
+          this.$router.replace('/votelist');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
   },
   computed: {
     btnStates() {
@@ -141,7 +191,6 @@ export default {
 <style>
 .vote-make-header {
   color: #233;
-  margin: 40%;
 }
 #vote-make {
   margin: 0px 0px 0px 15%;
