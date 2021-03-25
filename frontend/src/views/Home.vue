@@ -28,8 +28,9 @@
                 <Button :word="word2"/>
               </th>
             </table>
+            
           </div>
-
+          
              <ListCard />
         </div>
       </header>
@@ -86,6 +87,7 @@ export default {
   display: flex;
   align-items: center;
   color: #fff;
+  
 }
 
 .container {
@@ -123,7 +125,8 @@ export default {
 }
 .header-content {
   z-index: 2;
-  width: 100vw;
+  width: 100%;
+  margin : 24% 0px 0px 0px;
 }
 
 .header-content h1 {
