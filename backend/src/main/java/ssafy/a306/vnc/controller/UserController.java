@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ssafy.a306.vnc.model.UserDto;
 import ssafy.a306.vnc.model.service.UserService;
-import ssafy.a306.vnc.model.service.UserServiceImpl;
 
 //@CrossOrigin(origins = { "https://votenchain.tk" })
 @CrossOrigin(origins = { "*" })
@@ -18,16 +17,37 @@ public class UserController {
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-
+	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/login",method = RequestMethod.POST)
-	public UserDto login(@RequestBody UserDto User){
-		UserDto userFetched=userService.get(User.getEmail());
-		if(userFetched==null){
-			return userService.add(User);
-		}
-		return userFetched;
+	@PostMapping(value = "login")
+	public String login(@RequestBody UserDto user){
+		System.out.println("되냐");
+//		UserDto userFetched=userService.get(user.getUserEmail());
+//		if(userFetched==null){
+//			return userService.add(user);
+//		}
+		return userService.add(user);
 	}
 
+//	@RequestMapping(method = RequestMethod.GET,path="/getRequest")
+//	public String getRequest(@RequestParam String id,@RequestParam String email) {
+//		return "아이디는 " + id + "이메일은" + email;
+//	}
+	@GetMapping(value="getMultiParameters")
+	public UserDto getMultiPrameters(UserDto userDto) {
+		System.out.println("테스트");
+		return userDto;
+	}
+
+
+	@GetMapping(value = "/login")
+	public void getTest(@RequestBody UserDto user){
+		System.out.println("겟테스트");
+//		UserDto userFetched=userService.get(user.getUserEmail());
+//		if(userFetched==null){
+//			return userService.add(user);
+//		}
+//		return userService.add(user);
+	}
 }

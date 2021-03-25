@@ -1,8 +1,10 @@
 package ssafy.a306.vnc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ssafy.a306.vnc.model.UserDto;
+import org.springframework.stereotype.Repository;
+import ssafy.a306.vnc.entity.User;
 
-public interface UserRepository extends JpaRepository<UserDto,Long> {
+@Repository
+public interface UserRepository extends JpaRepository<User,Long> {
 
 }
