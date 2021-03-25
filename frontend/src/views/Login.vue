@@ -39,12 +39,11 @@
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 const cid=process.env.VUE_APP_CLIENT_ID;
 
-import Button from "@/components/home/Button";
 import GoogleLogin from 'vue-google-login';
 import axios from 'axios';
 export default {
   components:{
-      Button,
+
       GoogleLogin,
       axios,
   },
