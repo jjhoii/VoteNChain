@@ -1,9 +1,14 @@
 package ssafy.a306.vnc.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class UserEntity {
+	
+	@Id
 	private int userIdx;
 	private String userEmail;
 	private String userName;
