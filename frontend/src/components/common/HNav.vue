@@ -8,21 +8,18 @@
         id="navbarsExampleDefault"
       >
         <ul class="navbar-nav ml-auto">
-         
-          <li class="nav-item" v-if="$store.state.isSigned">
-            <router-link
-              class="nav-link"
-              to="/mypage/wallet_create"
-              v-if="!$store.state.user.walletAddress"
-              >MyPage</router-link
-            >
-            <router-link
-              class="nav-link"
-              to="/mypage/wallet_info"
-              v-if="$store.state.user.walletAddress"
-              >MyPage</router-link
-            >
+          
+          <li class="nav-item" v-if="!$store.state.isSigned">
+            <router-link style="color : black" class="nav-link" to="/votemake">투표만들기</router-link>
           </li>
+          <li class="nav-item" v-if="!$store.state.isSigned">
+            <router-link style="color : black" class="nav-link" to="/votelist">투표리스트</router-link>
+          </li>
+          <li class="nav-item" v-if="!$store.state.isSigned">
+            <router-link style="color : black" class="nav-link" to="/votepage">투표페이지</router-link>
+          </li>
+
+          
           <li class="nav-item" v-if="!$store.state.isSigned">
             <router-link style="color : black" class="nav-link" to="/login">Sign In</router-link>
           </li>

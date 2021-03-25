@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ssafy.a306.vnc.entity.VoteVo;
+import ssafy.a306.vnc.model.VoteDto;
 import ssafy.a306.vnc.model.service.VoteService;
 
 @RestController
@@ -19,8 +20,8 @@ public class VoteController {
 	VoteService voteService;
 	
 	@PostMapping(value ="/create")
-	public ResponseEntity<VoteVo> create(@RequestBody VoteVo vote){
+	public ResponseEntity<VoteDto> create(@RequestBody VoteDto vote){
 		System.out.println(vote.toString());
-		return new ResponseEntity<VoteVo>(voteService.save(vote),HttpStatus.OK);
+		return new ResponseEntity<VoteDto>(voteService.save(vote),HttpStatus.OK);
 	}
 }

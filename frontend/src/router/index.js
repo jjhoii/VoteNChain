@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from "@/views/Login.vue";
+import VoteMake from '@/views/VoteMake.vue';
+import VoteList from '@/views/VoteList.vue';
+import VotePage from '@/views/VotePage.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +36,22 @@ const routes = [
       alert("로그아웃 되었습니다.");
       next("/");
     },
+  },
+
+  {
+    name: "votemake",
+    path: "/votemake",
+    component: VoteMake,
+  },
+  {
+    name: "votelist",
+    path: "/votelist",
+    component: VoteList,
+  },
+  {
+    name: "votepage",
+    path: "/votepage",
+    component: VotePage,
   },
 ]
 
