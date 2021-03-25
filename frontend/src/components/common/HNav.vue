@@ -19,7 +19,15 @@
             <router-link style="color : black" class="nav-link" to="/votepage">투표페이지</router-link>
           </li>
 
+          <li class="nav-item" v-if="!$store.state.isSigned">
+            <router-link style="color : black" class="nav-link" to="/mypage">마이페이지</router-link>
+          </li>
+
           
+          <li class="nav-item" v-if="!$store.state.isSigned">
+            <router-link style="color : black" class="nav-link" to="/votegraph">통계페이지</router-link>
+          </li>
+
           <li class="nav-item" v-if="!$store.state.isSigned">
             <router-link style="color : black" class="nav-link" to="/login">Sign In</router-link>
           </li>
