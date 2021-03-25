@@ -3,7 +3,6 @@
   
      <div>
   <b-card
-    title="Card Title"
     img-src="https://picsum.photos/600/300/?image=25"
     img-alt="Image"
     img-top
@@ -11,6 +10,7 @@
     style="max-width: 15rem;"
     class="mb-2"
   >
+  <b-card-title>{{title}}</b-card-title>
     <b-card-text>
       Some quick example text to build on the card title and make up the bulk of the card's content.
     </b-card-text>
@@ -25,6 +25,6 @@
 
 export default {
  name:'VoteCard',
-
+ props: ['title'],
 }
 </script>
