@@ -12,12 +12,13 @@
           <b-table  hover :items="items"></b-table>
           </div>
           <div name="vote-list-card" style="width:70%; display:flex;flex-wrap: wrap;"> 
+            <div  v-for="(vote, idx) in list" :key="idx"><VoteCard :title="vote.title"/></div>
+
+            <!-- <div><VoteCard/></div>
             <div><VoteCard/></div>
             <div><VoteCard/></div>
             <div><VoteCard/></div>
-            <div><VoteCard/></div>
-            <div><VoteCard/></div>
-            <div><VoteCard/></div>
+            <div><VoteCard/></div> -->
           </div>
       </div>
    
@@ -28,21 +29,37 @@
 
 <script>
 import VoteCard from '@/components/votelist/VoteCard';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
 components :{
     VoteCard,
 },
 data() {
-      return {
-        items: [
-          { category: '운동' },
-          { category: '음악'  },
-          { category: '병원'  },
-          { category: '선거'  }
-        ]
-      }
-    }
+  return {
+    items: [
+      { category: '운동' },
+      { category: '음악'  },
+      { category: '병원'  },
+      { category: '선거'  }
+    ],
+    list: [],
+  }
+},
+created() {
+    //페이지 시작하면은 자동 함수 실행
+    this.readVotes();
+  },
+ methods: {
+   readVotes(){
+      axios
+        .get(`${SERVER_URL}/vote/read`)
+        .then((res) => {
+          this.list = res.data.list;
+        });
+   }
+ }
 }
 </script>
 
