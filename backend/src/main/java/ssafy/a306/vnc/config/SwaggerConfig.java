@@ -17,8 +17,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any()) // ÇöÀç RequestMappingÀ¸·Î ÇÒ´çµÈ ¸ðµç URL ¸®½ºÆ®¸¦ ÃßÃâ
-//                .paths(PathSelectors.ant("/vote/**")) // ±×Áß /api/** ÀÎ URLµé¸¸ ÇÊÅÍ¸µ
+                .apis(RequestHandlerSelectors.any()) // ï¿½ï¿½ï¿½ï¿½ RequestMappingï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ ï¿½ï¿½ï¿½ URL ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//                .paths(PathSelectors.ant("/vote/**")) // ï¿½ï¿½ï¿½ï¿½ /api/** ï¿½ï¿½ URLï¿½é¸¸ ï¿½ï¿½ï¿½Í¸ï¿½
                 .build();
     }
 }
