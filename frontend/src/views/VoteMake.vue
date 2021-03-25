@@ -16,8 +16,8 @@
           <div id="vote-make">
             <span>투표성격</span><br />
             <b-button-group>
-              <b-button @click="isPublic = true">공개</b-button>
-              <b-button @click="isPublic = false">
+              <b-button @click="isPublic = 1">공개</b-button>
+              <b-button @click="isPublic = 0">
                 비공개</b-button
               > </b-button-group
             ><br />
@@ -31,14 +31,14 @@
             <table>
               <th>
                 <b-form-input
-                  v-model="category"
+                  v-model="categoryName"
                   placeholder="Enter your name"
                 ></b-form-input>
               </th>
               <th>
                 <b-button v-b-modal.category>선택</b-button>
                 <b-modal id="category" title="Category">
-                  <button v-for="categoryItem in categoryItems" v-bind:key="categoryItem" @click="category=categoryItem.category">{{categoryItem.category}}</button>
+                  <button v-for="(categoryItem,index) in categoryItems" v-bind:key="index" @click="category=index;categoryName=categoryItem.category">{{categoryItem.category}}</button>
                 </b-modal>
               </th>
             </table>
@@ -115,17 +115,19 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
   components: {},
   data() {
     return {
       previewImageData: 'https://source.unsplash.com/random',
-      isPublic: true,
+      isPublic: 1,
       title: '',
-      category:'',
+      categoryName:'',
       categoryItems: [
-          { category: '운동' },
+          { category: '운동'  },
           { category: '음악'  },
           { category: '병원'  },
           { category: '선거'  }
@@ -146,25 +148,27 @@ export default {
       }
     },
     createVote(){
-      form = {
+      this.form = {
         "userIdx" : 1,
         "contractAddress" : "tmp_contractAddress",
         "title" : this.title,
         "category" : this.category,
         "isPublic" : this.isPublic
       }
-      // axios
-      //   .post(`${SERVER_URL}/create`, )
-      //   .then((response) => {
-      //     if (response.data.success === 'success') {
-      //       this.barProceeding();
-      //       alert('회원가입에 성공하셨습니다.');
-      //     } else alert('회원가입에 실패하셨습니다.');
-      //     this.back();
-      //   })
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
+      axios
+        .post(`${SERVER_URL}/vote/create`,this.form,{
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json; charset = utf-8'
+        }
+      } )
+        .then((response) => {
+          console.log("테스트"+response.title + " " + response.voteIdx);
+          this.$router.replace('/votelist');
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   },
   computed: {
