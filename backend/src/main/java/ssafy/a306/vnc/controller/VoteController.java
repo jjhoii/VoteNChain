@@ -20,8 +20,15 @@ public class VoteController {
 	VoteService voteService;
 	
 	@PostMapping(value ="/create")
-	public ResponseEntity<VoteDto> create(@RequestBody VoteDto vote){
-		System.out.println(vote.toString());
-		return new ResponseEntity<VoteDto>(voteService.save(vote),HttpStatus.OK);
+	public ResponseEntity<VoteVo> create(@RequestBody VoteVo vote){
+		//System.out.println(vote.toString());
+		ResponseEntity<VoteVo> entity = null;
+		try {
+			entity = new ResponseEntity<VoteVo>(voteService.save(vote),HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return entity;
+		//return new ResponseEntity<VoteVo>(voteService.save(vote),HttpStatus.OK);
 	}
 }

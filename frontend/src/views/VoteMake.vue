@@ -16,25 +16,30 @@
           <div id="vote-make">
             <span>투표성격</span><br />
             <b-button-group>
-              <b-button>공개</b-button>
-              <b-button>비공개</b-button> </b-button-group
+              <b-button @click="isPublic = true">공개</b-button>
+              <b-button @click="isPublic = false">
+                비공개</b-button
+              > </b-button-group
             ><br />
 
             <span>투표명</span><br />
             <b-form-input
-              v-model="text"
+              v-model="title"
               placeholder="Enter your name"
             ></b-form-input>
             <span>카테고리 선택</span><br />
             <table>
               <th>
                 <b-form-input
-                  v-model="text"
+                  v-model="category"
                   placeholder="Enter your name"
                 ></b-form-input>
               </th>
               <th>
-                <b-button>선택</b-button>
+                <b-button v-b-modal.category>선택</b-button>
+                <b-modal id="category" title="Category">
+                  <button v-for="categoryItem in categoryItems" v-bind:key="categoryItem" @click="category=categoryItem.category">{{categoryItem.category}}</button>
+                </b-modal>
               </th>
             </table>
 
@@ -101,6 +106,7 @@
               <span>~</span>
               <b-form-input style="width:30%" type="date"></b-form-input>
             </div>
+            <b-button @click="createVote">제출</b-button>
           </div>
         </div>
       </header>
@@ -109,11 +115,21 @@
 </template>
 
 <script>
+// import axios from 'axios';
 export default {
   components: {},
   data() {
     return {
-      previewImageData: "https://source.unsplash.com/random",
+      previewImageData: 'https://source.unsplash.com/random',
+      isPublic: true,
+      title: '',
+      category:'',
+      categoryItems: [
+          { category: '운동' },
+          { category: '음악'  },
+          { category: '병원'  },
+          { category: '선거'  }
+        ]
     };
   },
   methods: {
@@ -129,6 +145,27 @@ export default {
         this.previewImageData = null;
       }
     },
+    createVote(){
+      form = {
+        "userIdx" : 1,
+        "contractAddress" : "tmp_contractAddress",
+        "title" : this.title,
+        "category" : this.category,
+        "isPublic" : this.isPublic
+      }
+      // axios
+      //   .post(`${SERVER_URL}/create`, )
+      //   .then((response) => {
+      //     if (response.data.success === 'success') {
+      //       this.barProceeding();
+      //       alert('회원가입에 성공하셨습니다.');
+      //     } else alert('회원가입에 실패하셨습니다.');
+      //     this.back();
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
+    }
   },
   computed: {
     btnStates() {
