@@ -20,6 +20,10 @@
 ## ERD
 [ERD](https://www.erdcloud.com/d/9XCkpxa6CwCowEdJ5)
 
+## 발표자료
+[기획발표](https://docs.google.com/presentation/d/1fF2eFkMerMuqC1D75I8dnozU3mPeT_SpcHVuaZ9LroI/edit)
+[중간발표](https://docs.google.com/presentation/d/12IombKFISLkszKRw9t4E7B8Hgdwuk0gnNvZqu9LCZas/edit#slide=id.p)
+
 ## 기술 스택
 ### Frontend 구성 요소
 
