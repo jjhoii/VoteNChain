@@ -7,8 +7,14 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "vue": "^2.6.11",
+    "axios": "^0.21.1",
+    "bootstrap-vue": "^2.21.2",
+    "chart": "^0.1.2",
+    "core-js": "^3.9.1",
+    "google": "^2.1.0",
+    "vue": "^2.6.12",
+    "vue-google-charts": "^0.3.3",
+    "vue-google-login": "^2.0.5",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
   },

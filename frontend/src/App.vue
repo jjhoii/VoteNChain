@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div >
+      <div >
+      <HNav />
+      </div>
+      <div style="margin-top: 8%">
+      <router-view />
+      </div>
     </div>
-    <router-view/>
   </div>
 </template>
-
+<script>
+import HNav from "@/components/common/HNav";
+export default {
+  components: { 
+    HNav,
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -28,5 +38,19 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.form-group .content {
+  font-size: 1.2rem;
+}
+
+
+.footbar {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 15px 0;
+  text-align: center;
+  background: #333;
 }
 </style>
