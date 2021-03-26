@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-   <div class="body1">
+  <div >
+   <div class="body">
       <header class="vid-header container">
         <div class="fullscreen-vid-wrap">
           <video
@@ -13,9 +13,8 @@
         <div class="header-overlay"></div>
         <div class="header-content">
           
-          <h1>hello ! Vote And Chain</h1>
-          <p>asdasdasdasdasdadasdasdadasda</p>
-          <div style=" display:flex; justify-content: center;">
+        
+          <div style=" display:flex; justify-content: center; margin-top:15%;">
             <table>
               <div>
                 <kakaoLogin/>
@@ -23,7 +22,7 @@
               <br>
               <div>
                 <!-- <GoogleLogin :params="params" :onSuccess="onSuccess" :onFailure="onFailure">Login</GoogleLogin> -->
-                 <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin>
+                 <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin>
                  <!-- <GoogleLogin :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin> -->
                  <!--<GoogleLogin :params="params" :logoutButton=true @click="logout">Logout</GoogleLogin> -->
               </div>
@@ -31,6 +30,11 @@
           </div>
         </div>
       </header>
+      <div style="margin-top : 18%">
+       
+          <FootBar class="footbar" />
+        
+      </div>
     </div>
   </div>
 </template>
@@ -41,10 +45,11 @@ const cid=process.env.VUE_APP_CLIENT_ID;
 import Button from "@/components/home/Button";
 import kakaoLogin from "@/components/socialLogin/kakao.vue";
 import GoogleLogin from 'vue-google-login';
-
+import FootBar from '@/components/common/FootBar';
 export default {
   components:{
       Button,
+      FootBar,
       kakaoLogin,
       GoogleLogin,
   },

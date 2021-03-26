@@ -6,9 +6,12 @@ import HNav from "./components/common/HNav.vue"
 import HBreadcumb from "./components/common/HBreadcrumb.vue"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
+import VueGoogleCharts from 'vue-google-charts'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(VueGoogleCharts)
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin

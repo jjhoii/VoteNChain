@@ -4,14 +4,14 @@
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400"
       rel="stylesheet"
     />
-    <h1>Vue Carousel</h1>
+    
     <div id="v-carousel" type="x/template">
       <div class="card-carousel-wrapper">
         <div class="card-carousel--nav__left" @click="moveCarousel(-1)" :disabled="atHeadOfList"></div>
         <div class="card-carousel">
           <div class="card-carousel--overflow-container">
             <div class="card-carousel-cards" :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')' }">
-              <div class="card-carousel--card" v-for="item in items"><img src="https://placehold.it/200x200"/>
+              <div class="card-carousel--card" v-for="item in items"><img style="width:200px; height:200px" src='https://source.unsplash.com/random' />
                 <div class="card-carousel--card--footer">
                   <p>{{ item.name }}</p>
                   <p class="tag" v-for="(tag, index) in item.tag" :class="index &gt; 0 ? 'secondary' : ''">{{ tag }}</p>

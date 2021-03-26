@@ -8,38 +8,36 @@
             muted="muted"
             autoplay="true"
             loop="true"
+            
           ></video>
         </div>
         <div class="header-overlay"></div>
         <div class="header-content">
-          <img
+          <!-- <img
             class="content-image"
             src="images/horizontal_on_white_by_logaster__3_-removebg-preview.png"
             alt=""
-          />
-          <h1>hello ! Vote And Chain</h1>
-          <p>asdasdasdasdasdadasdasdadasda</p>
-          <div style=" display:flex; justify-content: center;">
-            <Button :word="word1" />
-            <Button :word="word2" />
+          /> -->
+          <h1>Hello ! Vote & Chain</h1>
+          <p>신뢰성이 제공되는 블록체인 전자투표</p>
+          <div style=" margin-bottom: 50px; display:flex; justify-content: center;">
+            <div style="margin-right : 20px;">
+              <Button :word="word1" />
+            </div>
+            <div>
+              <Button :word="word2" />
+            </div>
           </div>
           <div>
-            <ListCard />
+            <ListCard  />
           </div>
         </div>
       </header>
 
-      <div>
-        <section class="section-a">
-          <div class="container">
-            <h1>ㅁㄴㅇㅁㄴㅇㅁㅇㅁ A</h1>
-            <p>asdsadfskldfjasflgkjsdklfjasssdkl</p>
-          </div>
-        </section>
-        <section></section>
-        <div>
+      <div style="">
+       
           <FootBar class="footbar" />
-        </div>
+        
       </div>
     </div>
   </div>
@@ -75,6 +73,7 @@ export default {
   line-height: 1.5;
   color: #333;
   overflow-x: hidden;
+  
 }
 .vid-header {
   height: 100%;
@@ -98,6 +97,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  
 }
 
 .fullscreen-vid-wrap video {
@@ -120,6 +120,7 @@ export default {
 .header-content {
   z-index: 2;
   width: 100%;
+  margin-top: 3%;
 }
 
 .header-content h1 {
