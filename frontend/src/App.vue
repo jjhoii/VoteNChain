@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="total" >
+    <div >
       <div >
       <HNav />
       </div>
@@ -43,9 +43,7 @@ export default {
 .form-group .content {
   font-size: 1.2rem;
 }
-.total {
-  position: relative;
-}
+
 
 .footbar {
   left: 0;
