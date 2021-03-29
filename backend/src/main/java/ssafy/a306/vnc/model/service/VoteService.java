@@ -21,9 +21,4 @@ public class VoteService {
 		return vote;
 	}
 	
-	public List<VoteVo> findAll(){
-		List<VoteVo> votes = new ArrayList<>();
-		voteRepository.findAll().forEach(e ->votes.add(e));
-		return votes;
-	}
 }
