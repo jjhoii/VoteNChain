@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div >
-      <div >
-      <HNav />
+    <div>
+      <div>
+        <HNav />
       </div>
-      <div style="margin-top: 8%">
-      <router-view />
+      <div>
+        <router-view />
       </div>
     </div>
   </div>
@@ -13,7 +13,7 @@
 <script>
 import HNav from "@/components/common/HNav";
 export default {
-  components: { 
+  components: {
     HNav,
   },
 };
@@ -43,7 +43,6 @@ export default {
 .form-group .content {
   font-size: 1.2rem;
 }
-
 
 .footbar {
   left: 0;

@@ -15,23 +15,18 @@ public class VoteVo {
 	private int voteIdx;
 	private int userIdx;
 	private String contractAddress;
-	private String title;
-	private int category;
-	private int isPublic;
+	private String hashKey;
 	
 	public VoteVo() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Builder
-	public VoteVo(int voteIdx, int userIdx, String contractAddress, String title, int category, int isPublic) {
+	public VoteVo(int userIdx, String contractAddress) {
 		super();
-		//this.voteIdx = voteIdx;
 		this.userIdx = userIdx;
 		this.contractAddress = contractAddress;
-		this.title = title;
-		this.category = category;
-		this.isPublic = isPublic;
+		
 	}
 
 	public int getVoteIdx() {
@@ -58,35 +53,21 @@ public class VoteVo {
 		this.contractAddress = contractAddress;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getHashKey() {
+		return hashKey;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public int getCategory() {
-		return category;
-	}
-
-	public void setCategory(int category) {
-		this.category = category;
-	}
-
-	public int getIsPublic() {
-		return isPublic;
-	}
-
-	public void setIsPublic(int isPublic) {
-		this.isPublic = isPublic;
+	public void setHashKey(String hashKey) {
+		this.hashKey = hashKey;
 	}
 
 	@Override
 	public String toString() {
-		return "VoteDto [voteIdx=" + voteIdx + ", userIdx=" + userIdx + ", contractAddress=" + contractAddress
-				+ ", title=" + title + ", category=" + category + ", isPublic=" + isPublic + "]";
+		return "VoteVo [voteIdx=" + voteIdx + ", userIdx=" + userIdx + ", contractAddress=" + contractAddress
+				+ ", hashKey=" + hashKey + "]";
 	}
+
+
 	
 
 }

@@ -8,7 +8,6 @@
             muted="muted"
             autoplay="true"
             loop="true"
-            
           ></video>
         </div>
         <div class="header-overlay"></div>
@@ -20,8 +19,10 @@
           /> -->
           <h1>Hello ! Vote & Chain</h1>
           <p>신뢰성이 제공되는 블록체인 전자투표</p>
-          <div style=" margin-bottom: 50px; display:flex; justify-content: center;">
-            <div style="margin-right : 20px;">
+          <div
+            style="margin-bottom: 50px; display: flex; justify-content: center"
+          >
+            <div style="margin-right: 20px">
               <Button :word="word1" />
             </div>
             <div>
@@ -29,15 +30,12 @@
             </div>
           </div>
           <div>
-            <ListCard  />
+            <ListCard />
           </div>
         </div>
       </header>
-
       <div style="">
-       
-          <FootBar class="footbar" />
-        
+        <FootBar class="footbar" />
       </div>
     </div>
   </div>
@@ -70,10 +68,10 @@ export default {
 .body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
+  height: 100vh;
   line-height: 1.5;
   color: #333;
   overflow-x: hidden;
-  
 }
 .vid-header {
   height: 100%;
@@ -97,7 +95,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  
+  z-index: -2;
 }
 
 .fullscreen-vid-wrap video {
@@ -113,7 +111,7 @@ export default {
   left: 0;
 
   background-color: black;
-  z-index: 1;
+  z-index: -1;
   opacity: 0.35;
   text-align: center;
 }

@@ -8,6 +8,5 @@ import ssafy.a306.vnc.entity.UserVo;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserVo,Long> {
-	@Query(value = "select count(*) from User where userEmail = :email ")
-    public int selectUser(@Param("email") String email);
+	boolean existsByuserEmail(String userEmail);
 }
