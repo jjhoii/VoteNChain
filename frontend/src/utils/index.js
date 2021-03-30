@@ -54,7 +54,7 @@ export class Utils {
             } else {
                 // send
                 web3.eth.sendSignedTransaction(signedTx.rawTransaction).then((res) =>
-                    console.log("result", res))
+                    console.log("result", res)).catch(err => console.log(err))
             }
         })
     }
