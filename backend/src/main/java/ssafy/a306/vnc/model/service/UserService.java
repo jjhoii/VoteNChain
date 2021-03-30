@@ -24,13 +24,13 @@ public class UserService {
 
     //insert
     @Transactional
-    public String add(UserDto userDto) {
+    public String insertUser(UserDto userDto) {
     	
         return userRepository.save(userDto.toEntity()).getUserName();
     }
     
-    public int selectUserEmail(UserDto userDto) {
-    	int result = userRepository.selectUser(userDto.getUserEmail());
+    public boolean selectUserEmail(UserDto userDto) {
+    	boolean result = userRepository.existsByuserEmail(userDto.getUserEmail());
     	
     	return result;
     }
