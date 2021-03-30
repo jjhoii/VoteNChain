@@ -12,11 +12,13 @@
     "chart": "^0.1.2",
     "core-js": "^3.9.1",
     "google": "^2.1.0",
+    "sockjs-client": "^1.5.1",
     "vue": "^2.6.12",
     "vue-google-charts": "^0.3.3",
     "vue-google-login": "^2.0.5",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

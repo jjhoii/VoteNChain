@@ -12,8 +12,6 @@
         </div>
         <div class="header-overlay"></div>
         <div class="header-content">
-          
-        
           <div style=" display:flex; justify-content: center; margin-top:15%;">
             <table>
               <div>
