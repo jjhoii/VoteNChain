@@ -16,7 +16,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtServiceImpl implements JwtService{
 	public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
-	private static final String TK = "ssafySecret";
+	private static final String TK = "VncSecretToken";
 	private static final int EXPIRE_MINUTES = 60;
 
 	@Override
