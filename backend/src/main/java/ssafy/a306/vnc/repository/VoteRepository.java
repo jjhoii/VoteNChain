@@ -9,4 +9,6 @@ import ssafy.a306.vnc.model.VoteDto;
 
 public interface VoteRepository extends JpaRepository<VoteVo, Long> {
 	
+	public List<VoteVo> findByHashKey(String hashKey);
+
 }

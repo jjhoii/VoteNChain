@@ -21,4 +21,8 @@ public class VoteService {
 		return vote;
 	}
 	
+	public VoteVo read(String hashKey) {
+		return voteRepository.findByHashKey(hashKey).get(0);
+	}
+	
 }

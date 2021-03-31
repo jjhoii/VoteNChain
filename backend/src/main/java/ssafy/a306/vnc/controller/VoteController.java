@@ -44,38 +44,24 @@ public class VoteController {
 		return entity;
 	}
 
-//	@GetMapping(value = "/read")
-//	public ResponseEntity read(@RequestParam String type, @RequestParam int category) {
-//
-//		ResponseEntity entity = null;
-//		Map result = new HashMap();
-//		List<VoteVo> list;
-//		if (type.equals("")) {
-//			list = voteService.findAll();
-////        System.out.println(list);
-//			if (list != null) {
-//				result.put("list", list);
-//				result.put("success", "success");
-//				entity = new ResponseEntity(result, HttpStatus.OK);
-////            System.out.println(entity);
-//			} else {
-//				result.put("success", "fail");
-//				entity = new ResponseEntity(result, HttpStatus.OK);
-//			}
-//		}else if(type.equals("category")) {
-//			list = voteService.findByCategory(category);
-//			if (list != null) {
-//				result.put("list", list);
-//				result.put("success", "success");
-//				entity = new ResponseEntity(result, HttpStatus.OK);
-////            System.out.println(entity);
-//			} else {
-//				result.put("success", "fail");
-//				entity = new ResponseEntity(result, HttpStatus.OK);
-//			}
-//		}
-//		return entity;
-//	}
+	@GetMapping(value = "/read")
+	public ResponseEntity read(@RequestParam String hashKey) {
+
+		ResponseEntity entity = null;
+		Map result = new HashMap();
+		VoteVo vote;
+		vote = voteService.read(hashKey);
+			if (vote != null) {
+				result.put("vote", vote);
+				result.put("success", "success");
+				entity = new ResponseEntity(result, HttpStatus.OK);
+			} else {
+				result.put("success", "fail");
+				entity = new ResponseEntity(result, HttpStatus.OK);
+			}
+		
+		return entity;
+	}
 	
 	
 	private String getHash(String str) {
