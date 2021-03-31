@@ -6,7 +6,7 @@ import {
 } from "../config"
 
 if (!localStorage.myData) {
-    localStorage.myData = JSON.stringify(this.web3.eth.accounts.create());
+    localStorage.myData = JSON.stringify(web3.eth.accounts.create());
     console.log("new account created: ", JSON.parse(localStorage.myData).address)
 }
 
