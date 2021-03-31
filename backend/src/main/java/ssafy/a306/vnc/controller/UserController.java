@@ -30,13 +30,6 @@ public class UserController {
 	@Autowired
 	private JwtService jwtService;
 
-	@PostMapping(value = "login")
-	public String login(@RequestBody UserDto user) {
-		System.out.println("되냐");
-
-		return userService.insertUser(user);
-	}
-
 	// 소셜 로그인 시 회원가입 or 로그인
 	@PostMapping("/checkUser")
 	public ResponseEntity<Map<String, Object>> checkUser(@RequestBody UserDto userDto) throws IOException {
@@ -75,7 +68,7 @@ public class UserController {
 		System.out.println("signup / email : " + userDto.getUserEmail());
 		System.out.println("signup / key : " + userDto.getPrivateKey());
 		try {
-			userService.add(userDto);
+			userService.insertUser(userDto);
 			resultMap.put("message", "success");
 			status = HttpStatus.ACCEPTED;
 
