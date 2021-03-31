@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
-    <div>
+  <div>
+    <div style="display : flex; margin-top : 10%; ">
       <input type="text" v-model="userName" class="mr-2" ref="user-name-input" :disabled="stompClient"/>
       <button @click="socketConnect" class="chat-room-enter-btn" :disabled="stompClient" v-if="!stompClient">채팅방 입장
       </button>
       <button @click="socketDisconnect" class="chat-room-enter-btn" :disabled="!stompClient" v-else>채팅방 나가기</button>
     </div>
-    <div class="chat-room-wrap" v-if="stompClient">
+    <div class="chat-room-wrap" v-if="stompClient"  style="display : flex; margin-top : 10%; ">
       <input type="text" v-model="message" class="blocked mr-2" ref="user-name-input" @keyup.enter="sendMessage"
              placeholder="메세지를 입력하세요!"/>
     </div>
@@ -15,24 +15,78 @@
         {{ obj.sender }} : {{ obj.content }}
       </p>
     </div>
+        <div>
+      <h1>데이터 샘플</h1>
+
+       <GChart
+    type="PieChart"
+    :data="chartData"
+    :options="chartOptions"
+  />
+    </div>
   </div>
 </template>
+
+
 <script>
-import Stomp from 'webstomp-client'
+// import Stomp from 'webstomp-client'
+import {Stomp} from '@stomp/stompjs'
 import SockJS from 'sockjs-client'
+import { GChart } from 'vue-google-charts'
 
 export default {
-  name: 'App',
+  // name: 'App',
+  components:{
+        GChart,
+  },
   data() {
     return {
       userName: "",
       message: "",
       stompClient: null,
       receivedMessages: [],
+            chartData: [
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 400, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350]
+      ],
+      chartOptions: {
+        chart: {
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+        }
+      }
     }
   },
+  created() {
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(this.drawChart());
 
+  },
   methods: {
+    drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Task", "Hours per Day"],
+        ["Work", 9],
+        ["Eat", 2],
+        ["TV", 4],
+        ["Gym", 2],
+        ["Sleep", 8],
+      ]);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = { title: "My Average Day", width: 550, height: 400 };
+
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.PieChart(
+        document.getElementById("piechart")
+      );
+      chart.draw(data, options);
+    },
+
+
 
     sendMessage() {
       if (this.message.trim() && this.stompClient) {
@@ -56,7 +110,7 @@ export default {
       }
 
       this.receivedMessages.push(receiveMessage)
-
+      
     },
 
     onConnected() {

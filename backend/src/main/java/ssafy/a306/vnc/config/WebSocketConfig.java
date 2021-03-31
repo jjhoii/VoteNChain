@@ -10,10 +10,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker // websocket 활성화
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    // 웹소켓 엔드포인트 정의
+    // 웹소켓 엔드포인트 정의 ws://localhost:8080/ws
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
+//        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
+//        registry.addEndpoint("/ws").setAllowedOrigins("*").setAllowedOrigins().withSockJS();
     }
 
 

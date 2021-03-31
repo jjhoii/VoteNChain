@@ -75,7 +75,7 @@ public class UserController {
 		System.out.println("signup / email : " + userDto.getUserEmail());
 		System.out.println("signup / key : " + userDto.getPrivateKey());
 		try {
-			userService.add(userDto);
+			userService.insertUser(userDto);
 			resultMap.put("message", "success");
 			status = HttpStatus.ACCEPTED;
 
