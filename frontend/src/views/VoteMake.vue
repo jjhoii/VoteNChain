@@ -225,10 +225,8 @@ export default {
       this.form = {
         userIdx: 1,
         contractAddress: "tmp_contractAddress",
-        title: this.title,
-        category: this.category,
-        isPublic: this.isPublic,
       };
+      console.log("hi");
       axios
         .post(`${SERVER_URL}/vote/create`, this.form, {
           headers: {
@@ -237,8 +235,8 @@ export default {
           },
         })
         .then((response) => {
-          console.log("테스트" + response.title + " " + response.voteIdx);
-          this.$router.replace("/votelist");
+          alert("투표 URL : " + "/votepage/"+response.data.hashKey);
+          //this.$router.replace("/votelist");
         })
         .catch(function (error) {
           console.log(error);

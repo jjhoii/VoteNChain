@@ -44,12 +44,32 @@
 import VoteCard from '@/components/vote/VoteCard';
 import VoteWritten from '@/components/vote/VoteWritten'
 import FootBar from "../components/common/FootBar";
+import axios from "axios";
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
 export default {
     components :{
     VoteCard,
     VoteWritten,
     FootBar
 },
+created() {
+    this.getContractAddress();
+  },
+methods:{
+    getContractAddress() {
+        axios
+            .get(`${SERVER_URL}/vote/read`, {
+            params: { hashKey: this.$route.params.hashKey },
+            })
+            .then((res) => {
+            alert("컨트랙트 주소 : " + res.data.vote.contractAddress);
+            })
+            .catch((err) => {
+            console.log(err);
+            });
+        },
+}
 }
 </script>
 
