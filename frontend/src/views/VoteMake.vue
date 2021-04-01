@@ -117,6 +117,11 @@
               <b-form-input style="width: 30%" type="date"></b-form-input>
             </div>
             <b-button @click="createVote">제출</b-button>
+            <!-- 임시 -->
+            <div>
+              <b-button @click="showBalance">show balance</b-button>
+              <b-button @click="getBalance">get balance</b-button>
+            </div>
           </div>
         </div>
       </header>
@@ -156,6 +161,17 @@ export default {
     this.sendData();
   },
   methods: {
+    async showBalance() {
+      const rs = await Utils.getBalance();
+      console.log(rs);
+    },
+    async getBalance() {
+      const rs = await Utils.receiveBalance();
+      console.log(rs);
+    },
+    sendCallback(data) {
+      console.log("result!!: ", data);
+    },
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
@@ -187,9 +203,11 @@ export default {
         ],
       };
       // send data
-      const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
+      // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
+      const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
 
       // send complete
+      console.log("send complete: ", rs);
     },
     previewImage(event) {
       var input = event.target;
@@ -207,10 +225,8 @@ export default {
       this.form = {
         userIdx: 1,
         contractAddress: "tmp_contractAddress",
-        title: this.title,
-        category: this.category,
-        isPublic: this.isPublic,
       };
+      console.log("hi");
       axios
         .post(`${SERVER_URL}/vote/create`, this.form, {
           headers: {
@@ -219,8 +235,8 @@ export default {
           },
         })
         .then((response) => {
-          console.log("테스트" + response.title + " " + response.voteIdx);
-          this.$router.replace("/votelist");
+          alert("투표 URL : " + "/votepage/"+response.data.hashKey);
+          //this.$router.replace("/votelist");
         })
         .catch(function (error) {
           console.log(error);
