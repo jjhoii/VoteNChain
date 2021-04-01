@@ -14,10 +14,6 @@ export class Utils {
     // 회원가입 시 실행
     static async createAccount() {
         const web3 = this.web3;
-        if (localStorage.myData) {
-            console.log("exist");
-            return JSON.parse(localStorage.myData).address;
-        }
 
         console.log("account creating start")
         const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
