@@ -64,7 +64,8 @@
 
           <div v-if="WrittenCheck" class="border-top border-bottom">
             <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
-              <VoteWritten v-for="(list, index) in voteList" :key="index" @changed="changed" :list="list"> </VoteWritten>
+              <VoteWritten v-for="(list, index) in voteList" :key="list.idx" :index="index" @changed="changed" @deleteIndex="deleteIndex" :list="list"> </VoteWritten>
+              
             </div>
           </div>
 
@@ -88,17 +89,8 @@
             <button @click="createVote()">제출</button>
           </div>
         </div>
-
-
-        <!-- 임시 -->
-        <!-- <div>
-          <b-button @click="showBalance">show balance</b-button>
-          <b-button @click="getBalance">get balance</b-button>
-        </div> -->
       </div>
     </div>
-    
-  </div>
 </template>
 
 <script>
@@ -124,11 +116,12 @@ export default {
       VoteImageCnt: 1,
       fileId:null,
       voteList:[{
-        idx:0,
+        idx:"",
         subject:"",
         content:"",
         image:"",
       }],
+      idxCount:0,
     };
   },
   created() {
@@ -228,16 +221,24 @@ export default {
     },
     AddSubject() {
       // this.voteList.val.push(this.vote);
-      this.voteList.push({...this.voteList, idx:this.voteList.length});
+      this.voteList.push({...this.voteList, idx:this.idxCount++});
+      console.log(this.voteList)
     },
 
     changed(){
-      console.log(this.voteList);
+      // console.log("인덱스",)
+      // console.log(this.voteList);
     },
+    deleteIndex(index){
+      console.log("인덱스",index)
+      this.voteList.splice(index, 1);
+      
+    }
   },
   computed: {
     btnStates() {
       return this.buttons.map((btn) => btn.state);
+
     },
   },
 };
