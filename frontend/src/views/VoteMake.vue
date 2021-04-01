@@ -15,6 +15,7 @@
                 type="text"
                 class="form-control"
                 aria-label="Sizing example input"
+                v-model="title"
                 aria-describedby="inputGroup-sizing-lg"
               />
             </div>
@@ -45,6 +46,7 @@
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-lg"
+                v-model="description"
               ></textarea>
             </div>
           </div>
@@ -52,36 +54,10 @@
         <fieldset class="row mb-3 alien-center">
           <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
           <div class="col-sm-10">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios1"
-                value="option1"
-                checked
-              />
-              <label class="form-check-label" for="gridRadios1"> 단일 </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios2"
-                value="option2"
-              />
-              <label class="form-check-label" for="gridRadios2"> 복수 </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios3"
-                value="option3"
-              />
-              <label class="form-check-label" for="gridRadios2"> 가중치 </label>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary">단일</button>
+              <button type="button" class="btn btn-secondary">중복</button>
+              <button type="button" class="btn btn-secondary">가중치</button>
             </div>
           </div>
         </fieldset>
@@ -90,12 +66,30 @@
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
         </div> -->
-
+        <div style="margin-bottom: 15px">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            :imageFlag="this.imageFlag"
+            @click="changeFlag()"
+          >
+            항목 / 이미지 투표 전환
+          </button>
+          <!-- <button
+            type="button"
+            class="btn btn-secondary"
+            :imageFlag="this.imageFlag"
+            @click="changeFlag()"
+          >
+            이미지 투표
+          </button> -->
+        </div>
         <!-- 계속 추가되는 라인 -->
         <div class="container-sm">
           <div v-if="WrittenCheck" class="border-top border-bottom">
             <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
             <VoteWritten
+              :imageFlag="imageFlag"
               v-for="(list, index) in voteList"
               :key="list.idx"
               :index="index"
@@ -147,8 +141,10 @@ export default {
   },
   data() {
     return {
+      imageFlag: false,
       isPublic: 1,
       title: "",
+      description: "",
       previewImageData: "",
       ImageCheck: false,
       WrittenCheck: true,
@@ -158,9 +154,10 @@ export default {
       voteList: [
         {
           idx: "",
-          subject: "",
-          content: "",
-          image: "",
+          title: "",
+          description: "",
+          imagePath: "",
+          count: 0,
         },
       ],
       idxCount: 0,
@@ -175,7 +172,21 @@ export default {
       IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
     };
   },
+  created() {
+    // Utils.createAccount().then((rs) => {
+    //   this.sendData();
+    // });
+  },
   methods: {
+    changeFlag() {
+      // if (this.imageFlag) {
+      //   this.imageFlag = !this.imageFlag;
+      // } else {
+      //   this.imageFlag = !this.imageFlag;
+      // }
+      this.imageFlag = !this.imageFlag;
+      console.log(this.imageFlag);
+    },
     async showBalance() {
       const rs = await Utils.getBalance();
       console.log(rs);
@@ -190,33 +201,36 @@ export default {
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
+
       const dat = {
-        title: "Test Title",
-        description: "Test Description",
+        title: this.title,
+        description: this.description,
         voteType: 0,
-        imagePath:
-          "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        imagePath: this.mainImagePath,
         bImageExist: true,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         endedAt: Date.now() + 600 * 1000, // 5분 뒤
-        items: [
-          {
-            title: "Title1",
-            description: "Desc1",
-            imagePath:
-              "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-            count: 0, // dummy data.
-          },
-          {
-            title: "Title2",
-            description: "Desc2",
-            imagePath:
-              "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-            count: 0,
-          },
-        ],
+        // items: [
+        //   {
+        //     title: "Title1",
+        //     description: "Desc1",
+        //     imagePath:
+        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        //     count: 0, // dummy data.
+        //   },
+        //   {
+        //     title: "Title2",
+        //     description: "Desc2",
+        //     imagePath:
+        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        //     count: 0,
+        //   },
+        // ],
+
+        items: this.voteList,
       };
+
       // send data
       // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
       console.log(dat);
@@ -286,25 +300,26 @@ export default {
       }
     },
     createVote() {
-      this.form = {
-        userIdx: 1,
-        contractAddress: "tmp_contractAddress",
-      };
-      console.log("hi");
-      axios
-        .post(`${SERVER_URL}/vote/create`, this.form, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json; charset = utf-8",
-          },
-        })
-        .then((response) => {
-          alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-          //this.$router.replace("/votelist");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      this.sendData().then((rs) => {
+        (this.form = {
+          userIdx: 1,
+          contractAddress: rs,
+        }),
+          axios
+            .post(`${SERVER_URL}/vote/create`, this.form, {
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset = utf-8",
+              },
+            })
+            .then((response) => {
+              alert("투표 URL : " + "/votepage/" + response.data.hashKey);
+              //this.$router.replace("/votelist");
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      });
     },
     CheckWritten() {
       this.VoteWrittenCnt = 1;
@@ -318,7 +333,13 @@ export default {
     },
     AddSubject() {
       // this.voteList.val.push(this.vote);
-      this.voteList.push({ ...this.voteList, idx: this.idxCount++ });
+      this.voteList.push({
+        title: "",
+        description: "",
+        imagePath: "",
+        count: 0,
+        idx: this.idxCount++,
+      });
       console.log(this.voteList);
     },
 

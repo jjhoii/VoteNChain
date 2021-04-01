@@ -35,7 +35,10 @@ public class VoteController {
 		ResponseEntity<VoteVo> entity = null;
 		try {
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+
+
 			String hashKey = getHash(format1.format (System.currentTimeMillis())).substring(0,9);
+			System.out.println(hashKey);
 			vote.setHashKey(hashKey);
 			entity = new ResponseEntity<VoteVo>(voteService.save(vote), HttpStatus.OK);
 		} catch (Exception e) {
