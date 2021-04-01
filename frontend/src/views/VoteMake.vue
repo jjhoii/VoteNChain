@@ -1,67 +1,100 @@
 <template>
   <div>
-    <div class="votemake-container">
-      <div class="votemake-content">
-        <div class="content-title">
-          <input class="content-title-input1" type="text" placeholder="제목" />
-          <div id="image" class="content-title">
-            <b-form-file
-              v-model="fileId"
-              placeholder="첨부파일 없음"
-              drop-placeholder="Drop file here..."
-              required
-              accept=".jpg, .png, .gif"
-              @change="previewImage"
-              style="width: 70%"
-            ></b-form-file>
-            <img :src="previewImageData" />
+    <!-- <div class="votemake-container"> -->
+    <div class="container d-flex p-2 bd-highlight">
+      <!-- <div class="votemake-content"> -->
+      <div class="container-sm">
+
+        <!-- <div class="mb-3 container-sm"> -->
+          <div class="mb-3">
+            <div class="">
+              
+              <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg">투표 제목</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+              </div>
+                <!-- <b-form-file
+                  v-model="fileId"
+                  ref="file"
+                  type="file"
+                  placeholder="첨부파일 없음"
+                  drop-placeholder="Drop file here..."
+                  required
+                  accept=".jpg, .png, .gif"
+                  @change="previewImage"
+                  style="width: 70%"
+            ></b-form-file> -->
+              <input id="upload-image" ref="file" type="file" accept=".jpg, .png, .gif" @change="previewImage">
+              <img :src="previewImageData" />
+              <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg">투표 내용</span>
+                <textarea class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"></textarea>
+              </div>  
+            </div>
+            
+        </div>
+        <fieldset class="row mb-3 alien-center">
+          <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+              <label class="form-check-label" for="gridRadios1">
+                단일
+              </label>
+            </div>
+          <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+              <label class="form-check-label" for="gridRadios2">
+                복수
+              </label>
           </div>
-          <input class="content-title-input2" type="text" placeholder="내용" />
-        </div>
-        <div class="content-title">
-          <h4>투표종류</h4>
-          <button>단일</button>
-          <button>복수</button>
-          <button>가중치</button>
-        </div>
-        <div class="content-title">
+          <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+              <label class="form-check-label" for="gridRadios2">
+                가중치
+              </label>
+          </div>
+          </div>
+        </fieldset>
+
+
+        <!-- <div class="content-title">
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
-        </div>
+        </div> -->
 
-        <div v-if="WrittenCheck">
-          <div v-for="idx in VoteWrittenCnt" :key="idx" class="content-title">
-            <VoteWritten />
+        <!-- 계속 추가되는 라인 -->
+        <div class="container-sm">
+
+          <div v-if="WrittenCheck" class="border-top border-bottom">
+            <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
+              <VoteWritten v-for="(list, index) in voteList" :key="list.idx" :index="index" @changed="changed" @deleteIndex="deleteIndex" :list="list"> </VoteWritten>
+              
+            </div>
           </div>
-        </div>
 
-        <div v-if="ImageCheck">
-          <div v-for="idx in VoteImageCnt" :key="idx" class="content-title">
-            <VoteImage />
+          <!-- <div v-if="ImageCheck">
+            <div  v-for="idx in VoteImageCnt" :key="idx" class="content-title">
+              <VoteImage />
+            </div>
+          </div> -->
+          <div>
+            <button @click="AddSubject()">항목 추가</button>
           </div>
-        </div>
-
-        <div class="content-title">
-          <span>투표기간</span>
-          <div style="display: flex">
-            <b-form-input style="width: 30%" type="date"></b-form-input>
-            <span>~</span>
-            <b-form-input style="width: 30%" type="date"></b-form-input>
+          <div class="continer" style="margin-top:15px">
+            <span>투표기간</span>
+            <div style="display: flex">
+              <b-form-input type="date"></b-form-input>
+              <span>~</span>
+              <b-form-input type="date"></b-form-input>
+            </div>
           </div>
-        </div>
-
-        <div>
-          <button @click="AddQuestion()">질문추가</button>
-          <button @click="createVote()">제출</button>
-        </div>
-        <!-- 임시 -->
-        <div>
-          <b-button @click="showBalance">show balance</b-button>
-          <b-button @click="getBalance">get balance</b-button>
+          <div style="margin-top:15px">
+            <button @click="createVote()">제출</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -69,6 +102,8 @@ import axios from "axios";
 import { Utils } from "@/utils/index.js";
 import VoteWritten from "@/components/votemake/VoteWritten";
 import VoteImage from "@/components/votemake/VoteImage";
+import AWS from 'aws-sdk';
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -85,6 +120,23 @@ export default {
       WrittenCheck: true,
       VoteWrittenCnt: 1,
       VoteImageCnt: 1,
+      fileId:null,
+      voteList:[{
+        idx:"",
+        subject:"",
+        content:"",
+        image:"",
+      }],
+      idxCount:0,
+
+      voteTitle : '',
+      mainImage : null,
+      mainImagePath : '',
+      mainDescription : '',
+
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
     };
   },
   created() {
@@ -146,6 +198,42 @@ export default {
       );
       return parseInt(rs.events.VoteCreated.raw.data);
     },
+    uploadImage(){
+      this.mainImage = this.$refs.file.files[0];
+      console.log(this.mainImage, '파일 업로드');
+
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId
+        })
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { 
+          Bucket: this.bucketName 
+        }
+      });
+
+      let imageName = this.mainImage.name
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName
+
+      console.log(imageKey);
+
+      s3.upload({
+        Key : imageKey,
+        Body : this.mainImage,
+        ACL : 'public-read'
+      }, (err, data) => {
+        if (err){
+          console.log(err);
+        } else{
+          this.mainImagePath= data.Location;
+          console.log('mainImagePath : ' + this.mainImagePath);
+        }      
+      });
+    },
     previewImage(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -154,6 +242,10 @@ export default {
           this.previewImageData = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+
+        console.log("uploadImage start");
+        this.uploadImage();
+        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
@@ -189,56 +281,27 @@ export default {
       this.WrittenCheck = false;
       this.ImageCheck = true;
     },
-    AddQuestion() {
-      if (this.WrittenCheck == true) {
-        this.VoteWrittenCnt++;
-      } else {
-        this.VoteImageCnt++;
-      }
+    AddSubject() {
+      // this.voteList.val.push(this.vote);
+      this.voteList.push({...this.voteList, idx:this.idxCount++});
+      console.log(this.voteList)
     },
+
+    changed(){
+      // console.log("인덱스",)
+      // console.log(this.voteList);
+    },
+    deleteIndex(index){
+      console.log("인덱스",index)
+      this.voteList.splice(index, 1);
+      
+    }
   },
   computed: {
     btnStates() {
       return this.buttons.map((btn) => btn.state);
+
     },
   },
 };
 </script>
-
-<style>
-.votemake-container {
-  height: 100vh;
-  width: 100%;
-  background: rgb(236, 202, 202);
-  padding: 1rem;
-}
-.votemake-content {
-  margin: auto;
-  border: 2px dotted red;
-  color: red;
-  background: white;
-  padding: 1rem;
-  width: 70%;
-}
-.content-title {
-  margin: auto;
-  border: 2px dotted red;
-  width: 90%;
-  text-align: center;
-}
-.content-title1 {
-  margin: auto;
-  border: 2px dotted red;
-  width: 90%;
-  text-align: center;
-}
-.content-title-input1 {
-  border: 2px dotted red;
-  width: 90%;
-  font-size: 30px;
-}
-.content-title-input2 {
-  border: 2px dotted red;
-  width: 90%;
-}
-</style>
