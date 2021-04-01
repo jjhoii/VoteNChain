@@ -5,30 +5,6 @@ import {
     gethHost
 } from "../config"
 
-const web3 = new Web3(gethHost);
-
-if (!localStorage.myData) {
-    createAccount(web3);
-}
-
-// 회원가입 시 실행
-async function createAccount(web3) {
-    console.log("creating start")
-    const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
-    console.log("account: ", account);
-    console.log("created!")
-    localStorage.myData = JSON.stringify({
-        address: account
-    })
-    await unlockAccount(web3);
-    return account;
-}
-
-async function unlockAccount(web3) {
-    await web3.eth.personal.unlockAccount(JSON.parse(localStorage.myData).address, "ethereum", 0) // unlock inf time
-    console.log("unlocked");
-}
-
 export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
@@ -36,11 +12,38 @@ export class Utils {
 
     constructor() {}
 
+    // 회원가입 시 실행
+    static async createAccount() {
+        const web3 = this.web3;
+        if (localStorage.myData) {
+            console.log("exist");
+            return;
+        }
+
+        console.log("account creating start")
+        const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
+        console.log("account: ", account);
+        console.log("created!")
+        localStorage.myData = JSON.stringify({
+            address: account
+        })
+        await this.unlockAccount();
+        return account;
+    }
+
+    static async unlockAccount() {
+        const web3 = this.web3;
+        await web3.eth.personal.unlockAccount(JSON.parse(localStorage.myData).address, "ethereum", 0) // unlock inf time
+        console.log("unlocked");
+    }
+
     static async getBalance() {
-        return await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
+        const web3 = this.web3;
+        return await web3.eth.getBalance(JSON.parse(localStorage.myData).address)
     }
 
     static async receiveBalance() {
+        const web3 = this.web3;
         const ether = web3.utils.toWei("1");
         const currentBalance = await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
 
