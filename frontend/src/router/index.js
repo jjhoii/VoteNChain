@@ -33,7 +33,7 @@ const routes = [
   
   {
     name: "votepage",
-    path: "/votepage",
+    path: "/votepage/:hashKey",
     component: VotePage,
   },
  

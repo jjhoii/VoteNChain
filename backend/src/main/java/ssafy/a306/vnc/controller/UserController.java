@@ -30,13 +30,6 @@ public class UserController {
 	@Autowired
 	private JwtService jwtService;
 
-	@PostMapping(value = "login")
-	public String login(@RequestBody UserDto user) {
-		System.out.println("되냐");
-
-		return userService.add(user);
-	}
-
 	// 소셜 로그인 시 회원가입 or 로그인
 	@PostMapping("/checkUser")
 	public ResponseEntity<Map<String, Object>> checkUser(@RequestBody UserDto userDto) throws IOException {
@@ -47,14 +40,15 @@ public class UserController {
 		System.out.println("checkUser / key : " + userDto.getPrivateKey());
 		try {
 			// 이메일 중복 검사
-			int userExists = userService.selectUserEmail(userDto);
-
-			if (userExists > 0) { // 이메일 있음 : 이미 가입된 경우.
+			boolean userExists = userService.selectUserEmail(userDto);
+			System.out.println("userExists : " + userExists);
+			
+			if (userExists) { // 이메일 있음 : 이미 가입된 경우.
 				String token = jwtService.create("userEmail", email, "access-token");
 				resultMap.put("access-token", token);
 				resultMap.put("message", "success");
 				status = HttpStatus.ACCEPTED;
-			} else if (userExists < 1) { // 이메일 없음 : 신규 가입.
+			} else { // 이메일 없음 : 신규 가입.
 				resultMap.put("message", "needSignup");
 				status = HttpStatus.ACCEPTED;
 			}
@@ -74,7 +68,7 @@ public class UserController {
 		System.out.println("signup / email : " + userDto.getUserEmail());
 		System.out.println("signup / key : " + userDto.getPrivateKey());
 		try {
-			userService.add(userDto);
+			userService.insertUser(userDto);
 			resultMap.put("message", "success");
 			status = HttpStatus.ACCEPTED;
 
