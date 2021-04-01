@@ -20,7 +20,7 @@
           <div class="form-floating" style="margin-top: 15px; margin-bottom:15px" >
             <textarea class="form-control" placeholder="부가 설명을 입력해주세요." v-model="list.content" @change="changed" id="floatingTextarea"></textarea>
           </div>
-          <input type="button" @click="test()" value="삭제하기">
+          <input type="button" @click="deleteSubject()" value="삭제하기">
           
     </div>
 </template>
@@ -38,13 +38,18 @@ export default {
 
         }
     },
-    props:["list"],
+    props:["list", "index"],
     methods:{
         changed(){
 
             console.log("Emit: ", this.list );
             // this.$parent.previewImage();
             this.$emit("changed",this.list);
+        },
+        deleteSubject(){
+            this.$emit("deleteIndex",this.index);
+
+
         },
     }
 }
