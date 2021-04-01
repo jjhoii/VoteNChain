@@ -1,21 +1,24 @@
 <template>
   <div>
-    <h1>{{ mainTitle }}</h1>
-    <div>
-      <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
-    </div>
-    <p>
-      {{ mainDescription }}
-    </p>
+    <div class="graph-container">
+      <div class="graph-content">
+        <h1>{{ mainTitle }}</h1>
+        <h1>메인 제목</h1> 
+        <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
+        <p>
+          {{ mainDescription }}
+        </p>
+        <p>
+          메인내용 
+        </p>
 
-    <div>
-      <h1>My Web Page</h1>
+        <GChart type="PieChart" :data="chartData" :options="chartOptions" />
+     
 
-      <GChart type="PieChart" :data="chartData" :options="chartOptions" />
-    </div>
-
-    <div>
-      <b-button>참가자 목록</b-button>
+        <div>
+          <b-button>참가자 목록</b-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,4 +105,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+.graph-container {
+  padding-top : 100px;
+  padding-right: 3rem;
+  padding-left: 3rem;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: gray;
+}
+.graph-content{
+  
+  text-align: center;
+  width: 70%;
+  background: #fff;
+}
+</style>
