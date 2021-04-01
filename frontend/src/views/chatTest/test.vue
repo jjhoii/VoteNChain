@@ -113,9 +113,14 @@ export default {
       
     },
 
+
+//구독 url을 변경해주어야함
     onConnected() {
-      this.stompClient.subscribe('/topic/public', this.onMessageReceived);
-      this.stompClient.send('/app/chat.addUser',
+      // this.stompClient.subscribe('/topic/public', this.onMessageReceived);
+      // this.stompClient.send('/app/chat.addUser',
+      //해시코드값을 프론트에서 받아서 넣어줘야함
+      this.stompClient.subscribe('/socket/chart/{ hashcode }/send', this.onMessageReceived);
+      this.stompClient.send('/socket/chart/{hashcode}/receive',
           {},
           JSON.stringify({content: '', sender: this.userName, type: 'JOIN'})
       );
@@ -130,6 +135,7 @@ export default {
       this.receivedMessages = [];
     },
 
+    //연결 시도
     socketConnect() {
       if (!this.userName.trim()) {
         alert('대화명을 입력해주세요!');
@@ -143,6 +149,7 @@ export default {
       this.stompClient.connect('', this.onConnected, this.onError);
     },
 
+    //종료시 
     socketDisconnect() {
       this.stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
         content: '', sender: this.userName, type: 'LEAVE'

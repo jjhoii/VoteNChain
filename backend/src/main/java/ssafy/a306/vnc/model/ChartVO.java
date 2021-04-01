@@ -8,9 +8,13 @@ import ssafy.a306.vnc.enums.MessageType;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatVO {
+public class ChartVO {
 
     private MessageType type;
     private String content;
     private String sender;
+
+
+    private String[] arr;
+    private String hashcode;
 }

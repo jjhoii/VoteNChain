@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import ssafy.a306.vnc.enums.MessageType;
-import ssafy.a306.vnc.model.ChatVO;
+import ssafy.a306.vnc.model.ChartVO;
 
 @Component
 public class WebSocketEventListenerComponent {
@@ -34,7 +34,7 @@ public class WebSocketEventListenerComponent {
         if(username != null) {
             logger.info("User Disconnected : " + username);
 
-            ChatVO chat = new ChatVO();
+            ChartVO chat = new ChartVO();
             chat.setType(MessageType.LEAVE);
             chat.setSender(username);
 
