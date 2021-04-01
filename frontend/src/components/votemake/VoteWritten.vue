@@ -14,8 +14,8 @@
                 
                 
             ></b-form-file> -->
-            <input id="upload-itemImage" ref="file" type="file" accept=".jpg, .png, .gif" @change="uploadItemImage">
-          <!-- <img :src="previewImageData" /> -->
+          <input id="upload-itemImage" ref="file" type="file" accept=".jpg, .png, .gif" @change="previewImage">
+          <img :src="previewImageData" />
           <!-- <input type="button" @click="remove(this)" value="삭제하기"> -->
 
           <div class="form-floating" style="margin-top: 15px; margin-bottom:15px" >
@@ -38,6 +38,7 @@ export default {
             //     image:"",
             //     content:"",
             // }
+            previewImageData: "",
             itemImage : null,
 
             bucketName: 'vncbucket',
@@ -96,6 +97,22 @@ export default {
                 }      
             });
         },  
+        previewImage(event) {
+        var input = event.target;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = (e) => {
+            this.previewImageData = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+
+            console.log("uploadItemImage start");
+            this.uploadItemImage();
+            console.log("uploadItemImage end");
+        } else {
+            this.previewImageData = null;
+            }
+        },
     }
 }
 </script>
