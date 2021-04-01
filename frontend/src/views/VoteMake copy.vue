@@ -1,90 +1,59 @@
 <template>
   <div>
-    <!-- <div class="votemake-container"> -->
-    <div class="container d-flex p-2 bd-highlight">
-      <!-- <div class="votemake-content"> -->
-      <div class="container-sm">
-
-        <!-- <div class="mb-3 container-sm"> -->
-          <div class="mb-3">
-            <div class="">
-              
-              <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg">투표 제목</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-              </div>
-                <b-form-file
-                  v-model="fileId"
-                  placeholder="투표 메인이미지를 설정해주세요."
-                  drop-placeholder="Drop file here..."
-                  required
-                  accept=".jpg, .png, .gif"
-                  @change="previewImage"
-                ></b-form-file>
-              <img :src="previewImageData" />
-              <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg">투표 내용</span>
-                <textarea class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"></textarea>
-              </div>  
-            </div>
-            
+    <div class="votemake-container">
+    <!-- <div class=".container"> -->
+      <div class="votemake-content">
+      
+      <!-- <div class=".container-sm"> -->
+        <div class="content-title">
+          <input class="content-title-input1" type="text" placeholder="제목" />
+          <div id="image" class="content-title">
+            <b-form-file
+              v-model="fileId"
+              placeholder="첨부파일 없음"
+              drop-placeholder="Drop file here..."
+              required
+              accept=".jpg, .png, .gif"
+              @change="previewImage"
+              style="width: 70%"
+            ></b-form-file>
+            <img :src="previewImageData" />
+          </div>
+          <input class="content-title-input2" type="text" placeholder="내용" />
         </div>
-        <fieldset class="row mb-3 alien-center ">
-          <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
-          <div class="col-sm-10">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-              <label class="form-check-label" for="gridRadios1">
-                단일
-              </label>
-            </div>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-              <label class="form-check-label" for="gridRadios2">
-                복수
-              </label>
-          </div>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
-              <label class="form-check-label" for="gridRadios2">
-                가중치
-              </label>
-          </div>
-          </div>
-        </fieldset>
-
-
-        <!-- <div class="content-title">
+        <div class="content-title">
+          <h4>투표종류</h4>
+          <button>단일</button>
+          <button>복수</button>
+          <button>가중치</button>
+        </div>
+        <div class="content-title">
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
-        </div> -->
-
-        <!-- 계속 추가되는 라인 -->
-        <div class="container-sm">
-
-          <div v-if="WrittenCheck">
-            <div v-for="idx in voteList" :key="idx" class="border-top border-bottom ">
-              <VoteWritten/>
-            </div>
-          </div>
-
-          <!-- <div v-if="ImageCheck">
-            <div  v-for="idx in VoteImageCnt" :key="idx" class="content-title">
-              <VoteImage />
-            </div>
-          </div> -->
-
-          <div class="continer" style="margin-top:15px">
-            <span>투표기간</span>
-            <div style="display: flex">
-              <b-form-input type="date"></b-form-input>
-              <span>~</span>
-              <b-form-input type="date"></b-form-input>
-            </div>
-          </div>
-          
         </div>
-        <div style="margin-top:15">
+
+        <div v-if="WrittenCheck">
+          <div v-for="idx in VoteWrittenCnt" :key="idx" class="content-title">
+            <VoteWritten />
+          </div>
+        </div>
+
+        <div v-if="ImageCheck">
+          <div v-for="idx in VoteImageCnt" :key="idx" class="content-title">
+            <VoteImage />
+          </div>
+        </div>
+
+        <div class="content-title">
+          <span>투표기간</span>
+          <div style="display: flex">
+            <b-form-input style="width: 30%" type="date"></b-form-input>
+            <span>~</span>
+            <b-form-input style="width: 30%" type="date"></b-form-input>
+          </div>
+        </div>
+
+        <div>
           <button @click="AddQuestion()">질문추가</button>
           <button @click="createVote()">제출</button>
         </div>
@@ -122,12 +91,6 @@ export default {
       VoteWrittenCnt: 1,
       VoteImageCnt: 1,
       fileId:null,
-      voteList:{
-        index:[],
-        subject:[],
-        content:[],
-        image:[],
-      }
     };
   },
   created() {
@@ -226,16 +189,11 @@ export default {
       this.ImageCheck = true;
     },
     AddQuestion() {
-      // this.voteList.val.push(this.vote);
       if (this.WrittenCheck == true) {
         this.VoteWrittenCnt++;
       } else {
         this.VoteImageCnt++;
       }
-    },
-    
-    Remove(){
-      alert("gg");
     },
   },
   computed: {
