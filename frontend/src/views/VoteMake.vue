@@ -140,7 +140,9 @@ export default {
     };
   },
   created() {
-    this.sendData();
+    Utils.createAccount().then((rs) => {
+      this.sendData();
+    });
   },
   methods: {
     async showBalance() {
@@ -189,7 +191,12 @@ export default {
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
 
       // send complete
-      console.log("send complete: ", rs);
+      console.log(
+        "send complete: ",
+        rs,
+        parseInt(rs.events.VoteCreated.raw.data)
+      );
+      return parseInt(rs.events.VoteCreated.raw.data);
     },
     uploadImage(){
       this.mainImage = this.$refs.file.files[0];
