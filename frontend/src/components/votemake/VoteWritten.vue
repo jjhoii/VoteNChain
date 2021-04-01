@@ -69,6 +69,7 @@ export default {
       // this.previewImage2();
       console.log('Emit: ', this.list);
       // this.$parent.previewImage();
+
       this.$emit('changed', this.list);
     },
     deleteSubject() {

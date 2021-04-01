@@ -54,42 +54,10 @@
         <fieldset class="row mb-3 alien-center">
           <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
           <div class="col-sm-10">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios1"
-                value="option1"
-                checked
-              />
-              <label class="form-check-label" for="gridRadios1">
-                단일
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios2"
-                value="option2"
-              />
-              <label class="form-check-label" for="gridRadios2">
-                복수
-              </label>
-            </div>
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="gridRadios"
-                id="gridRadios3"
-                value="option3"
-              />
-              <label class="form-check-label" for="gridRadios2">
-                가중치
-              </label>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-secondary">단일</button>
+              <button type="button" class="btn btn-secondary">중복</button>
+              <button type="button" class="btn btn-secondary">가중치</button>
             </div>
           </div>
         </fieldset>
@@ -337,7 +305,13 @@ export default {
     },
     AddSubject() {
       // this.voteList.val.push(this.vote);
-      this.voteList.push({ ...this.voteList, idx: this.idxCount++ });
+      this.voteList.push({
+        title: '',
+        description: '',
+        imagePath: '',
+        count: 0,
+        idx: this.idxCount++,
+      });
       console.log(this.voteList);
     },
 
