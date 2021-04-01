@@ -11,26 +11,16 @@
         placeholder="항목명을 입력해주세요."
       />
     </div>
-    <!-- <b-form-file
-                v-model="list.image"
-                placeholder="첨부파일 없음"
-                drop-placeholder="Drop file here..."
-                required
-                accept=".jpg, .png, .gif"
-                @change="changed"
-
-
-            ></b-form-file> -->
-    <input
-      id="upload-itemImage"
-      ref="file"
-      type="file"
-      accept=".jpg, .png, .gif"
-      @change="previewImage"
-    />
-    <img :src="previewImageData" />
-    <!-- <input type="button" @click="remove(this)" value="삭제하기"> -->
-
+    <span v-if="imageFlag">
+      <input
+        id="upload-itemImage"
+        ref="file"
+        type="file"
+        accept=".jpg, .png, .gif"
+        @change="previewImage"
+      />
+      <img :src="previewImageData" />
+    </span>
     <div class="form-floating" style="margin-top: 15px; margin-bottom:15px">
       <textarea
         class="form-control"
@@ -57,16 +47,18 @@ export default {
       // }
       previewImageData: '',
       itemImage: null,
-
+      // imageFlag: true,
       bucketName: 'vncbucket',
       bucketRegion: 'ap-northeast-2',
       IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
     };
   },
-  props: ['list', 'index'],
+  props: ['list', 'index', 'imageFlag'],
+
   methods: {
     changed() {
       // this.previewImage2();
+      console.log(this.imageFlag);
       console.log('Emit: ', this.list);
       // this.$parent.previewImage();
 
