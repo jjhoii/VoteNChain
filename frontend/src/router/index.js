@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Login from "@/views/Login.vue";
+import Home from '@/views/Home.vue'
 import VoteMake from '@/views/VoteMake.vue';
-import VoteList from '@/views/VoteList.vue';
 import VotePage from '@/views/VotePage.vue';
-import MyPage from '@/views/MyPage.vue';
 import VoteGraph from '@/views/VoteGraph.vue';
 import ChatTest from '@/views/chatTest/test.vue'
 
@@ -18,20 +15,8 @@ const routes = [
     name: 'Home',
     component: Home
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-
-  {
-    name: "login",
-    path: "/login",
-    component: Login,
-  },
+  
+ 
 
   {
     path: "/logout",
@@ -48,21 +33,13 @@ const routes = [
     path: "/votemake",
     component: VoteMake,
   },
-  {
-    name: "votelist",
-    path: "/votelist",
-    component: VoteList,
-  },
+  
   {
     name: "votepage",
     path: "/votepage/:hashKey",
     component: VotePage,
   },
-  {
-    name: "mypage",
-    path: "/mypage",
-    component: MyPage,
-  },
+ 
   {
     name: "votegraph",
     path: "/votegraph",
