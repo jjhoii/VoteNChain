@@ -55,7 +55,7 @@
           <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
           <div class="col-sm-10">
             <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary">단일</button>
+              <button type="button" class="btn btn-secondary ">단일</button>
               <button type="button" class="btn btn-secondary">중복</button>
               <button type="button" class="btn btn-secondary">가중치</button>
             </div>
@@ -66,12 +66,30 @@
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
         </div> -->
-
+        <div style="margin-bottom: 15px">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            :imageFlag="this.imageFlag"
+            @click="changeFlag()"
+          >
+            항목 / 이미지 투표 전환
+          </button>
+          <!-- <button
+            type="button"
+            class="btn btn-secondary"
+            :imageFlag="this.imageFlag"
+            @click="changeFlag()"
+          >
+            이미지 투표
+          </button> -->
+        </div>
         <!-- 계속 추가되는 라인 -->
         <div class="container-sm">
           <div v-if="WrittenCheck" class="border-top border-bottom">
             <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
             <VoteWritten
+              :imageFlag="imageFlag"
               v-for="(list, index) in voteList"
               :key="list.idx"
               :index="index"
@@ -123,6 +141,7 @@ export default {
   },
   data() {
     return {
+      imageFlag: false,
       isPublic: 1,
       title: '',
       description: '',
@@ -159,6 +178,15 @@ export default {
     // });
   },
   methods: {
+    changeFlag() {
+      // if (this.imageFlag) {
+      //   this.imageFlag = !this.imageFlag;
+      // } else {
+      //   this.imageFlag = !this.imageFlag;
+      // }
+      this.imageFlag = !this.imageFlag;
+      console.log(this.imageFlag);
+    },
     async showBalance() {
       const rs = await Utils.getBalance();
       console.log(rs);
