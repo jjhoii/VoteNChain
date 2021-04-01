@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import { GChart } from "vue-google-charts";
-import { Utils } from "@/utils/index.js";
+import { GChart } from 'vue-google-charts';
+import { Utils } from '@/utils/index.js';
 
 export default {
   components: {
@@ -33,22 +33,22 @@ export default {
   },
   data() {
     return {
-      mainTitle: "",
-      mainDescription: "",
-      mainImagePath: "",
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ["Key", "Value"],
-        ["2014", 1000],
-        ["2015", 1170],
-        ["2016", 660],
-        ["2017", 1030],
+        ['Key', 'Value'],
+        ['2014', 1000],
+        ['2015', 1170],
+        ['2016', 660],
+        ['2017', 1030],
       ],
       chartOptions: {
         chart: {
-          title: "Company Performance",
-          subtitle: "Sales, Expenses, and Profit: 2014-2017",
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
         },
       },
     };
@@ -57,7 +57,7 @@ export default {
     // 오류 발생 임시 주석 처리
     // google.charts.load("current", { packages: ["corechart"] });
     // google.charts.setOnLoadCallback(this.drawChart());
-    this.getData(0);
+    this.getData(113);
   },
   methods: {
     async getData(idx) {
@@ -74,7 +74,7 @@ export default {
       this.mainImagePath = rs.imagePath;
 
       // set chart
-      this.chartData = [["Key", "Value"]];
+      this.chartData = [['Key', 'Value']];
       rs.items.forEach((el) => {
         this.chartData.push([el.title, el.count]);
       });
@@ -84,20 +84,20 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ["Task", "Hours per Day"],
-        ["Work", 9],
-        ["Eat", 2],
-        ["TV", 4],
-        ["Gym", 2],
-        ["Sleep", 8],
+        ['Task', 'Hours per Day'],
+        ['Work', 9],
+        ['Eat', 2],
+        ['TV', 4],
+        ['Gym', 2],
+        ['Sleep', 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: "My Average Day", width: 550, height: 400 };
+      var options = { title: 'My Average Day', width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById("piechart")
+        document.getElementById('piechart')
       );
       chart.draw(data, options);
     },

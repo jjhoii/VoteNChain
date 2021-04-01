@@ -5,6 +5,9 @@ import VoteMake from '@/views/VoteMake.vue';
 import VotePage from '@/views/VotePage.vue';
 import VoteGraph from '@/views/VoteGraph.vue';
 import test from '@/views/test.vue';
+import ChatTest from '@/views/chatTest/test.vue'
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -46,6 +49,11 @@ const routes = [
     name: "votegraph",
     path: "/votegraph",
     component: VoteGraph,
+  },
+  {
+    name: "chattest",
+    path: "/chattest",
+    component: ChatTest,
   },
 ]
 

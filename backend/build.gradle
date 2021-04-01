@@ -33,6 +33,10 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+	// websocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 }
 
 test {
