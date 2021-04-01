@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import VoteMake from '@/views/VoteMake.vue';
 import VotePage from '@/views/VotePage.vue';
 import VoteGraph from '@/views/VoteGraph.vue';
+import test from '@/views/test.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,7 +14,11 @@ const routes = [
     component: Home
   },
   
- 
+   {
+    path: '/test',
+    name: 'test',
+    component: test
+  },
 
   {
     path: "/logout",

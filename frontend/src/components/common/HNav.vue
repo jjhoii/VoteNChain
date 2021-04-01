@@ -2,11 +2,11 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img  src="../../../public/images/horizontal_on_white_by_logaster__3_-removebg-preview.png"/>
+        <img  src="../../../public/images/horizontal_on_white_by_logaster__3_-removebg-preview.png" @click="gohome"/>
       </div>
         
       <div class="navbar-title">
-        <router-link   to="/">Vote & Chain</router-link>
+        <router-link  to="/">Vote & Chain</router-link>
       </div>
 
       <div class="navbar-list">
@@ -14,12 +14,11 @@
 
         <b-modal id="bv-modal-example" hide-footer>
           <template #modal-title>
-            Using <code>$bvModal</code> Methods
+           로그인
           </template>
-          <div class="d-block text-center">
-            <h3>Hello From This Modal!</h3>
+          <div class="d-block text-center justify-center" >
               <kakaoLogin />
-              <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin>
+              <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
           </div>
           <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Close Me</b-button>
         </b-modal>
@@ -58,6 +57,9 @@ components:{
     }
   },
 methods:{
+  gohome(){
+    this.$router.push("/");
+  },
   kakaoLogin() {
       const scope = this;
 
@@ -99,7 +101,43 @@ methods:{
 </script>
 
 <style>
-
+.navbar {
+  display: flex;
+  height: 10%;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: fixed !important;
+}
+.navbar-icon {
+  width: 15%;
+  height: 100px;
+}
+.navbar-icon img {
+  height: 100px;
+}
+.navbar-title{
+  display: flex;
+  align-items: center;
+  width: 35%;
+  height: 100px;
+}
+.navbar-title a{
+  color: #fff;
+  font-size : 30px;
+}
+.navbar-list{
+  
+  width: 50%;
+  height: 100%;
+}
+.navbar-list span{
+  color:#fff;
+  float: right;
+  font-size : 16px;
+  padding: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 
 
 </style>

@@ -5,7 +5,7 @@ import store from './store/store'
 import HNav from "./components/common/HNav.vue"
 import HBreadcumb from "./components/common/HBreadcrumb.vue"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
+import VueFullPage from 'vue-fullpage.js'
 import VueGoogleCharts from 'vue-google-charts'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
@@ -15,6 +15,7 @@ Vue.use(VueGoogleCharts)
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
+Vue.use(VueFullPage);
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 Vue.filter("truncate", function(text, length, clamp) {
