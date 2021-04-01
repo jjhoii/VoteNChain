@@ -10,7 +10,7 @@ import VueGoogleCharts from 'vue-google-charts'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+// import 'expose-loader?$!expose-loader?jQuery!jquery'
 Vue.use(VueGoogleCharts)
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)

@@ -17,23 +17,17 @@
     <div>
       <b-button>참가자 목록</b-button>
     </div>
-
-    <div>
-      <FootBar class="footbar" />
-    </div>
   </div>
 </template>
 
 
 
 <script>
-import FootBar from "@/components/common/FootBar";
 import { GChart } from "vue-google-charts";
 import { Utils } from "@/utils/index.js";
 
 export default {
   components: {
-    FootBar,
     GChart,
   },
   data() {

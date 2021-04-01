@@ -1,63 +1,163 @@
 <template>
   <div>
     <div class="body">
-      <header class="vid-header container">
+      <header class="vid-header container ">
         <div class="fullscreen-vid-wrap">
           <video
-            src="video/VoteVideo.mp4"
+            src="video/MainVideo.mp4"
             muted="muted"
             autoplay="true"
             loop="true"
           ></video>
         </div>
-        <div class="header-overlay"></div>
-        <div class="header-content">
-          <!-- <img
-            class="content-image"
-            src="images/horizontal_on_white_by_logaster__3_-removebg-preview.png"
-            alt=""
-          /> -->
-          <h1>Hello ! Vote & Chain</h1>
-          <p>신뢰성이 제공되는 블록체인 전자투표</p>
-          <div
-            style="margin-bottom: 50px; display: flex; justify-content: center"
-          >
-            <div style="margin-right: 20px">
-              <Button :word="word1" />
-            </div>
-            <div>
-              <Button :word="word2" />
-            </div>
-          </div>
-          <div>
-            <ListCard />
-          </div>
+        <!-- <div class="header-overlay"></div> -->
+        <div class="header-content ">
+          <strong>Block Chain <br />Vote Solution</strong>
+          <p>Vote & Chain은 블록체인을 적용한 신뢰성있는 전자투표입니다.</p>
+          <button @click="PageChange()">투표하기</button>
         </div>
       </header>
-      <div style="">
-        <FootBar class="footbar" />
-      </div>
+    
+      <section class="section">
+        <div class="vid-header1 container ">
+          <div style="display:flex;">
+            <div class="header-content " >
+                <strong>Block Chain <br />Vote Solution</strong>
+                <p>Vote & Chain은 블록체인을 적용한 신뢰성있는 전자투표입니다.</p>
+                <button @click="PageChange()">투표하기</button>
+            </div>
+            <div style="width:50%">
+                <video
+                    src="video/MainVideo.mp4"
+                    muted="muted"
+                    autoplay="true"
+                    loop="true"
+                    style="float:right;"
+                  ></video>
+            </div>
+           </div>
+          </div>
+      </section>
+    
     </div>
   </div>
 </template>
 
 <script>
-import ListCard from "../components/home/ListCard";
-import FootBar from "../components/common/FootBar";
-import Button from "@/components/home/Button";
 export default {
   components: {
-    Button,
-    FootBar,
-    ListCard,
   },
   data() {
     return {
-      word1: "투표만들기",
-      word2: "참여하기",
-    };
+      currentScroll : 0,
+      tim    
+    }
   },
-};
+  created(){
+  },
+  methods:  {
+    PageChange(){
+        if(localStorage.getItem('auth-token') == undefined){
+          this.$router.push("VoteMake");
+        }
+        else{
+          this.$router.push("VoteMake"); 
+        }
+    },
+    // asdd(){
+    // // box클래스 추출
+    //         var elm = document.getElementsByClassName("box");
+    //         // box클래스 개수만큼 실행
+    //         for (var i = 0; i < elm.length; i++) {
+    //             // box 에 각각 마우스 휠 감지
+    //             // 휠감지
+    //             elm[i].addEventListener("mousewheel", MouseWheelHandler, false);
+    //             // firefox 용 휠처리
+    //             elm[i].addEventListener("DOMMouseScroll", MouseWheelHandler, true);
+
+    //         }
+    // },
+    // MouseWheelHandler(e) {
+    //   // 스크롤 취소시킴(이걸 안할경우 도중에 명령을 받아 화면이 덜덜 거릴수 있음)
+    //         e.preventDefault();
+    //         // 휠값처리
+    //         var delta = 0;
+    //         if (!Event) Event = window.event;
+    //         if (Event.wheelDelta) {
+    //             delta = Event.wheelDelta / 120;
+    //             if (window.opera) delta = -delta;
+    //         }
+    //         else if (Event.detail)
+    //             delta = -Event.detail / 3;
+ 
+    //         // 여러개일경우 다른 selector 을 확인하기위한 상위 dom 으로 이동
+    //         var p = e.target.parentElement;
+    //         // 몇번째 dom 인지 저장
+    //         var index = Array.prototype.indexOf.call(p.children, e.target);
+    //         // 같은 위치의 돔목록 을 저장
+    //         var elmArr = e.target.parentElement.children;
+    //         // 지금의 스크롤 위치 저장
+    //         this.currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    //         // 다음위치의 좌표(기본이므로 현재의 Y 좌표 저장)
+    //         var NextTarget = this.currentScroll;
+    //         // 마우스휠 위로
+    //         if (delta > 0) {
+    //             // 맨처음 지점 제외
+    //             if (index > 0) {
+    //                 // 이전 dom 의 index 번호
+    //                 var no = (index - 1);
+    //                 // 좌표위치 저장
+    //                 NextTarget = elmArr[no].offsetTop;
+    //             }
+    //         }
+    //         // 마우스휠 아래로
+    //         else if (delta < 0)
+    //         {
+    //             // 맨마지막 지점 제외
+    //             if (index < elmArr.length - 1) {
+    //                 // 다음 dom 의 index 번호
+    //                 var no = (index + 1);
+    //                 // 좌표위치 저장
+    //                 NextTarget = elmArr[no].offsetTop;
+    //             }
+    //         }
+    //         // 애니메이션
+    //         // 필요없으면 바로 window.scrollTo(0, NextTarget);
+    //         // 에니메이션 초기화
+    //         clearInterval(this.tim);
+    //         // 애니메이션 실행
+    //         tim = setInterval(tran, 1);
+    //         // 애니메이션 function
+    //         function tran() {
+    //             // 이동속도 숫자가 작아질수록 느려짐
+    //             var speed = 5;
+    //             // 현재 스크롤과 이동후 스크롤이 같으면 정지시킨다 
+    //             if (this.currentScroll == NextTarget) {
+    //                 clearInterval(tran);
+    //             } else {
+    //                 // 스크롤을 위로 올릴 경우
+    //                 if (this.currentScroll - speed > NextTarget)
+    //                 {
+    //                     this.currentScroll -= speed;
+    //                 }
+    //                 // 스크롤을 내일 경우
+    //                 else if (this.currentScroll + speed < NextTarget)
+    //                 {
+    //                     this.currentScroll += speed;
+    //                 }
+    //                 // 스크롤이 속도로 지정된 변수보다 작을 경우 강제적으로 맞춰준다
+    //                 else
+    //                 {
+    //                     this.currentScroll = NextTarget;
+    //                 }
+    //                 // 스크롤위치 변경
+    //                 window.scrollTo(0, this.currentScroll);
+    //             }
+    //         }
+ 
+    // }
+  }
+}
 </script>
 
 <style>
@@ -71,21 +171,24 @@ export default {
   height: 100vh;
   line-height: 1.5;
   color: #333;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 .vid-header {
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   color: #fff;
 }
-
+.vid-header1{
+  height: 100vh;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.418);
+}
 .container {
   max-width: 960px;
   padding-left: 1rem;
   padding-right: 1rem;
-  margin: auto;
-  text-align: center;
+ 
 }
 
 .fullscreen-vid-wrap {
@@ -93,18 +196,18 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   z-index: -2;
 }
 
 .fullscreen-vid-wrap video {
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 .header-overlay {
-  height: 100%;
+  height: 100vh;
   width: 100%;
   position: absolute;
   top: 0;
@@ -117,32 +220,32 @@ export default {
 }
 .header-content {
   z-index: 2;
-  width: 100%;
-  margin-top: 3%;
+  padding-bottom: 23%;
+  margin-left: 3%;
+  padding-top : 20%;
 }
-
-.header-content h1 {
-  font-size: 50px;
-  margin-bottom: 0;
+.header-content strong {
+  font-size: 65px;
+  line-height: 1.14em;
 }
 .header-content p {
-  font-size: 1.5rem;
-  display: block;
-  padding-bottom: 2rem;
+  margin-top: 25px;
 }
-.content-image {
-  width: 50%;
-  height: 100%;
-}
-
-.section {
-  padding: 20px 0;
-}
-.section-b {
-  background: #333;
+.header-content button {
+  background-color: #ad1315;
+  width: 150px;
+  height: 150px;
   color: #fff;
+  border-radius: 75px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 20px;
+  vertical-align: middle;
+  line-height: 150px;
 }
-
+.section{
+  background-color:#0151;
+}
 @media (max-width: 960px) {
   .container {
     padding-right: 3rem;

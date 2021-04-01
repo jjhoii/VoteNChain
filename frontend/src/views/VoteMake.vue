@@ -1,160 +1,90 @@
 <template>
-  <div class="container">
-    <div class="body1">
-      <header class="vid-header container vote-make-header">
-        <div class="fullscreen-vid-wrap">
-          <video
-            src="video/VoteVideo.mp4"
-            muted="muted"
-            autoplay="true"
-            loop="true"
-          ></video>
-        </div>
-        <div class="header-overlay"></div>
-        <div class="header-content">
-          <h1 style="text-align: left; margin: 0px 15% 1% 15%">투표만들기</h1>
-          <div id="vote-make">
-            <span>투표성격</span><br />
-            <b-button-group>
-              <b-button @click="isPublic = 1">공개</b-button>
-              <b-button @click="isPublic = 0">
-                비공개</b-button
-              > </b-button-group
-            ><br />
-
-            <span>투표명</span><br />
-            <b-form-input
-              v-model="title"
-              placeholder="Enter your name"
-            ></b-form-input>
-            <span>카테고리 선택</span><br />
-            <table>
-              <th>
-                <b-form-input
-                  v-model="categoryName"
-                  placeholder="Enter your name"
-                ></b-form-input>
-              </th>
-              <th>
-                <b-button v-b-modal.category>선택</b-button>
-                <b-modal id="category" title="Category">
-                  <button
-                    v-for="(categoryItem, index) in categoryItems"
-                    v-bind:key="index"
-                    @click="
-                      category = index;
-                      categoryName = categoryItem.category;
-                    "
-                  >
-                    {{ categoryItem.category }}
-                  </button>
-                </b-modal>
-              </th>
-            </table>
-
-            <span>투표 종류</span><br />
-            <b-button-group>
-              <b-button>단일</b-button>
-              <b-button>복수</b-button>
-              <b-button>가중치</b-button> </b-button-group
-            ><br />
-
-            <span>대표 이미지</span><br />
+  <div>
+    <div class="votemake-container">
+      <div class="votemake-content">
+        <div class="content-title">
+          <input class="content-title-input1" type="text" placeholder="제목" />
+          <div id="image" class="content-title">
             <b-form-file
               v-model="fileId"
-              :state="Boolean(file1)"
               placeholder="첨부파일 없음"
               drop-placeholder="Drop file here..."
               required
               accept=".jpg, .png, .gif"
               @change="previewImage"
               style="width: 70%"
-            ></b-form-file
-            ><br />
+            ></b-form-file>
+            <img :src="previewImageData" />
+          </div>
+          <input class="content-title-input2" type="text" placeholder="내용" />
+        </div>
+        <div class="content-title">
+          <h4>투표종류</h4>
+          <button>단일</button>
+          <button>복수</button>
+          <button>가중치</button>
+        </div>
+        <div class="content-title">
+          <button @click="CheckWritten()">글</button>
+          <button @click="CheckImage()">이미지</button>
+        </div>
 
-            <img class="profile_image" :src="previewImageData" /><br />
-
-            <span>설명</span><br />
-            <b-form-textarea
-              id="textarea"
-              v-model="text"
-              placeholder="Enter something..."
-              rows="3"
-              max-rows="6"
-            ></b-form-textarea
-            ><br />
-
-            <span>투표 항목</span> <b-button>이미지/글</b-button> <br />
-            <b-card
-              title=""
-              img-src=""
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 20rem"
-              class="mb-2"
-            >
-              제목<b-form-input
-                v-model="text"
-                placeholder="Enter your name"
-              ></b-form-input>
-              <b-card-text>
-                <span>내용</span>
-                <b-form-textarea
-                  id="textarea"
-                  v-model="text"
-                  placeholder="Enter something..."
-                  rows="3"
-                  max-rows="6"
-                ></b-form-textarea>
-              </b-card-text>
-            </b-card>
-
-            <span>투표기간</span>
-            <div style="display: flex">
-              <b-form-input style="width: 30%" type="date"></b-form-input>
-              <span>~</span>
-              <b-form-input style="width: 30%" type="date"></b-form-input>
-            </div>
-            <b-button @click="createVote">제출</b-button>
-            <!-- 임시 -->
-            <div>
-              <b-button @click="showBalance">show balance</b-button>
-              <b-button @click="getBalance">get balance</b-button>
-            </div>
+        <div v-if="WrittenCheck">
+          <div v-for="idx in VoteWrittenCnt" :key="idx" class="content-title">
+            <VoteWritten />
           </div>
         </div>
-      </header>
-    </div>
 
-    <div>
-      <FootBar class="footbar" />
+        <div v-if="ImageCheck">
+          <div v-for="idx in VoteImageCnt" :key="idx" class="content-title">
+            <VoteImage />
+          </div>
+        </div>
+
+        <div class="content-title">
+          <span>투표기간</span>
+          <div style="display: flex">
+            <b-form-input style="width: 30%" type="date"></b-form-input>
+            <span>~</span>
+            <b-form-input style="width: 30%" type="date"></b-form-input>
+          </div>
+        </div>
+
+        <div>
+          <button @click="AddQuestion()">질문추가</button>
+          <button @click="createVote()">제출</button>
+        </div>
+        <!-- 임시 -->
+        <div>
+          <b-button @click="showBalance">show balance</b-button>
+          <b-button @click="getBalance">get balance</b-button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import FootBar from "../components/common/FootBar";
 import axios from "axios";
 import { Utils } from "@/utils/index.js";
+import VoteWritten from "@/components/votemake/VoteWritten";
+import VoteImage from "@/components/votemake/VoteImage";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   components: {
-    FootBar,
+    VoteWritten,
+    VoteImage,
   },
   data() {
     return {
-      previewImageData: "https://source.unsplash.com/random",
       isPublic: 1,
       title: "",
-      categoryName: "",
-      categoryItems: [
-        { category: "운동" },
-        { category: "음악" },
-        { category: "병원" },
-        { category: "선거" },
-      ],
+      previewImageData: "",
+      ImageCheck: false,
+      WrittenCheck: true,
+      VoteWrittenCnt: 1,
+      VoteImageCnt: 1,
     };
   },
   created() {
@@ -235,12 +165,29 @@ export default {
           },
         })
         .then((response) => {
-          alert("투표 URL : " + "/votepage/"+response.data.hashKey);
+          alert("투표 URL : " + "/votepage/" + response.data.hashKey);
           //this.$router.replace("/votelist");
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
+    CheckWritten() {
+      this.VoteWrittenCnt = 1;
+      this.WrittenCheck = true;
+      this.ImageCheck = false;
+    },
+    CheckImage() {
+      this.VoteImageCnt = 1;
+      this.WrittenCheck = false;
+      this.ImageCheck = true;
+    },
+    AddQuestion() {
+      if (this.WrittenCheck == true) {
+        this.VoteWrittenCnt++;
+      } else {
+        this.VoteImageCnt++;
+      }
     },
   },
   computed: {
@@ -252,26 +199,39 @@ export default {
 </script>
 
 <style>
-.vote-make-header {
-  color: #233;
+.votemake-container {
+  height: 100vh;
+  width: 100%;
+  background: rgb(236, 202, 202);
+  padding: 1rem;
 }
-#vote-make {
-  margin: 0px 0px 0px 15%;
+.votemake-content {
+  margin: auto;
+  border: 2px dotted red;
+  color: red;
+  background: white;
+  padding: 1rem;
   width: 70%;
-  padding: 3%;
-  text-align: left;
-  background-color: #f3f4ed;
-  border: black;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 40px;
 }
-button {
-  border-radius: 50%;
+.content-title {
+  margin: auto;
+  border: 2px dotted red;
+  width: 90%;
+  text-align: center;
 }
-.profile_image {
-  width: 70%;
-  height: 100%;
-  object-fit: cover;
+.content-title1 {
+  margin: auto;
+  border: 2px dotted red;
+  width: 90%;
+  text-align: center;
+}
+.content-title-input1 {
+  border: 2px dotted red;
+  width: 90%;
+  font-size: 30px;
+}
+.content-title-input2 {
+  border: 2px dotted red;
+  width: 90%;
 }
 </style>
