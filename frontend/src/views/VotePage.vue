@@ -8,7 +8,7 @@
                 <img  src="https://source.unsplash.com/random" style="width:600px; height:400px" />
             </div>
             <div name='content'>
-                   <p>asdasdadkfalsdfjsdjklf   </p>   
+                   <p>투표 내용   </p>   
             </div>
                               
             <div name='vote-list'  style="width:100%; display:flex;flex-wrap: wrap; justify-content:center">
@@ -29,26 +29,23 @@
                 <div><VoteWritten/></div>
             </div>
             <div name='vote-end-button'>
-                <b-button>투표 확인</b-button> 
-                <b-button>투표 종료</b-button>
+                <button>투표 확인</button> 
+                <button>투표 종료</button>
             </div>
         </div>
 
-         <div>
-          <FootBar class="footbar" />
-        </div>
     </div>
 </template>
 
 <script>
-import VoteCard from '@/components/vote/VoteCard';
-import VoteWritten from '@/components/vote/VoteWritten'
-import FootBar from "../components/common/FootBar";
+import VoteCard from '@/components/votepage/VoteCard';
+import VoteWritten from '@/components/votepage/VoteWritten'
+
 export default {
     components :{
     VoteCard,
     VoteWritten,
-    FootBar
+    
 },
 }
 </script>

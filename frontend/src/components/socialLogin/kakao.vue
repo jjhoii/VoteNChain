@@ -1,6 +1,6 @@
 <template>     
     <v-btn icon elevation="3" outlined>
-        <img src="@/assets/kakao_login.png" @click="Kakaologin" alt="kakao"/>
+        <img src="@/assets/kakao_login.png" @click="Kakaologin" alt="kakao" />
     </v-btn>
 </template>
 
