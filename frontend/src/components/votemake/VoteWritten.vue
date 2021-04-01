@@ -11,12 +11,8 @@
                 required
                 accept=".jpg, .png, .gif"
                 @change="changed"
-                
-                
             ></b-form-file>
-          <!-- <img :src="previewImageData" /> -->
-          <!-- <input type="button" @click="remove(this)" value="삭제하기"> -->
-
+          <!-- <img :src="previewImageData2" /> -->
           <div class="form-floating" style="margin-top: 15px; margin-bottom:15px" >
             <textarea class="form-control" placeholder="부가 설명을 입력해주세요." v-model="list.content" @change="changed" id="floatingTextarea"></textarea>
           </div>
@@ -35,13 +31,13 @@ export default {
             //     image:"",
             //     content:"",
             // }
-
+            // previewImageData2: "",
         }
     },
     props:["list", "index"],
     methods:{
         changed(){
-
+            // this.previewImage2();
             console.log("Emit: ", this.list );
             // this.$parent.previewImage();
             this.$emit("changed",this.list);
@@ -51,6 +47,18 @@ export default {
 
 
         },
+        // previewImage2(event) {
+        //     var input = event.target;
+        //     if (input.files && input.files[0]) {
+        //         var reader = new FileReader();
+        //         reader.onload = (e) => {
+        //             this.previewImageData = e.target.result;
+        //         };
+        //         reader.readAsDataURL(input.files[0]);
+        //         } else {
+        //         this.previewImageData = null;
+        //         }
+        // },
     }
 }
 </script>

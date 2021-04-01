@@ -11,7 +11,7 @@
               
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 제목</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+                <input type="text" class="form-control" aria-label="Sizing example input" v-model="title" aria-describedby="inputGroup-sizing-lg">
               </div>
                 <b-form-file
                   v-model="fileId"
@@ -24,7 +24,7 @@
               <img :src="previewImageData" />
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 내용</span>
-                <textarea class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"></textarea>
+                <textarea class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" v-model="description"></textarea>
               </div>  
             </div>
             
@@ -109,6 +109,8 @@ export default {
     return {
       isPublic: 1,
       title: "",
+      description:"",
+      // imagePath:"",
       previewImageData: "",
       ImageCheck: false,
       WrittenCheck: true,
@@ -119,7 +121,7 @@ export default {
         idx:"",
         subject:"",
         content:"",
-        image:"",
+        image:null,
       }],
       idxCount:0,
     };
@@ -143,31 +145,32 @@ export default {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
       const dat = {
-        title: "Test Title",
-        description: "Test Description",
+        title: this.title,
+        description: this.description,
         voteType: 0,
-        imagePath:
-          "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        imagePath:this.previewImageData,
         bImageExist: true,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         endedAt: Date.now() + 600 * 1000, // 5분 뒤
-        items: [
-          {
-            title: "Title1",
-            description: "Desc1",
-            imagePath:
-              "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-            count: 0, // dummy data.
-          },
-          {
-            title: "Title2",
-            description: "Desc2",
-            imagePath:
-              "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-            count: 0,
-          },
-        ],
+        // items: [
+        //   {
+        //     title: "Title1",
+        //     description: "Desc1",
+        //     imagePath:
+        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        //     count: 0, // dummy data.
+        //   },
+        //   {
+        //     title: "Title2",
+        //     description: "Desc2",
+        //     imagePath:
+        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
+        //     count: 0,
+        //   },
+        // ],
+
+        items:this.voteList
       };
       // send data
       // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
@@ -193,7 +196,15 @@ export default {
         userIdx: 1,
         contractAddress: "tmp_contractAddress",
       };
-      console.log("hi");
+      
+      //여기가 스마트컨트랙트 해야되는 장소
+
+      
+
+
+
+      //
+
       axios
         .post(`${SERVER_URL}/vote/create`, this.form, {
           headers: {
