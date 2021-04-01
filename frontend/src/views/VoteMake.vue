@@ -29,7 +29,7 @@
             </div>
             
         </div>
-        <fieldset class="row mb-3 alien-center ">
+        <fieldset class="row mb-3 alien-center">
           <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
           <div class="col-sm-10">
             <div class="form-check">
@@ -62,9 +62,9 @@
         <!-- 계속 추가되는 라인 -->
         <div class="container-sm">
 
-          <div v-if="WrittenCheck">
-            <div v-for="idx in voteList" :key="idx" class="border-top border-bottom ">
-              <VoteWritten/>
+          <div v-if="WrittenCheck" class="border-top border-bottom">
+            <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
+              <VoteWritten v-for="(list, index) in voteList" :key="index" @changed="changed" :list="list"> </VoteWritten>
             </div>
           </div>
 
@@ -73,7 +73,9 @@
               <VoteImage />
             </div>
           </div> -->
-
+          <div>
+            <button @click="AddSubject()">항목 추가</button>
+          </div>
           <div class="continer" style="margin-top:15px">
             <span>투표기간</span>
             <div style="display: flex">
@@ -82,18 +84,17 @@
               <b-form-input type="date"></b-form-input>
             </div>
           </div>
-          
-        </div>
-        <div style="margin-top:15">
-          <button @click="AddQuestion()">질문추가</button>
-          <button @click="createVote()">제출</button>
+          <div style="margin-top:15px">
+            <button @click="createVote()">제출</button>
+          </div>
         </div>
 
+
         <!-- 임시 -->
-        <div>
+        <!-- <div>
           <b-button @click="showBalance">show balance</b-button>
           <b-button @click="getBalance">get balance</b-button>
-        </div>
+        </div> -->
       </div>
     </div>
     
@@ -122,12 +123,12 @@ export default {
       VoteWrittenCnt: 1,
       VoteImageCnt: 1,
       fileId:null,
-      voteList:{
-        index:[],
-        subject:[],
-        content:[],
-        image:[],
-      }
+      voteList:[{
+        idx:0,
+        subject:"",
+        content:"",
+        image:"",
+      }],
     };
   },
   created() {
@@ -225,17 +226,13 @@ export default {
       this.WrittenCheck = false;
       this.ImageCheck = true;
     },
-    AddQuestion() {
+    AddSubject() {
       // this.voteList.val.push(this.vote);
-      if (this.WrittenCheck == true) {
-        this.VoteWrittenCnt++;
-      } else {
-        this.VoteImageCnt++;
-      }
+      this.voteList.push({...this.voteList, idx:this.voteList.length});
     },
-    
-    Remove(){
-      alert("gg");
+
+    changed(){
+      console.log(this.voteList);
     },
   },
   computed: {
@@ -245,41 +242,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.votemake-container {
-  height: 100vh;
-  width: 100%;
-  background: rgb(236, 202, 202);
-  padding: 1rem;
-}
-.votemake-content {
-  margin: auto;
-  border: 2px dotted red;
-  color: red;
-  background: white;
-  padding: 1rem;
-  width: 70%;
-}
-.content-title {
-  margin: auto;
-  border: 2px dotted red;
-  width: 90%;
-  text-align: center;
-}
-.content-title1 {
-  margin: auto;
-  border: 2px dotted red;
-  width: 90%;
-  text-align: center;
-}
-.content-title-input1 {
-  border: 2px dotted red;
-  width: 90%;
-  font-size: 30px;
-}
-.content-title-input2 {
-  border: 2px dotted red;
-  width: 90%;
-}
-</style>
