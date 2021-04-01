@@ -13,14 +13,18 @@
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 제목</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
               </div>
-                <b-form-file
+                <!-- <b-form-file
                   v-model="fileId"
-                  placeholder="투표 메인이미지를 설정해주세요."
+                  ref="file"
+                  type="file"
+                  placeholder="첨부파일 없음"
                   drop-placeholder="Drop file here..."
                   required
                   accept=".jpg, .png, .gif"
                   @change="previewImage"
-                ></b-form-file>
+                  style="width: 70%"
+            ></b-form-file> -->
+              <input id="upload-image" ref="file" type="file" accept=".jpg, .png, .gif" @change="previewImage">
               <img :src="previewImageData" />
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 내용</span>
@@ -64,7 +68,8 @@
 
           <div v-if="WrittenCheck" class="border-top border-bottom">
             <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
-              <VoteWritten v-for="(list, index) in voteList" :key="index" @changed="changed" :list="list"> </VoteWritten>
+              <VoteWritten v-for="(list, index) in voteList" :key="list.idx" :index="index" @changed="changed" @deleteIndex="deleteIndex" :list="list"> </VoteWritten>
+              
             </div>
           </div>
 
@@ -88,16 +93,8 @@
             <button @click="createVote()">제출</button>
           </div>
         </div>
-
-
-        <!-- 임시 -->
-        <!-- <div>
-          <b-button @click="showBalance">show balance</b-button>
-          <b-button @click="getBalance">get balance</b-button>
-        </div> -->
       </div>
     </div>
-
 </template>
 
 <script>
@@ -105,6 +102,8 @@ import axios from "axios";
 import { Utils } from "@/utils/index.js";
 import VoteWritten from "@/components/votemake/VoteWritten";
 import VoteImage from "@/components/votemake/VoteImage";
+import AWS from 'aws-sdk';
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -123,15 +122,27 @@ export default {
       VoteImageCnt: 1,
       fileId:null,
       voteList:[{
-        idx:0,
+        idx:"",
         subject:"",
         content:"",
         image:"",
       }],
+      idxCount:0,
+
+      voteTitle : '',
+      mainImage : null,
+      mainImagePath : '',
+      mainDescription : '',
+
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
     };
   },
   created() {
-    this.sendData();
+    Utils.createAccount().then((rs) => {
+      this.sendData();
+    });
   },
   methods: {
     async showBalance() {
@@ -180,7 +191,48 @@ export default {
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
 
       // send complete
-      console.log("send complete: ", rs);
+      console.log(
+        "send complete: ",
+        rs,
+        parseInt(rs.events.VoteCreated.raw.data)
+      );
+      return parseInt(rs.events.VoteCreated.raw.data);
+    },
+    uploadImage(){
+      this.mainImage = this.$refs.file.files[0];
+      console.log(this.mainImage, '파일 업로드');
+
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId
+        })
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { 
+          Bucket: this.bucketName 
+        }
+      });
+
+      let imageName = this.mainImage.name
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName
+
+      console.log(imageKey);
+
+      s3.upload({
+        Key : imageKey,
+        Body : this.mainImage,
+        ACL : 'public-read'
+      }, (err, data) => {
+        if (err){
+          console.log(err);
+        } else{
+          this.mainImagePath= data.Location;
+          console.log('mainImagePath : ' + this.mainImagePath);
+        }      
+      });
     },
     previewImage(event) {
       var input = event.target;
@@ -190,6 +242,10 @@ export default {
           this.previewImageData = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+
+        console.log("uploadImage start");
+        this.uploadImage();
+        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
@@ -227,16 +283,24 @@ export default {
     },
     AddSubject() {
       // this.voteList.val.push(this.vote);
-      this.voteList.push({...this.voteList, idx:this.voteList.length});
+      this.voteList.push({...this.voteList, idx:this.idxCount++});
+      console.log(this.voteList)
     },
 
     changed(){
-      console.log(this.voteList);
+      // console.log("인덱스",)
+      // console.log(this.voteList);
     },
+    deleteIndex(index){
+      console.log("인덱스",index)
+      this.voteList.splice(index, 1);
+      
+    }
   },
   computed: {
     btnStates() {
       return this.buttons.map((btn) => btn.state);
+
     },
   },
 };
