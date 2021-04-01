@@ -8,7 +8,6 @@ import {
 export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
-    static account = JSON.parse(localStorage.myData).address;
 
     constructor() {}
 
@@ -17,7 +16,7 @@ export class Utils {
         const web3 = this.web3;
         if (localStorage.myData) {
             console.log("exist");
-            return;
+            return JSON.parse(localStorage.myData).address;;
         }
 
         console.log("account creating start")
@@ -46,6 +45,7 @@ export class Utils {
         const web3 = this.web3;
         const ether = web3.utils.toWei("1");
         const currentBalance = await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
+        console.log("currentBalance: ", currentBalance);
 
         if (currentBalance < ether) {
             const rs = await web3.eth.sendTransaction({
