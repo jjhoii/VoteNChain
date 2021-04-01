@@ -4,7 +4,7 @@
     <div id=txt>
       <span style="margin-left:10px;font-size:30px">{{idx + 1}} . {{title}}</span>
       <!-- <button style="margin-left:200px;margin-top:100px">상세 보기</button> -->
-      <b-button @click="openDetail" style="margin-left:850px;margin-top:-66px">상세 보기</b-button>
+      <b-button @click="openDetail" pill variant="outline-secondary" style="margin-left:840px;margin-top:-72px">상세 보기</b-button>
         
       <b-modal ref="detail" title="상세보기" >
         <p class="my-4">투표 항목에 대한 정보 {{idx}}</p>
@@ -48,12 +48,14 @@ export default {
   cursor: pointer;
   width: 950px;
   height: 50px;
-  outline: 1px solid rgb(14, 12, 12);
+  background-color: white;
+  border-radius: 50px;
 
 }
 
 /* CHECKED STYLES */
 [type='radio']:checked + div#txt {
-  outline: 2px solid #f00;
+  border: 2px solid #6C757D;
+  background-color: #F8F9FA;
 }
 </style>
