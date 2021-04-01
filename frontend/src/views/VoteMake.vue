@@ -13,14 +13,18 @@
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 제목</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
               </div>
-                <b-form-file
+                <!-- <b-form-file
                   v-model="fileId"
-                  placeholder="투표 메인이미지를 설정해주세요."
+                  ref="file"
+                  type="file"
+                  placeholder="첨부파일 없음"
                   drop-placeholder="Drop file here..."
                   required
                   accept=".jpg, .png, .gif"
                   @change="previewImage"
-                ></b-form-file>
+                  style="width: 70%"
+            ></b-form-file> -->
+              <input id="upload-image" ref="file" type="file" accept=".jpg, .png, .gif" @change="previewImage">
               <img :src="previewImageData" />
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg">투표 내용</span>
@@ -98,6 +102,8 @@ import axios from "axios";
 import { Utils } from "@/utils/index.js";
 import VoteWritten from "@/components/votemake/VoteWritten";
 import VoteImage from "@/components/votemake/VoteImage";
+import AWS from 'aws-sdk';
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -122,6 +128,15 @@ export default {
         image:"",
       }],
       idxCount:0,
+
+      voteTitle : '',
+      mainImage : null,
+      mainImagePath : '',
+      mainDescription : '',
+
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
     };
   },
   created() {
@@ -176,6 +191,42 @@ export default {
       // send complete
       console.log("send complete: ", rs);
     },
+    uploadImage(){
+      this.mainImage = this.$refs.file.files[0];
+      console.log(this.mainImage, '파일 업로드');
+
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId
+        })
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: { 
+          Bucket: this.bucketName 
+        }
+      });
+
+      let imageName = this.mainImage.name
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName
+
+      console.log(imageKey);
+
+      s3.upload({
+        Key : imageKey,
+        Body : this.mainImage,
+        ACL : 'public-read'
+      }, (err, data) => {
+        if (err){
+          console.log(err);
+        } else{
+          this.mainImagePath= data.Location;
+          console.log('mainImagePath : ' + this.mainImagePath);
+        }      
+      });
+    },
     previewImage(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -184,6 +235,10 @@ export default {
           this.previewImageData = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+
+        console.log("uploadImage start");
+        this.uploadImage();
+        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
