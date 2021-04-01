@@ -1,17 +1,23 @@
 <template>
-  <label >
+  <label>
     <input type="radio" name="test" value="small" />
     <div id="img" style="margin-bottom:20px">
-        <h2 style="margin-left:30px;">{{idx + 1}} . {{title}}</h2>
+      <h2 style="margin-left:30px;">{{ idx + 1 }} . {{ title }}</h2>
       <img
-        src="https://source.unsplash.com/random"
+        :src="imagePath"
         style="margin-left:50px;margin-top:10px; width:200px;height:200px;border-radius:10px"
       />
       <!-- <button style="margin-left:200px;margin-top:100px">상세 보기</button> -->
-      <b-button  pill variant="outline-secondary" @click="openDetail" style="margin-left:180px;margin-top:30px">상세 보기</b-button>
-        
-      <b-modal ref="detail" title="상세보기" >
-        <p class="my-4">투표 항목에 대한 정보 {{idx + 1}}</p>
+      <b-button
+        pill
+        variant="outline-secondary"
+        @click="openDetail"
+        style="margin-left:180px;margin-top:30px"
+        >상세 보기</b-button
+      >
+
+      <b-modal ref="detail" title="상세보기">
+        <p class="my-4">description: {{ description }}</p>
       </b-modal>
     </div>
   </label>
@@ -19,21 +25,20 @@
 
 <script>
 export default {
-  props: ['idx'],
+  props: ['idx', 'title', 'imagePath', 'description'],
   data() {
     return {
       confirm: -1,
-      title: "항목" + (this.idx+1)
     };
   },
   methods: {
     openDetail() {
       //this.confirm = this.idx;
-      this.$refs['detail'].show()
+      this.$refs['detail'].show();
     },
     closeDetail() {
       this.confirm = -1;
-    //   $bvModal.hide('idx');
+      //   $bvModal.hide('idx');
     },
   },
 };
@@ -62,10 +67,10 @@ export default {
 /* CHECKED STYLES */
 [type='radio']:checked + div#img {
   /* border: 2px solid #f00; */
-  border: 2px solid #6C757D;
-  background-color: #F8F9FA;
+  border: 2px solid #6c757d;
+  background-color: #f8f9fa;
 }
-#option{
-    background-color: white;
+#option {
+  background-color: white;
 }
 </style>
