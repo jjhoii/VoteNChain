@@ -172,11 +172,6 @@ export default {
       IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
     };
   },
-  created() {
-    Utils.createAccount().then((rs) => {
-      this.sendData();
-    });
-  },
   methods: {
     changeFlag() {
       // if (this.imageFlag) {

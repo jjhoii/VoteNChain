@@ -16,7 +16,7 @@ export class Utils {
         const web3 = this.web3;
         if (localStorage.myData) {
             console.log("exist");
-            return JSON.parse(localStorage.myData).address;;
+            return JSON.parse(localStorage.myData).address;
         }
 
         console.log("account creating start")
