@@ -1,29 +1,27 @@
 <template>
   <div>
-    <div
-      class="container"
-      id="doVote"
-    >
-    <button class="button_status" style="margin-top:20px">투표현황</button>
+    <div class="container" id="doVote">
+      <button class="button_status" style="margin-top:20px">투표현황</button>
       <div name="title">
         <center>
-          <h1>투표 제목</h1>
+          <h1>{{ mainTitle }}</h1>
         </center>
       </div>
       <div name="main-image" style="margin-top:30px">
         <center>
           <img
-            src="https://source.unsplash.com/random"
+            :src="mainImagePath"
             style="width: 300px; height: 200px;border-radius:20px"
+            alt=""
           />
         </center>
       </div>
       <div name="content">
         <center>
-          <p style="font-size:25px;margin-top:50px;margin-bottom:50px;margin-left:50px;margin-right:50px">
-            당신의 눈앞에 선 101명의 소녀! 걸그룹 최종 멤버 선택과 데뷔 싱글의
-            프로듀싱은 모두 TV를 보고 있는 당신의 몫! 과연 당신은 어느 소녀의
-            재능과 매력에 손을 들어주게 될 것인가?
+          <p
+            style="font-size:25px;margin-top:50px;margin-bottom:50px;margin-left:50px;margin-right:50px"
+          >
+            {{ mainDescription }}
           </p>
         </center>
       </div>
@@ -37,22 +35,33 @@
           justify-content: center;
         "
       >
-      <!-- 이미지 있는 투표 항목-->
-      <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-         <div v-for="(item, idx) in list" v-bind:item="item" v-bind:key="idx">
-          <ImageRadio :idx="idx" />
-        </div> 
+        <!-- 이미지 있는 투표 항목-->
+        <!-- <div v-if="imageExist"> -->
+          <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+          <div v-for="(item, idx) in items" v-bind:item="item" v-bind:key="idx" v-if="imageExist">
+            <ImageRadio
+              :idx="idx"
+              :title="item.title"
+              :imagePath="item.imagePath"
+              :description="item.description"
+            />
+          </div>
+        
 
         <!-- 이미지 없는 투표 항목-->
-        <!-- <div                                          
-          v-for="(item, idx) in list"
-          v-bind:item="item"
-          v-bind:key="idx"
-          style=""
-        >
-          <TextRadio :idx="idx" />
-        </div> -->
-
+        <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+          <div
+            v-for="(item, idx) in items"
+            v-bind:item="item"
+            v-bind:key="idx"
+            v-if="!imageExist"
+          >
+            <TextRadio
+              :idx="idx"
+              :title="item.title"
+              :description="item.description"
+            />
+          </div>
       </div>
       <div name="vote-end-button" style="margin-top:-10px;margin-bottom:20px">
         <center style="margin-bottom:50px">
@@ -69,6 +78,7 @@ import VoteWritten from '@/components/votepage/VoteWritten';
 import ImageRadio from '@/components/votepage/ImageRadio';
 import TextRadio from '@/components/votepage/TextRadio';
 import axios from 'axios';
+import { Utils } from '@/utils/index.js';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -80,7 +90,11 @@ export default {
   },
   data: function() {
     return {
-      list: ['일', '이', '삼'],
+      items: [],
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
+      imageExist: false,
     };
   },
   created() {
@@ -93,11 +107,36 @@ export default {
           params: { hashKey: this.$route.params.hashKey },
         })
         .then((res) => {
-        //   alert("컨트랙트 주소 : " + res.data.vote.contractAddress);
+          //   alert("컨트랙트 주소 : " + res.data.vote.contractAddress);
+          var idx = res.data.vote.contractAddress * 1;
+          this.getData(idx);
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    async getData(idx) {
+      this.web3 = Utils.web3;
+      const contract = Utils.contract;
+
+      // get vote data
+      const rs = await contract.methods.getVote(idx).call();
+      console.log(rs);
+
+      // set data
+      this.mainTitle = rs.title;
+      this.mainDescription = rs.description;
+      this.mainImagePath = rs.imagePath;
+      this.imageExist = rs.bImageExist;
+    // this.imageExist = false;
+      this.items = rs.items;
+      //   if(this.mainImagePath==""){
+      //       haveImage = false;
+      //   }
+      //console.log("이미지 경로" + this.mainImagePath+"ㅎ");
+
+      // load complete
+      this.loaded = true;
     },
   },
 };
@@ -137,14 +176,14 @@ a.button_do:hover {
   box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
 }
 
-#doVote{
-    background-color: #E9ECEF;
-    border: 1px solid rgb(245, 233, 233);
-    border-radius: 20px;
-    margin-bottom:50px;
-    background-image: url('~@/assets/note4.jpg');
+#doVote {
+  background-color: #e9ecef;
+  border: 1px solid rgb(245, 233, 233);
+  border-radius: 20px;
+  margin-bottom: 50px;
+  /* background-image: url('~@/assets/note4.jpg'); */
 
-    /* opacity: 0.9; */
+  /* opacity: 0.9; */
 }
 .button_status {
   width: 140px;
@@ -162,11 +201,11 @@ a.button_do:hover {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
-  }
+}
 
 .button_status:hover {
-  background-color: #ADB5BD;
-  box-shadow: 0px 15px 20px #ADB5BD;
+  background-color: #adb5bd;
+  box-shadow: 0px 15px 20px #adb5bd;
   color: rgb(10, 10, 10);
   transform: translateY(-7px);
 }
