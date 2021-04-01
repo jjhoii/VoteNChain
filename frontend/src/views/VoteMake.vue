@@ -173,9 +173,9 @@ export default {
     };
   },
   created() {
-    Utils.createAccount().then((rs) => {
-      this.sendData();
-    });
+    // Utils.createAccount().then((rs) => {
+    //   this.sendData();
+    // });
   },
   methods: {
     changeFlag() {

@@ -226,17 +226,11 @@ export default {
   /* overflow-x: hidden; */
 }
 .vid-header {
-  height: 750px;
+  height: 100vh;
   display: flex;
   align-items: center;
   color: #fff;
 }
-.vid-header1{
-  height: 100vh;
-  display: flex;
-  background-color: rgba(255, 255, 255, 0.418);
-}
-
 
 .fullscreen-vid-wrap {
   position: absolute;
@@ -249,11 +243,11 @@ export default {
 }
 
 .fullscreen-vid-wrap video {
-  width: 100%;
+  width: 100%; 
   min-height: 100vh;
 }
 
-.header-overlay {
+/* .header-overlay {
   height: 100vh;
   width: 100%;
   position: absolute;
@@ -264,7 +258,7 @@ export default {
   z-index: -1;
   opacity: 0.35;
   text-align: center;
-}
+} */
 .header-content {
   z-index: 2;
   padding-bottom: 23%;
@@ -293,18 +287,18 @@ export default {
   line-height: 150px;
 }
 .section1{
-  margin-top: 100px;  
+  display: flex;
+  margin-top: 8%;  
   width:  100%;
   background : #0151;
-  height : 750px;
-  display: flex;
+  height : 100vh;
+ 
 }
 .section-content{
   display: flex;
   align-items: center;
   text-align: left;
-  background : #0150;
-  height : 750px;
+  height : 100vh;
   width: 40%;
   font-size : 48px;
   line-height: 1.55em;
@@ -313,7 +307,7 @@ export default {
 }
 .section-video{
   width: 60%;
-  height: 630px;
+  height: 85vh;
   background : #fff;
   display: flex;
  
