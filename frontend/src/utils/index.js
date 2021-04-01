@@ -8,17 +8,12 @@ import {
 export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
-    static account = JSON.parse(localStorage.myData).address;
 
     constructor() {}
 
     // 회원가입 시 실행
     static async createAccount() {
         const web3 = this.web3;
-        if (localStorage.myData) {
-            console.log("exist");
-            return;
-        }
 
         console.log("account creating start")
         const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
@@ -46,6 +41,7 @@ export class Utils {
         const web3 = this.web3;
         const ether = web3.utils.toWei("1");
         const currentBalance = await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
+        console.log("currentBalance: ", currentBalance);
 
         if (currentBalance < ether) {
             const rs = await web3.eth.sendTransaction({
