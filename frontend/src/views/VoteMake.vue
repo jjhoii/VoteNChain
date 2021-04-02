@@ -107,7 +107,9 @@
             </div>
           </div> -->
         <div>
-          <button @click="AddSubject()">항목 추가</button>
+          <button type="button" class="btn btn-secondary" @click="AddSubject()">
+            항목 추가
+          </button>
         </div>
         <div class="continer" style="margin-top: 15px">
           <span>투표기간</span>
@@ -118,7 +120,22 @@
           </div>
         </div>
         <div style="margin-top: 15px">
-          <button @click="createVote()">제출</button>
+          <button
+            @click="createVote()"
+            type="button"
+            class="btn btn-secondary"
+            v-if="loading"
+          >
+            제출
+          </button>
+          <button class="btn btn-secondary" type="button" disabled v-else>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            <span class="sr-only">Loading...</span>
+          </button>
         </div>
       </div>
     </div>
@@ -126,11 +143,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import { Utils } from "@/utils/index.js";
-import VoteWritten from "@/components/votemake/VoteWritten";
-import VoteImage from "@/components/votemake/VoteImage";
-import AWS from "aws-sdk";
+import axios from 'axios';
+import { Utils } from '@/utils/index.js';
+import VoteWritten from '@/components/votemake/VoteWritten';
+import VoteImage from '@/components/votemake/VoteImage';
+import AWS from 'aws-sdk';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
@@ -141,11 +158,12 @@ export default {
   },
   data() {
     return {
+      loading: true,
       imageFlag: false,
       isPublic: 1,
-      title: "",
-      description: "",
-      previewImageData: "",
+      title: '',
+      description: '',
+      previewImageData: '',
       ImageCheck: false,
       WrittenCheck: true,
       VoteWrittenCnt: 1,
@@ -153,23 +171,23 @@ export default {
       fileId: null,
       voteList: [
         {
-          idx: "",
-          title: "",
-          description: "",
-          imagePath: "",
+          idx: '',
+          title: '',
+          description: '',
+          imagePath: '',
           count: 0,
         },
       ],
       idxCount: 0,
 
-      voteTitle: "",
+      voteTitle: '',
       mainImage: null,
-      mainImagePath: "",
-      mainDescription: "",
+      mainImagePath: '',
+      mainDescription: '',
 
-      bucketName: "vncbucket",
-      bucketRegion: "ap-northeast-2",
-      IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
     };
   },
   created() {
@@ -179,13 +197,7 @@ export default {
   },
   methods: {
     changeFlag() {
-      // if (this.imageFlag) {
-      //   this.imageFlag = !this.imageFlag;
-      // } else {
-      //   this.imageFlag = !this.imageFlag;
-      // }
       this.imageFlag = !this.imageFlag;
-      console.log(this.imageFlag);
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -196,12 +208,12 @@ export default {
       console.log(rs);
     },
     sendCallback(data) {
-      console.log("result!!: ", data);
+      console.log('result!!: ', data);
     },
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
-
+      this.loading = false;
       const dat = {
         title: this.title,
         description: this.description,
@@ -238,15 +250,16 @@ export default {
 
       // send complete
       console.log(
-        "send complete: ",
+        'send complete: ',
         rs,
         parseInt(rs.events.VoteCreated.raw.data)
       );
+      this.loading = true;
       return parseInt(rs.events.VoteCreated.raw.data);
     },
     uploadImage() {
       this.mainImage = this.$refs.file.files[0];
-      console.log(this.mainImage, "파일 업로드");
+      console.log(this.mainImage, '파일 업로드');
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -256,14 +269,14 @@ export default {
       });
 
       var s3 = new AWS.S3({
-        apiVersion: "2006-03-01",
+        apiVersion: '2006-03-01',
         params: {
           Bucket: this.bucketName,
         },
       });
 
       let imageName = this.mainImage.name;
-      let imageKey = "images/" + Date.now().toString() + "_" + imageName;
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName;
 
       console.log(imageKey);
 
@@ -271,14 +284,14 @@ export default {
         {
           Key: imageKey,
           Body: this.mainImage,
-          ACL: "public-read",
+          ACL: 'public-read',
         },
         (err, data) => {
           if (err) {
             console.log(err);
           } else {
             this.mainImagePath = data.Location;
-            console.log("mainImagePath : " + this.mainImagePath);
+            console.log('mainImagePath : ' + this.mainImagePath);
           }
         }
       );
@@ -292,9 +305,9 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log("uploadImage start");
+        console.log('uploadImage start');
         this.uploadImage();
-        console.log("uploadImage end");
+        console.log('uploadImage end');
       } else {
         this.previewImageData = null;
       }
@@ -308,15 +321,15 @@ export default {
           axios
             .post(`${SERVER_URL}/vote/create`, this.form, {
               headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset = utf-8",
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json; charset = utf-8',
               },
             })
             .then((response) => {
-              alert("투표 URL : " + "/votepage/" + response.data.hashKey);
+              alert('투표 URL : ' + '/votepage/' + response.data.hashKey);
               //this.$router.replace("/votelist");
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log(error);
             });
       });
@@ -334,9 +347,9 @@ export default {
     AddSubject() {
       // this.voteList.val.push(this.vote);
       this.voteList.push({
-        title: "",
-        description: "",
-        imagePath: "",
+        title: '',
+        description: '',
+        imagePath: '',
         count: 0,
         idx: this.idxCount++,
       });
@@ -348,9 +361,10 @@ export default {
       // console.log(this.voteList);
     },
     deleteIndex(index) {
-      console.log("인덱스", index);
+      console.log('인덱스', index);
       this.voteList.splice(index, 1);
     },
+    test() {},
   },
   computed: {
     btnStates() {
