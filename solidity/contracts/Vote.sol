@@ -65,6 +65,10 @@ contract VoteManager {
     {
         return votes[idx].isVoteEnd();
     }
+
+    function isVote(uint256 idx) public view sizeAvailable(idx) returns (bool) {
+        return votes[idx].isVote();
+    }
 }
 
 contract Vote is Ownable {
@@ -103,6 +107,11 @@ contract Vote is Ownable {
     function isVoteEnd() public view returns (bool) {
         if (block.timestamp > data.endedAt) return true;
         return false;
+    }
+
+    function isVote() public view returns (bool) {
+        if (addressIsVote[msg.sender] != true) return false;
+        return true;
     }
 
     function getVote() public view returns (MyType.Data memory) {
