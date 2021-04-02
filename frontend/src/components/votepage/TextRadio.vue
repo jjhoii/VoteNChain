@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="radio" name="test" value="small" />
+    <input type="radio" name="textRadio" value="idx" v-model="idx"/>
     <div id="txt">
       <span style="margin-left:10px;font-size:30px"
         >{{ idx + 1 }} . {{ title }}</span

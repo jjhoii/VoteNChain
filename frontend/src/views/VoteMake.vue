@@ -108,7 +108,13 @@
             </div>
           </div> -->
           <div>
-            <button @click="AddSubject()">항목 추가</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              @click="AddSubject()"
+            >
+              항목 추가
+            </button>
           </div>
           <div class="continer" style="margin-top: 15px">
             <span>투표기간</span>
@@ -119,7 +125,22 @@
             </div>
           </div>
           <div style="margin-top: 15px">
-            <button @click="createVote()">제출</button>
+            <button
+              @click="createVote()"
+              type="button"
+              class="btn btn-secondary"
+              v-if="loading"
+            >
+              제출
+            </button>
+            <button class="btn btn-secondary" type="button" disabled v-else>
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span class="sr-only">Loading...</span>
+            </button>
           </div>
         </div>
       </div>
@@ -143,6 +164,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       imageFlag: false,
       isPublic: 1,
       title: "",
@@ -181,13 +203,7 @@ export default {
   },
   methods: {
     changeFlag() {
-      // if (this.imageFlag) {
-      //   this.imageFlag = !this.imageFlag;
-      // } else {
-      //   this.imageFlag = !this.imageFlag;
-      // }
       this.imageFlag = !this.imageFlag;
-      console.log(this.imageFlag);
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -203,7 +219,7 @@ export default {
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
-
+      this.loading = false;
       const dat = {
         title: this.title,
         description: this.description,
@@ -244,6 +260,7 @@ export default {
         rs,
         parseInt(rs.events.VoteCreated.raw.data)
       );
+      this.loading = true;
       return parseInt(rs.events.VoteCreated.raw.data);
     },
     uploadImage() {
@@ -353,6 +370,7 @@ export default {
       console.log("인덱스", index);
       this.voteList.splice(index, 1);
     },
+    test() {},
   },
   computed: {
     btnStates() {

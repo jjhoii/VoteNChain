@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="radio" name="test" value="small" />
+    <input type="radio" name="imageRadio" value="idx" v-model="idx" />
     <div id="img" style="margin-bottom:20px">
       <h2 style="margin-left:30px;">{{ idx + 1 }} . {{ title }}</h2>
       <img
@@ -30,6 +30,9 @@ export default {
     return {
       confirm: -1,
     };
+  },
+  mounted() {
+    // $('input[name=imageRadio]').attr('value',this.idx);
   },
   methods: {
     openDetail() {

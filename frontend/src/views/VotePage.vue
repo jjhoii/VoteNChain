@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="container" id="doVote">
-      <button class="button_status" style="margin-top:20px">투표현황</button>
+      <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
         <center>
           <h1>{{ mainTitle }}</h1>
         </center>
       </div>
-      <div name="main-image" style="margin-top:30px">
+      <div name="main-image" style="margin-top: 30px">
         <center>
           <img
             :src="mainImagePath"
-            style="width: 300px; height: 200px;border-radius:20px"
+            style="width: 300px; height: 200px; border-radius: 20px"
             alt=""
           />
         </center>
@@ -19,7 +19,13 @@
       <div name="content">
         <center>
           <p
-            style="font-size:25px;margin-top:50px;margin-bottom:50px;margin-left:50px;margin-right:50px"
+            style="
+              font-size: 25px;
+              margin-top: 50px;
+              margin-bottom: 50px;
+              margin-left: 50px;
+              margin-right: 50px;
+            "
           >
             {{ mainDescription }}
           </p>
@@ -37,34 +43,41 @@
       >
         <!-- 이미지 있는 투표 항목-->
         <!-- <div v-if="imageExist"> -->
-          <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-          <div v-for="(item, idx) in items" v-bind:item="item" v-bind:key="idx" v-if="imageExist">
-            <ImageRadio
-              :idx="idx"
-              :title="item.title"
-              :imagePath="item.imagePath"
-              :description="item.description"
-            />
-          </div>
-        
+        <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+        <div
+          v-for="(item, idx) in items"
+          v-bind:item="item"
+          v-bind:key="idx"
+          v-if="imageExist"
+        >
+          <ImageRadio
+            :idx="idx"
+            :title="item.title"
+            :imagePath="item.imagePath"
+            :description="item.description"
+          />
+        </div>
 
         <!-- 이미지 없는 투표 항목-->
         <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
-          <div
-            v-for="(item, idx) in items"
-            v-bind:item="item"
-            v-bind:key="idx"
-            v-if="!imageExist"
-          >
-            <TextRadio
-              :idx="idx"
-              :title="item.title"
-              :description="item.description"
-            />
-          </div>
+        <div
+          v-for="(item, idx) in items"
+          v-bind:item="item"
+          v-bind:key="idx"
+          v-if="!imageExist"
+        >
+          <TextRadio
+            :idx="idx"
+            :title="item.title"
+            :description="item.description"
+          />
+        </div>
       </div>
-      <div name="vote-end-button" style="margin-top:-10px;margin-bottom:20px">
-        <center style="margin-bottom:50px">
+      <div
+        name="vote-end-button"
+        style="margin-top: -10px; margin-bottom: 20px"
+      >
+        <center style="margin-bottom: 50px">
           <a href="#" class="button_do">투표 하기!</a>
         </center>
       </div>
@@ -73,12 +86,12 @@
 </template>
 
 <script>
-import VoteCard from '@/components/votepage/VoteCard';
-import VoteWritten from '@/components/votepage/VoteWritten';
-import ImageRadio from '@/components/votepage/ImageRadio';
-import TextRadio from '@/components/votepage/TextRadio';
-import axios from 'axios';
-import { Utils } from '@/utils/index.js';
+import VoteCard from "@/components/votepage/VoteCard";
+import VoteWritten from "@/components/votepage/VoteWritten";
+import ImageRadio from "@/components/votepage/ImageRadio";
+import TextRadio from "@/components/votepage/TextRadio";
+import axios from "axios";
+import { Utils } from "@/utils/index.js";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -88,32 +101,47 @@ export default {
     ImageRadio,
     TextRadio,
   },
-  data: function() {
+  data: function () {
     return {
       items: [],
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
     };
   },
-  created() {
-    this.getContractAddress();
+  async created() {
+    await this.getContractAddress();
+
+    const rs = await Utils.call(Utils.contract.methods.isVote, [this.n]);
+    console.log("isVote: ", rs);
+    if (rs == true) {
+      // route to voteGraph
+      return;
+    }
+
+    await this.doVote(0); // 임시 0번 투표 진행
   },
   methods: {
-    getContractAddress() {
-      axios
-        .get(`${SERVER_URL}/vote/read`, {
+    async doVote(index) {
+      await this.sendVote(index);
+      // 추가 소켓 통신
+    },
+    async sendVote(idx) {
+      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]); // 0번
+      console.log("result: ", rs);
+    },
+    async getContractAddress() {
+      try {
+        const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
-        })
-        .then((res) => {
-          //   alert("컨트랙트 주소 : " + res.data.vote.contractAddress);
-          var idx = res.data.vote.contractAddress * 1;
-          this.getData(idx);
-        })
-        .catch((err) => {
-          console.log(err);
         });
+        const idx = res.data.vote.contractAddress * 1;
+        await this.getData(idx);
+        this.n = idx;
+      } catch (err) {
+        console.log(err);
+      }
     },
     async getData(idx) {
       this.web3 = Utils.web3;
@@ -128,7 +156,7 @@ export default {
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
-    // this.imageExist = false;
+      // this.imageExist = false;
       this.items = rs.items;
       //   if(this.mainImagePath==""){
       //       haveImage = false;
@@ -188,7 +216,7 @@ a.button_do:hover {
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
