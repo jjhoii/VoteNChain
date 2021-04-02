@@ -30,7 +30,12 @@
         id="floatingTextarea"
       ></textarea>
     </div>
-    <input type="button" @click="deleteSubject()" value="삭제하기" />
+    <input
+      type="button"
+      class="btn btn-secondary"
+      @click="deleteSubject()"
+      value="삭제하기"
+    />
   </div>
 </template>
 
