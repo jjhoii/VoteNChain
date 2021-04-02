@@ -37,7 +37,7 @@ public class UserController {
 		HttpStatus status = null;
 		String email = userDto.getUserEmail();
 		System.out.println("checkUser / email : " + userDto.getUserEmail());
-		System.out.println("checkUser / key : " + userDto.getPrivateKey());
+		System.out.println("checkUser / key : " + userDto.getAccount());
 		try {
 			// 이메일 중복 검사
 			boolean userExists = userService.selectUserEmail(userDto);
@@ -66,7 +66,7 @@ public class UserController {
 		HttpStatus status = null;
 
 		System.out.println("signup / email : " + userDto.getUserEmail());
-		System.out.println("signup / key : " + userDto.getPrivateKey());
+		System.out.println("signup / key : " + userDto.getAccount());
 		try {
 			userService.insertUser(userDto);
 			resultMap.put("message", "success");

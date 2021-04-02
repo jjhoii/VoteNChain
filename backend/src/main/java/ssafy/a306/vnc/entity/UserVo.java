@@ -25,16 +25,15 @@ public class UserVo {
 //    @Column(name="userName")
     private String userName;
 //    @Column(name="loginType")
-    private String loginType;
+//    private String loginType;
 //    @Column(name="privateKey")
-    private String privateKey;
+    private String account;
     
     
-    public UserVo(Long userIdx, String userEmail, String userName, String loginType, String privateKey) {
+    public UserVo(Long userIdx, String userEmail, String userName, String account) {
         this.userIdx = userIdx;
         this.userEmail = userEmail;
         this.userName = userName;
-        this.loginType = loginType;
-        this.privateKey = privateKey;
+        this.account = account;
     }
 }
