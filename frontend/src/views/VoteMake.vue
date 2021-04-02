@@ -1,25 +1,26 @@
 <template>
   <div>
-    <!-- <div class="votemake-container"> -->
-    <div class="container d-flex p-2 bd-highlight">
-      <!-- <div class="votemake-content"> -->
-      <div class="container-sm">
-        <!-- <div class="mb-3 container-sm"> -->
-        <div class="mb-3">
-          <div class="">
-            <div class="input-group input-group-lg">
-              <span class="input-group-text" id="inputGroup-sizing-lg"
-                >투표 제목</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                v-model="title"
-                aria-describedby="inputGroup-sizing-lg"
-              />
-            </div>
-            <!-- <b-form-file
+    <div style="margin-top: 100px">
+      <!-- <div class="votemake-container"> -->
+      <div class="container d-flex p-2 bd-highlight">
+        <!-- <div class="votemake-content"> -->
+        <div class="container-sm">
+          <!-- <div class="mb-3 container-sm"> -->
+          <div class="mb-3">
+            <div class="">
+              <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg"
+                  >투표 제목</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  v-model="title"
+                  aria-describedby="inputGroup-sizing-lg"
+                />
+              </div>
+              <!-- <b-form-file
                   v-model="fileId"
                   ref="file"
                   type="file"
@@ -30,52 +31,52 @@
                   @change="previewImage"
                   style="width: 70%"
             ></b-form-file> -->
-            <input
-              id="upload-image"
-              ref="file"
-              type="file"
-              accept=".jpg, .png, .gif"
-              @change="previewImage"
-            />
-            <img :src="previewImageData" />
-            <div class="input-group input-group-lg">
-              <span class="input-group-text" id="inputGroup-sizing-lg"
-                >투표 내용</span
-              >
-              <textarea
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-lg"
-                v-model="description"
-              ></textarea>
+              <input
+                id="upload-image"
+                ref="file"
+                type="file"
+                accept=".jpg, .png, .gif"
+                @change="previewImage"
+              />
+              <img :src="previewImageData" />
+              <div class="input-group input-group-lg">
+                <span class="input-group-text" id="inputGroup-sizing-lg"
+                  >투표 내용</span
+                >
+                <textarea
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-lg"
+                  v-model="description"
+                ></textarea>
+              </div>
             </div>
           </div>
-        </div>
-        <fieldset class="row mb-3 alien-center">
-          <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
-          <div class="col-sm-10">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-secondary">단일</button>
-              <button type="button" class="btn btn-secondary">중복</button>
-              <button type="button" class="btn btn-secondary">가중치</button>
+          <fieldset class="row mb-3 alien-center">
+            <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
+            <div class="col-sm-10">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">단일</button>
+                <button type="button" class="btn btn-secondary">중복</button>
+                <button type="button" class="btn btn-secondary">가중치</button>
+              </div>
             </div>
-          </div>
-        </fieldset>
+          </fieldset>
 
-        <!-- <div class="content-title">
+          <!-- <div class="content-title">
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
         </div> -->
-        <div style="margin-bottom: 15px">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            :imageFlag="this.imageFlag"
-            @click="changeFlag()"
-          >
-            항목 / 이미지 투표 전환
-          </button>
-          <!-- <button
+          <div style="margin-bottom: 15px">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              :imageFlag="this.imageFlag"
+              @click="changeFlag()"
+            >
+              항목 / 이미지 투표 전환
+            </button>
+            <!-- <button
             type="button"
             class="btn btn-secondary"
             :imageFlag="this.imageFlag"
@@ -83,42 +84,43 @@
           >
             이미지 투표
           </button> -->
-        </div>
-        <!-- 계속 추가되는 라인 -->
-        <div class="container-sm">
-          <div v-if="WrittenCheck" class="border-top border-bottom">
-            <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
-            <VoteWritten
-              :imageFlag="imageFlag"
-              v-for="(list, index) in voteList"
-              :key="list.idx"
-              :index="index"
-              @changed="changed"
-              @deleteIndex="deleteIndex"
-              :list="list"
-            >
-            </VoteWritten>
           </div>
-        </div>
+          <!-- 계속 추가되는 라인 -->
+          <div class="container-sm">
+            <div v-if="WrittenCheck" class="border-top border-bottom">
+              <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
+              <VoteWritten
+                :imageFlag="imageFlag"
+                v-for="(list, index) in voteList"
+                :key="list.idx"
+                :index="index"
+                @changed="changed"
+                @deleteIndex="deleteIndex"
+                :list="list"
+              >
+              </VoteWritten>
+            </div>
+          </div>
 
-        <!-- <div v-if="ImageCheck">
+          <!-- <div v-if="ImageCheck">
             <div  v-for="idx in VoteImageCnt" :key="idx" class="content-title">
               <VoteImage />
             </div>
           </div> -->
-        <div>
-          <button @click="AddSubject()">항목 추가</button>
-        </div>
-        <div class="continer" style="margin-top: 15px">
-          <span>투표기간</span>
-          <div style="display: flex">
-            <b-form-input type="date"></b-form-input>
-            <span>~</span>
-            <b-form-input type="date"></b-form-input>
+          <div>
+            <button @click="AddSubject()">항목 추가</button>
           </div>
-        </div>
-        <div style="margin-top: 15px">
-          <button @click="createVote()">제출</button>
+          <div class="continer" style="margin-top: 15px">
+            <span>투표기간</span>
+            <div style="display: flex">
+              <b-form-input type="date"></b-form-input>
+              <span>~</span>
+              <b-form-input type="date"></b-form-input>
+            </div>
+          </div>
+          <div style="margin-top: 15px">
+            <button @click="createVote()">제출</button>
+          </div>
         </div>
       </div>
     </div>
@@ -316,7 +318,7 @@ export default {
               alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               //this.$router.replace("/votelist");
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log(error);
             });
       });
