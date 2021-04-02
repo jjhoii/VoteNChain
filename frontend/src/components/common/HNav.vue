@@ -9,7 +9,8 @@
       </div>
 
       <div class="navbar-title">
-        <router-link to="/">Vote & Chain</router-link>
+        
+        <span>Vote & Chain</span>
       </div>
 
       <div class="navbar-list">
@@ -100,8 +101,9 @@ export default {
 
 <style>
 .navbar {
+  z-index: 99;
   display: flex;
-  height: 10%;
+  height: 100px;
   left: 0;
   right: 0;
   top: 0;
@@ -114,26 +116,29 @@ export default {
 .navbar-icon img {
   height: 100px;
 }
-.navbar-title {
-  display: flex;
-  align-items: center;
+.navbar-title{
   width: 35%;
   height: 100px;
+  display: flex;
+  align-items: center;
+  
 }
-.navbar-title a {
+.navbar-title span{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #fff;
-  font-size: 30px;
+  font-size : 35px;
 }
-.navbar-list {
+.navbar-list{
   width: 50%;
   height: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
-.navbar-list span {
-  color: #fff;
-  float: right;
-  font-size: 16px;
-  padding: 10px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+.navbar-list span{
+  color:#fff;
+  font-size : 25px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 </style>

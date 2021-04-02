@@ -218,9 +218,12 @@ export default {
 }
 
 .body {
-  font-family: Roboto,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto,'Noto Sans KR','Apple SD Gothic Neo',sans-serif;
   font-size: 1rem;
   height: 100vh;
+  width: 100%;
   line-height: 1.5;
   color: #333;
   /* overflow-x: hidden; */
@@ -237,12 +240,12 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  
+  height: 100%;
   z-index: -2;
 }
 
 .fullscreen-vid-wrap video {
+  
   width: 100%; 
   min-height: 100vh;
 }
@@ -287,8 +290,9 @@ export default {
   line-height: 150px;
 }
 .section1{
+  
+  margin-top : 18vh;
   display: flex;
-  margin-top: 8%;  
   width:  100%;
   background : #0151;
   height : 100vh;
@@ -303,6 +307,7 @@ export default {
   font-size : 48px;
   line-height: 1.55em;
   padding-left: 100px;
+  padding-bottom: 50px;
  
 }
 .section-video{
@@ -315,6 +320,10 @@ export default {
   align-items: center;
   margin: auto;
   
+}
+.section-video video{
+  height: 100vh;
+  width: 100% !important;
 }
 @media (max-width: 960px) {
   .container {
