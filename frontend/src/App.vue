@@ -1,8 +1,6 @@
 <template>
   <div id="app" >
     <div >
-      <HNav />
-      <div>
         <router-view />
       </div>
     </div>

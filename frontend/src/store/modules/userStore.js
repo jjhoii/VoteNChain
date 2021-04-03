@@ -159,7 +159,8 @@ const userStore={
                     localStorage.setItem("access_token", response.data["access-token"])
                     localStorage.setItem("isLogin", true)
                     axios.defaults.headers.common["access-token"]=`${response.data["access-token"]}`;
-                    router.push('/');
+                      router.push('/');
+                      
                   }
               }).catch((error)=>{
                   console.log(error.message)

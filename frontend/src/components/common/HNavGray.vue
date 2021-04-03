@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="navbar">
-      <div class="navbar-icon">
-        <img  src="../../../public/images/votelogo2.png" @click="gohome"/>
+    <div class="navbargray">
+      <div class="navbargray-icon">
+        <img  src="../../../public/images/votelogo.png" @click="gohome"/>
       </div>
         
-      <div class="navbar-title">
+      <div class="navbargray-title">
         
-        <span>Vote & Chain</span>
+        <span @click="gohome">Vote & Chain</span>
       </div>
 
-      <div class="navbar-list">
+      <div class="navbargray-list">
          <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
         <b-modal id="bv-modal-example" hide-footer>
@@ -102,8 +102,8 @@ methods:{
 </script>
 
 <style>
-.navbar {
- 
+.navbargray {
+  background:#f9f9f9;
   z-index: 99;
   display: flex;
   height: 100px;
@@ -112,26 +112,26 @@ methods:{
   top: 0;
   position: fixed !important;
 }
-.navbar-icon {
+.navbargray-icon {
   width: 8%;
   height: 100px;
 }
-.navbar-icon img {
+.navbargray-icon img {
   height: 100px;
 }
-.navbar-title{
+.navbargray-title{
   width: 40%;
   height: 100px;
   display: flex;
   align-items: center;
   
 }
-.navbar-title span{
+.navbargray-title span{
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: #fff;
+  color:#000;
   font-size : 35px;
 }
-.navbar-list{
+.navbargray-list{
   width: 50%;
   height: 100%;
   
@@ -139,8 +139,8 @@ methods:{
   align-items: center;
   justify-content: flex-end;
 }
-.navbar-list span{
-  color:#fff;
+.navbargray-list span{
+  color:#000;
   font-size : 25px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }

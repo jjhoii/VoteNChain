@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <HNav/>
 
     <div class="body" >
     
@@ -52,9 +52,13 @@
 </template>
 
 <script>
+import HNav from "@/components/common/HNav";
 export default {
+  
   components: {
+    HNav
   },
+    
   data() {
         return {
           

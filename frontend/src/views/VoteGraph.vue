@@ -1,54 +1,63 @@
 <template>
   <div>
+    <HNavGray />
     <div class="graph-container">
-      <div class="graph-content">
+      <div class="graph-content1">
+        <strong
+          >Reliable <br />
+          Vote.</strong
+        >
+        <h3>신뢰성있는 투표일까?</h3>
+        <p>
+          블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
+          경험해보세요!
+        </p>
+      </div>
+      <div class="graph-content2">
         <h1>{{ mainTitle }}</h1>
-        <h1>메인 제목</h1> 
+        <h1>메인 제목</h1>
         <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
         <p>
           {{ mainDescription }}
         </p>
         <p>
-          메인내용 
+          메인내용
         </p>
-
-        <GChart type="PieChart" :data="chartData" :options="chartOptions" />
-     
-
-        <div>
-          <b-button>참가자 목록</b-button>
-        </div>
+        <b-button >참가자 목록</b-button>
+        <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { GChart } from 'vue-google-charts';
-import { Utils } from '@/utils/index.js';
+import HNavGray from "@/components/common/HNavGray";
+import { GChart } from "vue-google-charts";
+import { Utils } from "@/utils/index.js";
 
 export default {
   components: {
     GChart,
+    HNavGray,
   },
   data() {
     return {
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ['Key', 'Value'],
-        ['2014', 1000],
-        ['2015', 1170],
-        ['2016', 660],
-        ['2017', 1030],
+        ["Year", "Sales", "Expenses", "Profit"],
+        ["2014", 1000, 500, 200],
+        ["2015", 1170, 460, 250],
+        ["2016", 660, 1120, 300],
+        ["2017", 1030, 540, 350],
       ],
       chartOptions: {
         chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          title: "Company Performance",
+          subtitle: "Sales, Expenses, and Profit: 2014-2017",
         },
       },
     };
@@ -74,7 +83,7 @@ export default {
       this.mainImagePath = rs.imagePath;
 
       // set chart
-      this.chartData = [['Key', 'Value']];
+      this.chartData = [["Key", "Value"]];
       rs.items.forEach((el) => {
         this.chartData.push([el.title, el.count]);
       });
@@ -84,20 +93,20 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 9],
-        ['Eat', 2],
-        ['TV', 4],
-        ['Gym', 2],
-        ['Sleep', 8],
+        ["Task", "Hours per Day"],
+        ["Work", 9],
+        ["Eat", 2],
+        ["TV", 4],
+        ["Gym", 2],
+        ["Sleep", 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: 'My Average Day', width: 550, height: 400 };
+      var options = { title: "My Average Day", width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById('piechart')
+        document.getElementById("piechart")
       );
       chart.draw(data, options);
     },
@@ -106,20 +115,41 @@ export default {
 </script>
 
 <style>
-
 .graph-container {
-  padding-top : 100px;
+  padding-top: 100px;
   padding-right: 3rem;
   padding-left: 3rem;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  background: gray;
+  justify-content: flex-end;
+  background: #f9f9f9;
+  position: relative;
 }
-.graph-content{
-  
+
+.graph-content1 strong {
+  position: absolute;
+  font-size: 120px;
+  left: 10%;
+  top: 10%;
+  line-height: 1.25em;
+}
+.graph-content1 h3 {
+  position: absolute;
+  font-size: 30px;
+  left: 10%;
+  top: 55%;
+  font-weight: 700;
+}
+.graph-content1 p {
+  position: absolute;
+  font-size: 20px;
+  left: 10%;
+  top: 65%;
+  z-index: 99;
+}
+.graph-content2 {
   text-align: center;
-  width: 70%;
+  width: 65%;
   background: #fff;
 }
 </style>
