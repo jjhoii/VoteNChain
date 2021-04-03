@@ -147,34 +147,27 @@ const userStore = {
       });
       console.log(response.data["message"]);
       if (response.data["message"] == "needSignup") {
-        console.log("11");
-
         console.log(user.account);
         const resp = await Utils.createAccount();
-
-        console.log("response : " + resp);
         user.account = resp;
         console.log("account : " + user.account);
-
         context.commit("setUserinfo", user);
-
-        console.log("2");
-
         context.dispatch("socialSignup", user);
-
-        console.log("33");
-
-        //router.push("votemake");
       }
       //자동 로그인
       else if (response.data["message"] == "success") {
         localStorage.setItem("access_token", response.data["access-token"]);
+        localStorage.setItem(
+          "myData",
+          JSON.stringify({
+            address: response.data["userAccount"],
+          })
+        );
+
         localStorage.setItem("isLogin", true);
         axios.defaults.headers.common[
           "access-token"
         ] = `${response.data["access-token"]}`;
-
-        //router.push("votemake");
       }
     },
 
