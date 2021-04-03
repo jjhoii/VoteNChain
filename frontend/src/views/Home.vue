@@ -316,7 +316,7 @@ export default {
 }
 .section-video{
   width: 60%;
-  height: 85vh;
+  height: 85vh; 
   background : #fff;
   display: flex;
  
