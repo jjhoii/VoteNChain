@@ -1,26 +1,7 @@
 <template>
   <div>
-    <HNavGray />
+    <HNavGray/>
     <div class="container" id="doVote">
-      <!-- <div style=" margin-top: 200px;">
-        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example1')"
-          >Open Modal</b-button
-        > -->
-
-      <b-modal
-        id="bv-modal-example1"
-        hide-header-close
-        hide-footer
-        no-close-on-backdrop
-      >
-        <template #modal-title> 로그인 </template>
-        <div class="d-block text-center justify-center">
-          <kakaoLogin />
-          <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
-        </div>
-      </b-modal>
-      <!-- </div> -->
-
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
         <center>
@@ -75,7 +56,6 @@
             :title="item.title"
             :imagePath="item.imagePath"
             :description="item.description"
-            v-on:selectItem="selectItem"
           />
         </div>
 
@@ -99,39 +79,8 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <center style="margin-bottom: 50px">
-          {{ picked }}
-          <a class="button_do" @click="doVote">투표 하기!</a>
+          <a href="#" class="button_do">투표 하기!</a>
         </center>
-        <div class="modal" tabindex="-1" style="margin-top : 200px">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <p>Modal body text goes here.</p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -145,7 +94,6 @@ import ImageRadio from "@/components/votepage/ImageRadio";
 import TextRadio from "@/components/votepage/TextRadio";
 import axios from "axios";
 import { Utils } from "@/utils/index.js";
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -155,103 +103,55 @@ export default {
     ImageRadio,
     TextRadio,
     HNavGray,
-    kakaoLogin,
   },
-  data: function() {
+  data: function () {
     return {
       items: [],
       mainTitle: "",
       mainDescription: "",
       mainImagePath: "",
       imageExist: false,
-      isLogin: false,
-      picked: 10000,
     };
   },
   async created() {
-    this.loginCheck();
-    //this.$bvModal.show("bv-modal-example");
-    if (this.isLogin == true) {
-      await this.getContractAddress();
+    await this.getContractAddress();
 
-      const isVoteEnd = await this.isVoteEnd(this.n);
-      const isVote = await this.isVote(this.n);
-      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
-      if (isVoteEnd || isVote) {
-        // route to voteGraph
-        return;
-      }
+    const rs = await Utils.call(Utils.contract.methods.isVote, [this.n]);
+    console.log("isVote: ", rs);
+    if (rs == true) {
+      // route to voteGraph
+      return;
+    }
 
-      //await this.doVote(0); // 임시 0번 투표 진행
-    }
-  },
-  mounted() {
-    if (this.isLogin == false) {
-      this.$bvModal.show("bv-modal-example1");
-    }
-    console.log("Test");
+    await this.doVote(0); // 임시 0번 투표 진행
   },
   methods: {
-    loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
-      if (
-        localStorage.getItem("access_token") == undefined ||
-        localStorage.getItem("myData") == undefined
-      ) {
-        console.log("로그인 안됨.");
-        //this.$router.push("VoteMake");
-      } else {
-        console.log("로그인 됨.");
-        this.isLogin = true;
-        //this.$router.push("VoteMake");
-      }
-      // console.log(this.$bvModal.show("bv-modal-example1"));
-    },
-    async isVote(idx) {
-      const rs = await Utils.call(Utils.contract.methods.isVote, [idx]);
-      return rs;
-    },
-    async isVoteEnd(idx) {
-      const rs = await Utils.call(Utils.contract.methods.isVoteEnd, [idx]);
-      return rs;
-    },
-    async doVote() {
-      if (this.picked == 10000) {
-        alert("항목을 선택해 주세요!");
-      } else {
-        console.log(this.picked + "들어옴");
-        await this.sendVote(this.picked);
-      }
+    async doVote(index) {
+      await this.sendVote(index);
       // 추가 소켓 통신
     },
     async sendVote(idx) {
-      console.log("sending");
-      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
+      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]); // 0번
       console.log("result: ", rs);
-      alert("투표가 완료 되었습니다.");
-      this.$router.replace("/");
     },
     async getContractAddress() {
-      // console.log("true");
-      this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
         });
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
-
         this.n = idx;
       } catch (err) {
         console.log(err);
       }
-      // console.log("false");
-      this.$store.state.loading.enabled = false;
     },
     async getData(idx) {
+      this.web3 = Utils.web3;
+      const contract = Utils.contract;
+
       // get vote data
-      const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
+      const rs = await contract.methods.getVote(idx).call();
       console.log(rs);
 
       // set data
@@ -268,9 +168,6 @@ export default {
 
       // load complete
       this.loaded = true;
-    },
-    async selectItem(data) {
-      this.picked = data;
     },
   },
 };

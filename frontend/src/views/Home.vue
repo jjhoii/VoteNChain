@@ -74,12 +74,12 @@ export default {
     // I have added watchers to both `deltaY` and `active`, however,
     // this may not be necessary. These will not create an endless loop
     // because the watcher is only called when a value is changed
-    active: function (index) {
+    active: function(index) {
       // Whenever the `active` index changes, update the `deltaY` value
       this.deltaY = index * 35;
       console.log("asdasd");
     },
-    deltaY: function (value) {
+    deltaY: function(value) {
       // Whenever the `deltaY` value changes, update the `active` index
       this.active = Math.floor(value / 35);
       console.log("asdasd");
@@ -87,8 +87,15 @@ export default {
   },
   methods: {
     PageChange() {
-      if (localStorage.getItem("auth-token") == undefined) {
-        this.$router.push("VoteMake");
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
+      if (
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
+      ) {
+        alert("로그인 후에 진행해주세요.");
+        this.$bvModal.show("bv-modal-example");
+        //this.$router.push("VoteMake");
       } else {
         this.$router.push("VoteMake");
       }

@@ -29,10 +29,13 @@ export default {
           console.log(user.userEmail);
           console.log(user.userName);
           await this.$store.dispatch("userStore/getSocialUserinfo", user);
+
           this.$bvModal.hide("bv-modal-example");
-          this.$store.state.loading.enabled = false;
+          this.$bvModal.hide("bv-modal-example1");
+          window.location.reload();
+          //새로고침?
         },
-        fail: function (error) {
+        fail: function(error) {
           console.log(error.message);
         },
       });
