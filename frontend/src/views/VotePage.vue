@@ -1,5 +1,6 @@
 <template>
   <div>
+    <HNavGray/>
     <div class="container" id="doVote">
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
@@ -86,6 +87,7 @@
 </template>
 
 <script>
+import HNavGray from "@/components/common/HNavGray";
 import VoteCard from "@/components/votepage/VoteCard";
 import VoteWritten from "@/components/votepage/VoteWritten";
 import ImageRadio from "@/components/votepage/ImageRadio";
@@ -100,6 +102,7 @@ export default {
     VoteWritten,
     ImageRadio,
     TextRadio,
+    HNavGray,
   },
   data: function () {
     return {

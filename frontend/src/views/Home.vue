@@ -1,6 +1,6 @@
 <template>
   <div>
-    
+    <HNav/>
 
     <div class="body" >
     
@@ -52,9 +52,13 @@
 </template>
 
 <script>
+import HNav from "@/components/common/HNav";
 export default {
+  
   components: {
+    HNav
   },
+    
   data() {
         return {
           
@@ -312,7 +316,7 @@ export default {
 }
 .section-video{
   width: 60%;
-  height: 85vh;
+  height: 85vh; 
   background : #fff;
   display: flex;
  

@@ -2,10 +2,7 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img
-          src="../../../public/images/horizontal_on_white_by_logaster__3_-removebg-preview.png"
-          @click="gohome"
-        />
+        <img  src="../../../public/images/votelogo2.png" @click="gohome"/>
       </div>
 
       <div class="navbar-title">
@@ -101,6 +98,7 @@ export default {
 
 <style>
 .navbar {
+ 
   z-index: 99;
   display: flex;
   height: 100px;
@@ -110,14 +108,14 @@ export default {
   position: fixed !important;
 }
 .navbar-icon {
-  width: 15%;
+  width: 8%;
   height: 100px;
 }
 .navbar-icon img {
   height: 100px;
 }
 .navbar-title{
-  width: 35%;
+  width: 40%;
   height: 100px;
   display: flex;
   align-items: center;
