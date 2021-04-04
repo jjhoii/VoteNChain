@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HNavGray/>
+    <HNavGray />
     <div class="container" id="doVote">
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
@@ -135,16 +135,19 @@ export default {
       console.log("result: ", rs);
     },
     async getContractAddress() {
+      this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
         });
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
+
         this.n = idx;
       } catch (err) {
         console.log(err);
       }
+      this.$store.state.loading.enabled = true;
     },
     async getData(idx) {
       this.web3 = Utils.web3;
