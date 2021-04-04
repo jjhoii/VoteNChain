@@ -3,13 +3,13 @@
     <HNavGray />
     <div
       style="
-        margin: 100px 220px 0px 220px;
+        margin: 0 220px 0px 220px;
         background: #ced4da;
         padding: 20px 0px 20px 0px;
       "
     >
       <!-- <div class="votemake-container"> -->
-      <div class="container d-flex p-2 bd-highlight">
+      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
@@ -75,10 +75,6 @@
             </div>
           </fieldset>
 
-          <!-- <div class="content-title">
-          <button @click="CheckWritten()">글</button>
-          <button @click="CheckImage()">이미지</button>
-        </div> -->
           <div style="margin-bottom: 15px">
             <button
               type="button"
@@ -88,14 +84,8 @@
             >
               항목 / 이미지 투표 전환
             </button>
-            <!-- <button
-            type="button"
-            class="btn btn-secondary"
-            :imageFlag="this.imageFlag"
-            @click="changeFlag()"
-          >
+
             이미지 투표
-          </button> -->
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -141,18 +131,17 @@
               @click="createVote()"
               type="button"
               class="btn btn-secondary"
-              v-if="loading"
             >
-              제출
+              > 제출
             </button>
-            <button class="btn btn-secondary" type="button" disabled v-else>
+            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
               ></span>
               <span class="sr-only">Loading...</span>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -336,6 +325,8 @@ export default {
         "width:200px; height:200px";
     },
     createVote() {
+      this.$store.state.loading.enabled = true;
+
       this.sendData().then((rs) => {
         (this.form = {
           userIdx: 1,
@@ -355,6 +346,7 @@ export default {
             .catch(function (error) {
               console.log(error);
             });
+        this.$store.state.loading.enabled = false;
       });
     },
     CheckWritten() {

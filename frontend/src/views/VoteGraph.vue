@@ -73,6 +73,7 @@ export default {
   methods: {
     async getData(idx) {
       // get vote data
+      this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
 
@@ -89,6 +90,7 @@ export default {
 
       // load complete
       this.loaded = true;
+      this.$store.state.loading.enabled = false;
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
