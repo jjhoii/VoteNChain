@@ -47,7 +47,7 @@ const routes = [
  
   {
     name: "votegraph",
-    path: "/votegraph",
+    path: "/votegraph/:hashKey",
     component: VoteGraph,
   },
   {
