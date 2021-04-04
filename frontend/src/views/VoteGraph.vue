@@ -15,15 +15,13 @@
       </div>
       <div class="graph-content2">
         <h1>{{ mainTitle }}</h1>
-        <h1>메인 제목</h1>
+        <!-- <h1>메인 제목</h1> -->
         <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
         <p>
           {{ mainDescription }}
         </p>
-        <p>
-          메인내용
-        </p>
-        <b-button >참가자 목록</b-button>
+        <!-- <p>메인내용</p> -->
+        <b-button>참가자 목록</b-button>
         <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
       </div>
     </div>
@@ -34,6 +32,8 @@
 import HNavGray from "@/components/common/HNavGray";
 import { GChart } from "vue-google-charts";
 import { Utils } from "@/utils/index.js";
+import axios from "axios";
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   components: {
@@ -45,6 +45,7 @@ export default {
       mainTitle: "",
       mainDescription: "",
       mainImagePath: "",
+      imageExist: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
@@ -62,34 +63,34 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
+    await this.getContractAddress();
     // 오류 발생 임시 주석 처리
     // google.charts.load("current", { packages: ["corechart"] });
     // google.charts.setOnLoadCallback(this.drawChart());
-    this.getData(113);
+    // this.getData(113);
   },
   methods: {
     async getData(idx) {
-      this.web3 = Utils.web3;
-      const contract = Utils.contract;
-
       // get vote data
-      const rs = await contract.methods.getVote(idx).call();
+      this.$store.state.loading.enabled = true;
+      const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
 
       // set data
       this.mainTitle = rs.title;
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
-
+      this.imageExist = rs.bImageExist;
       // set chart
-      this.chartData = [["Key", "Value"]];
+      // this.chartData = [["Key", "Value"]];
       rs.items.forEach((el) => {
-        this.chartData.push([el.title, el.count]);
+        // this.chartData.push([el.title, el.count]);
       });
 
       // load complete
       this.loaded = true;
+      this.$store.state.loading.enabled = false;
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
@@ -109,6 +110,18 @@ export default {
         document.getElementById("piechart")
       );
       chart.draw(data, options);
+    },
+    async getContractAddress() {
+      try {
+        const res = await axios.get(`${SERVER_URL}/vote/read`, {
+          params: { hashKey: this.$route.params.hashKey },
+        });
+        const idx = res.data.vote.contractAddress * 1;
+        await this.getData(idx);
+        this.n = idx;
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

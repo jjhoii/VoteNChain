@@ -6,7 +6,7 @@
     </div>
     <div class="votemake-content2">
       <!-- <div class="votemake-container"> -->
-      <div class="container d-flex p-2 bd-highlight">
+      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
@@ -24,7 +24,6 @@
                   v-model="title"
                   aria-describedby="inputGroup-sizing-lg"
                 />
-                
               </div>
               <br />
               <!-- <b-form-file
@@ -90,14 +89,8 @@
             >
               항목 / 이미지 투표 전환
             </button>
-            <!-- <button
-            type="button"
-            class="btn btn-secondary"
-            :imageFlag="this.imageFlag"
-            @click="changeFlag()"
-          >
+
             이미지 투표
-          </button> -->
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -144,18 +137,17 @@
               @click="createVote()"
               type="button"
               class="btn btn-secondary"
-              v-if="loading"
             >
-              제출
+              > 제출
             </button>
-            <button class="btn btn-secondary" type="button" disabled v-else>
+            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
               ></span>
               <span class="sr-only">Loading...</span>
-            </button>
+            </button> -->
             </div>
           </div>
         </div>
@@ -343,6 +335,8 @@ export default {
         "width:200px; height:200px";
     },
     createVote() {
+      this.$store.state.loading.enabled = true;
+
       this.sendData().then((rs) => {
         (this.form = {
           userIdx: 1,
@@ -359,9 +353,10 @@ export default {
               alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               //this.$router.replace("/votelist");
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.log(error);
             });
+        this.$store.state.loading.enabled = false;
       });
     },
     chageContent(){

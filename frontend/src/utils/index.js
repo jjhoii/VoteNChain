@@ -9,7 +9,7 @@ export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
 
-    constructor() {}
+    constructor() { }
 
     // 회원가입 시 실행
     static async createAccount() {
@@ -19,6 +19,7 @@ export class Utils {
         const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
         console.log("account: ", account);
         console.log("created!")
+
         localStorage.myData = JSON.stringify({
             address: account
         })
