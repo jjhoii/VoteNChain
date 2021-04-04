@@ -1,6 +1,6 @@
 <template>
   <div>
-    <HNavGray/>
+    <HNavGray />
     <div class="container" id="doVote">
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
@@ -116,9 +116,10 @@ export default {
   async created() {
     await this.getContractAddress();
 
-    const rs = await Utils.call(Utils.contract.methods.isVote, [this.n]);
-    console.log("isVote: ", rs);
-    if (rs == true) {
+    const isVoteEnd = await this.isVoteEnd(this.n);
+    const isVote = await this.isVote(this.n);
+    console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
+    if (isVoteEnd || isVote) {
       // route to voteGraph
       return;
     }
@@ -126,6 +127,14 @@ export default {
     await this.doVote(0); // 임시 0번 투표 진행
   },
   methods: {
+    async isVote(idx) {
+      const rs = await Utils.call(Utils.contract.methods.isVote, [idx]);
+      return rs;
+    },
+    async isVoteEnd(idx) {
+      const rs = await Utils.call(Utils.contract.methods.isVoteEnd, [idx]);
+      return rs;
+    },
     async doVote(index) {
       await this.sendVote(index);
       // 추가 소켓 통신
