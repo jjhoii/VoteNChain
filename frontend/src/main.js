@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store/store'
+import store from './store/store.js'
 import HNav from "./components/common/HNav.vue"
 import HBreadcumb from "./components/common/HBreadcrumb.vue"
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -19,7 +19,7 @@ Vue.use(BootstrapVue)
 Vue.use(VueFullPage);
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
-Vue.filter("truncate", function(text, length, clamp) {
+Vue.filter("truncate", function (text, length, clamp) {
   if (text) {
     clamp = clamp || "...";
     return text.length > length ? text.slice(0, length) + clamp : text;

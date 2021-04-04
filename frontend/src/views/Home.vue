@@ -3,7 +3,7 @@
     <HNav />
 
     <div class="body">
-      <section class="vid-header ">
+      <section class="vid-header">
         <div class="fullscreen-vid-wrap">
           <video
             src="video/MainVideo.mp4"
@@ -14,7 +14,7 @@
         </div>
 
         <!-- <div class="header-overlay"></div> -->
-        <div class="header-content ">
+        <div class="header-content">
           <strong>Block Chain <br />Vote Solution</strong>
           <p>Vote & Chain은 블록체인을 적용한 신뢰성있는 전자투표입니다.</p>
           <button @click="PageChange()">투표하기</button>
@@ -40,7 +40,7 @@
             muted="muted"
             autoplay="true"
             loop="true"
-            style="width: 900px; "
+            style="width: 900px"
           ></video>
         </div>
       </section>

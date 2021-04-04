@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <Spinner></Spinner> -->
     <div class="navbar">
       <div class="navbar-icon">
         <img src="../../../public/images/votelogo2.png" @click="gohome" />
@@ -13,11 +12,15 @@
       <div class="navbar-list">
         <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
-        <b-modal id="bv-modal-example" hide-footer>
+        <b-modal
+          id="bv-modal-example"
+          hide-header-close
+          hide-footer
+          no-close-on-backdrop
+        >
           <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
             <kakaoLogin />
-            <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
           </div>
           <b-button
             class="mt-3"
@@ -34,17 +37,17 @@
 <script>
 import Spinner from "@/components/common/Spinner.vue";
 import kakaoLogin from "@/components/socialLogin/kakao.vue";
-import GoogleLogin from "vue-google-login";
+
 const cid = process.env.VUE_APP_CLIENT_ID;
 
 export default {
   components: {
     kakaoLogin,
-    GoogleLogin,
     Spinner,
   },
   data() {
     return {
+      // loding:false,
       user: {
         email: "",
         password: "",
@@ -59,38 +62,23 @@ export default {
       },
     };
   },
+
   methods: {
     gohome() {
       this.$router.push("/");
     },
     kakaoLogin() {
       const scope = this;
-
-      login(this.user.email, this.user.password, function(response) {
+      this.$store.state.loading.enabled = true;
+      login(this.user.email, this.user.password, (response) => {
         scope.$store.commit("setIsSigned", true);
         scope.$store.commit("setUserId", response.data.id);
+        // this.$store.state.loading.enabled = false;
+        console.log("test");
+        console.log(this);
+
         scope.$router.push("/");
       });
-    },
-    onSuccess(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log("Name: " + profile.getName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-      // console.log('access_token' + googleUser.wc.access_token);
-
-      const user = {
-        userEmail: profile.getEmail(),
-        userName: profile.getName(),
-        logintype: "google",
-        privateKey: "123123",
-      };
-      console.log("시작");
-      console.log(user.userEmail);
-      console.log(user.userName);
-      console.log(user.logintype);
-      this.$store.dispatch("userStore/getSocialUserinfo", user);
     },
   },
 };

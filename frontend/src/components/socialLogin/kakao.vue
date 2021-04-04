@@ -9,6 +9,7 @@ export default {
   name: "kakaoLogin",
   methods: {
     Kakaologin() {
+      this.$store.state.loading.enabled = true;
       window.Kakao.Auth.login({
         scope: "profile, account_email",
         success: this.kakaogetUserinfo,
@@ -38,6 +39,7 @@ export default {
           console.log(error.message);
         },
       });
+      // this.$store.state.loading.enabled = false;
     },
   },
 };

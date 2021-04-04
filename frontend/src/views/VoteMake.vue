@@ -1,9 +1,15 @@
 <template>
-  <div style="background: #E9ECEF;">
-    <HNavGray/>
-    <div style="margin: 100px 220px 0px 220px; background:#CED4DA ;padding: 20px 0px 20px 0px; ">
+  <div style="background: #e9ecef">
+    <HNavGray />
+    <div
+      style="
+        margin: 0 220px 0px 220px;
+        background: #ced4da;
+        padding: 20px 0px 20px 0px;
+      "
+    >
       <!-- <div class="votemake-container"> -->
-      <div class="container d-flex p-2 bd-highlight">
+      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
@@ -13,7 +19,7 @@
                 <span class="input-group-text" id="inputGroup-sizing-lg"
                   >투표 제목</span
                 >
-               
+
                 <input
                   type="text"
                   class="form-control"
@@ -21,9 +27,8 @@
                   v-model="title"
                   aria-describedby="inputGroup-sizing-lg"
                 />
-                
               </div>
-               <br>
+              <br />
               <!-- <b-form-file
                   v-model="fileId"
                   ref="file"
@@ -35,17 +40,17 @@
                   @change="previewImage"
                   style="width: 70%"
             ></b-form-file> -->
-              메인이미지 
-              <br>
+              메인이미지
+              <br />
               <input
                 id="upload-image"
                 ref="file"
                 type="file"
                 accept=".jpg, .png, .gif"
                 @change="previewImage"
-              /><br>
-              <img id="previewimage" :src="previewImageData"  />
-              
+              /><br />
+              <img id="previewimage" :src="previewImageData" />
+
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg"
                   >투표 내용</span
@@ -63,17 +68,13 @@
             <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
             <div class="col-sm-10">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary" >단일</button>
-                <button type="button" class="btn btn-secondary" >중복</button>
+                <button type="button" class="btn btn-secondary">단일</button>
+                <button type="button" class="btn btn-secondary">중복</button>
                 <button type="button" class="btn btn-secondary">가중치</button>
               </div>
             </div>
           </fieldset>
 
-          <!-- <div class="content-title">
-          <button @click="CheckWritten()">글</button>
-          <button @click="CheckImage()">이미지</button>
-        </div> -->
           <div style="margin-bottom: 15px">
             <button
               type="button"
@@ -83,17 +84,11 @@
             >
               항목 / 이미지 투표 전환
             </button>
-            <!-- <button
-            type="button"
-            class="btn btn-secondary"
-            :imageFlag="this.imageFlag"
-            @click="changeFlag()"
-          >
+
             이미지 투표
-          </button> -->
           </div>
           <!-- 계속 추가되는 라인 -->
-          <div  >
+          <div>
             <div v-if="WrittenCheck" class="border-top border-bottom">
               <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
               <VoteWritten
@@ -136,18 +131,17 @@
               @click="createVote()"
               type="button"
               class="btn btn-secondary"
-              v-if="loading"
             >
-              제출
+              > 제출
             </button>
-            <button class="btn btn-secondary" type="button" disabled v-else>
+            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
               ></span>
               <span class="sr-only">Loading...</span>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -327,9 +321,12 @@ export default {
         this.previewImageData = null;
       }
 
-      document.getElementById("previewimage").style="width:200px; height:200px"
+      document.getElementById("previewimage").style =
+        "width:200px; height:200px";
     },
     createVote() {
+      this.$store.state.loading.enabled = true;
+
       this.sendData().then((rs) => {
         (this.form = {
           userIdx: 1,
@@ -346,9 +343,10 @@ export default {
               alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               //this.$router.replace("/votelist");
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.log(error);
             });
+        this.$store.state.loading.enabled = false;
       });
     },
     CheckWritten() {
@@ -392,5 +390,4 @@ export default {
 </script>
 
 <style >
-
 </style>
