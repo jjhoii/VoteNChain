@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Spinner></Spinner>
+    <!-- <Spinner></Spinner> -->
     <div class="navbar">
       <div class="navbar-icon">
         <img src="../../../public/images/votelogo2.png" @click="gohome" />
@@ -66,7 +66,7 @@ export default {
     kakaoLogin() {
       const scope = this;
 
-      login(this.user.email, this.user.password, function (response) {
+      login(this.user.email, this.user.password, function(response) {
         scope.$store.commit("setIsSigned", true);
         scope.$store.commit("setUserId", response.data.id);
         scope.$router.push("/");

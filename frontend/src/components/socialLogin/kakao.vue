@@ -18,7 +18,7 @@ export default {
     kakaogetUserinfo() {
       window.Kakao.API.request({
         url: "/v2/user/me",
-        success: (response) => {
+        success: async (response) => {
           const user = {
             userEmail: response.kakao_account.email,
             userName: response.kakao_account.profile.nickname,
@@ -27,9 +27,12 @@ export default {
           console.log("시작");
           console.log(user.userEmail);
           console.log(user.userName);
-          this.$store.dispatch("userStore/getSocialUserinfo", user);
+          await this.$store.dispatch("userStore/getSocialUserinfo", user);
 
           this.$bvModal.hide("bv-modal-example");
+          this.$bvModal.hide("bv-modal-example1");
+          window.location.reload();
+          //새로고침?
         },
         fail: function(error) {
           console.log(error.message);

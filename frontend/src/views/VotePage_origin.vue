@@ -1,26 +1,7 @@
 <template>
   <div>
-    <HNavGray />
+    <HNavGray/>
     <div class="container" id="doVote">
-      <!-- <div style=" margin-top: 200px;">
-        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example1')"
-          >Open Modal</b-button
-        > -->
-
-      <b-modal
-        id="bv-modal-example1"
-        hide-header-close
-        hide-footer
-        no-close-on-backdrop
-      >
-        <template #modal-title> 로그인 </template>
-        <div class="d-block text-center justify-center">
-          <kakaoLogin />
-          <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
-        </div>
-      </b-modal>
-      <!-- </div> -->
-
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
         <center>
@@ -100,36 +81,6 @@
         <center style="margin-bottom: 50px">
           <a href="#" class="button_do">투표 하기!</a>
         </center>
-        <div class="modal" tabindex="-1" style="margin-top : 200px">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <p>Modal body text goes here.</p>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -143,7 +94,6 @@ import ImageRadio from "@/components/votepage/ImageRadio";
 import TextRadio from "@/components/votepage/TextRadio";
 import axios from "axios";
 import { Utils } from "@/utils/index.js";
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -153,57 +103,29 @@ export default {
     ImageRadio,
     TextRadio,
     HNavGray,
-    kakaoLogin,
   },
-  data: function() {
+  data: function () {
     return {
       items: [],
       mainTitle: "",
       mainDescription: "",
       mainImagePath: "",
       imageExist: false,
-      isLogin: false,
     };
   },
   async created() {
-    this.loginCheck();
-    //this.$bvModal.show("bv-modal-example");
-    if (this.isLogin == true) {
-      await this.getContractAddress();
+    await this.getContractAddress();
 
-      const rs = await Utils.call(Utils.contract.methods.isVote, [this.n]);
-      console.log("isVote: ", rs);
-      if (rs == true) {
-        // route to voteGraph
-        return;
-      }
+    const rs = await Utils.call(Utils.contract.methods.isVote, [this.n]);
+    console.log("isVote: ", rs);
+    if (rs == true) {
+      // route to voteGraph
+      return;
+    }
 
-      await this.doVote(0); // 임시 0번 투표 진행
-    }
-  },
-  mounted() {
-    if (this.isLogin == false) {
-      this.$bvModal.show("bv-modal-example1");
-    }
-    console.log("Test");
+    await this.doVote(0); // 임시 0번 투표 진행
   },
   methods: {
-    loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
-      if (
-        localStorage.getItem("access_token") == undefined ||
-        localStorage.getItem("myData") == undefined
-      ) {
-        console.log("로그인 안됨.");
-        //this.$router.push("VoteMake");
-      } else {
-        console.log("로그인 됨.");
-        this.isLogin = true;
-        //this.$router.push("VoteMake");
-      }
-      // console.log(this.$bvModal.show("bv-modal-example1"));
-    },
     async doVote(index) {
       await this.sendVote(index);
       // 추가 소켓 통신
