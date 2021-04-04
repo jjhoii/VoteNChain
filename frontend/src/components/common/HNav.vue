@@ -11,7 +11,7 @@
       </div>
 
       <div class="navbar-list">
-        <span @click="$bvModal.show('bv-modal-example')">Login</span>
+        <span @ ="$bvModal.show('bv-modal-example')">Login</span>
 
         <b-modal id="bv-modal-example" hide-footer>
           <template #modal-title>
