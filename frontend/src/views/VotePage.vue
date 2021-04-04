@@ -1,7 +1,7 @@
 <template>
   <div>
     <HNavGray/>
-    <div class="container" id="doVote">
+    <div class="container" id="doVote" style="margin-top:200px">
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
         <center>
@@ -56,6 +56,7 @@
             :title="item.title"
             :imagePath="item.imagePath"
             :description="item.description"
+            v-on:selectItem="selectItem"
           />
         </div>
 
@@ -79,7 +80,8 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <center style="margin-bottom: 50px">
-          <a href="#" class="button_do">투표 하기!</a>
+          {{picked}}
+          <a class="button_do" @click = "doVote">투표 하기!</a>
         </center>
       </div>
     </div>
@@ -111,6 +113,7 @@ export default {
       mainDescription: "",
       mainImagePath: "",
       imageExist: false,
+      picked:10000,
     };
   },
   async created() {
@@ -123,16 +126,25 @@ export default {
       return;
     }
 
-    await this.doVote(0); // 임시 0번 투표 진행
+    //await this.doVote(0); // 임시 0번 투표 진행
   },
   methods: {
-    async doVote(index) {
-      await this.sendVote(index);
+    async doVote() {
+      if (this.picked == 10000) {
+        alert('항목을 선택해 주세요!');
+      } else {
+        console.log(this.picked + "들어옴");
+        await this.sendVote(this.picked);
+      }
+      
       // 추가 소켓 통신
     },
     async sendVote(idx) {
-      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]); // 0번
+      console.log("sending")
+      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]); 
       console.log("result: ", rs);
+      alert("투표가 완료 되었습니다.");
+      this.$router.replace("/");
     },
     async getContractAddress() {
       try {
@@ -169,6 +181,9 @@ export default {
       // load complete
       this.loaded = true;
     },
+    async selectItem(data){
+      this.picked = data;
+    }
   },
 };
 </script>
