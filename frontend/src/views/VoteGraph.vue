@@ -164,6 +164,6 @@ export default {
 .graph-content2 {
   text-align: center;
   width: 65%;
-  background: #fff;
+  background: #E9ECEF;
 }
 </style>

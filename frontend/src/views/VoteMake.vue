@@ -1,25 +1,22 @@
 <template>
-  <div style="background: #e9ecef">
+  <div class="votemake-container" >
     <HNavGray />
-    <div
-      style="
-        margin: 0 220px 0px 220px;
-        background: #ced4da;
-        padding: 20px 0px 20px 0px;
-      "
-    >
+    <div class="votemake-content1">
+      <!-- <img  src="../../public/images/votelogo3.jpg" /> -->
+    </div>
+    <div class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
+            <div v-if="contentData1">
           <div class="mb-3">
             <div class="">
+              <h3>투표 만들기</h3>
               <div class="input-group input-group-lg">
                 <span class="input-group-text" id="inputGroup-sizing-lg"
-                  >투표 제목</span
-                >
-
+                  >투표 제목</span>        
                 <input
                   type="text"
                   class="form-control"
@@ -70,11 +67,19 @@
               <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary">단일</button>
                 <button type="button" class="btn btn-secondary">중복</button>
-                <button type="button" class="btn btn-secondary">가중치</button>
+                <button type="button" class="btn btn-secondary">
+                  가중치
+                </button>
               </div>
             </div>
           </fieldset>
-
+          <button type="button" class="btn btn-secondary" @click="chageContent()"> Next </button>
+            </div>
+          <!-- <div class="content-title">
+          <button @click="CheckWritten()">글</button>
+          <button @click="CheckImage()">이미지</button>
+        </div> -->
+        <div v-if="contentData2">
           <div style="margin-bottom: 15px">
             <button
               type="button"
@@ -127,6 +132,7 @@
             </div>
           </div>
           <div style="margin-top: 15px">
+            <button type="button" class="btn btn-secondary" @click="chageContent()"> Pre </button>
             <button
               @click="createVote()"
               type="button"
@@ -142,6 +148,7 @@
               ></span>
               <span class="sr-only">Loading...</span>
             </button> -->
+            </div>
           </div>
         </div>
       </div>
@@ -197,6 +204,9 @@ export default {
       bucketName: "vncbucket",
       bucketRegion: "ap-northeast-2",
       IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
+
+      contentData1: true,
+      contentData2: false,
     };
   },
   created() {
@@ -349,6 +359,10 @@ export default {
         this.$store.state.loading.enabled = false;
       });
     },
+    chageContent(){
+      this.contentData1 = !this.contentData1;
+      this.contentData2 = !this.contentData2;
+    },
     CheckWritten() {
       this.VoteWrittenCnt = 1;
       this.WrittenCheck = true;
@@ -389,5 +403,26 @@ export default {
 };
 </script>
 
-<style >
+<style>
+.votemake-container{
+  background: #f9f9f9;
+  display: flex;
+}
+.votemake-content1 {
+  padding: 100px 0px 0px 0px;
+  margin: 0px 0px 70px 70px;
+  width: 40%;
+  background: white;
+}
+.votemake-content1 img {
+  width: 100%;
+  height: 100%;
+}
+.votemake-content2 {
+  background: #f7f6e7;
+  margin: 0px 70px 70px 0px;
+  padding: 150px 100px 50px 100px;
+  width: 60%;
+}
+
 </style>
