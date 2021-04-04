@@ -1,7 +1,7 @@
 <template>
-  <button icon elevation="3" outlined>
+  <v-btn icon elevation="3" outlined style="cursor:pointer">
     <img src="@/assets/kakao_login.png" @click="Kakaologin" alt="kakao" />
-  </button>
+  </v-btn>
 </template>
 
 <script>
