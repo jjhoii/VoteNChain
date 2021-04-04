@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity(name="User")
-@Builder
 public class UserVo {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -29,7 +28,7 @@ public class UserVo {
 //    @Column(name="privateKey")
     private String account;
     
-    
+    @Builder
     public UserVo(Long userIdx, String userEmail, String userName, String account) {
         this.userIdx = userIdx;
         this.userEmail = userEmail;
