@@ -1,12 +1,12 @@
 <template>
   <div>
+    <Spinner></Spinner>
     <div class="navbar">
       <div class="navbar-icon">
-        <img  src="../../../public/images/votelogo2.png" @click="gohome"/>
+        <img src="../../../public/images/votelogo2.png" @click="gohome" />
       </div>
 
       <div class="navbar-title">
-        
         <span>Vote & Chain</span>
       </div>
 
@@ -14,9 +14,7 @@
         <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
         <b-modal id="bv-modal-example" hide-footer>
-          <template #modal-title>
-            로그인
-          </template>
+          <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
             <kakaoLogin />
             <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
@@ -34,6 +32,7 @@
 </template>
 
 <script>
+import Spinner from "@/components/common/Spinner.vue";
 import kakaoLogin from "@/components/socialLogin/kakao.vue";
 import GoogleLogin from "vue-google-login";
 const cid = process.env.VUE_APP_CLIENT_ID;
@@ -42,6 +41,7 @@ export default {
   components: {
     kakaoLogin,
     GoogleLogin,
+    Spinner,
   },
   data() {
     return {
@@ -66,7 +66,7 @@ export default {
     kakaoLogin() {
       const scope = this;
 
-      login(this.user.email, this.user.password, function(response) {
+      login(this.user.email, this.user.password, function (response) {
         scope.$store.commit("setIsSigned", true);
         scope.$store.commit("setUserId", response.data.id);
         scope.$router.push("/");
@@ -98,7 +98,6 @@ export default {
 
 <style>
 .navbar {
- 
   z-index: 99;
   display: flex;
   height: 100px;
@@ -114,29 +113,29 @@ export default {
 .navbar-icon img {
   height: 100px;
 }
-.navbar-title{
-  width: 40%;
+.navbar-title {
+  width: 35%;
   height: 100px;
   display: flex;
   align-items: center;
-  
 }
-.navbar-title span{
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.navbar-title span {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #fff;
-  font-size : 35px;
+  font-size: 35px;
 }
-.navbar-list{
+.navbar-list {
   width: 50%;
   height: 100%;
-  
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
-.navbar-list span{
-  color:#fff;
-  font-size : 25px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+.navbar-list span {
+  color: #fff;
+  font-size: 25px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 </style>
