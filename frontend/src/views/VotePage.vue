@@ -80,8 +80,8 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <center style="margin-bottom: 50px">
-          {{picked}}
-          <a class="button_do" @click = "doVote">투표 하기!</a>
+          {{ picked }}
+          <a class="button_do" @click="doVote">투표 하기!</a>
         </center>
       </div>
     </div>
@@ -113,7 +113,7 @@ export default {
       mainDescription: "",
       mainImagePath: "",
       imageExist: false,
-      picked:10000,
+      picked: 10000,
     };
   },
   async created() {
@@ -140,22 +140,23 @@ export default {
     },
     async doVote() {
       if (this.picked == 10000) {
-        alert('항목을 선택해 주세요!');
+        alert("항목을 선택해 주세요!");
       } else {
         console.log(this.picked + "들어옴");
         await this.sendVote(this.picked);
       }
-      
+
       // 추가 소켓 통신
     },
     async sendVote(idx) {
-      console.log("sending")
-      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]); 
+      console.log("sending");
+      const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
       console.log("result: ", rs);
       alert("투표가 완료 되었습니다.");
       this.$router.replace("/");
     },
     async getContractAddress() {
+      // console.log("true");
       this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
@@ -168,7 +169,8 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      this.$store.state.loading.enabled = true;
+      // console.log("false");
+      this.$store.state.loading.enabled = false;
     },
     async getData(idx) {
       // get vote data
@@ -190,9 +192,9 @@ export default {
       // load complete
       this.loaded = true;
     },
-    async selectItem(data){
+    async selectItem(data) {
       this.picked = data;
-    }
+    },
   },
 };
 </script>
