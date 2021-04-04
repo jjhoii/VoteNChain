@@ -156,11 +156,8 @@ export default {
       }
     },
     async getData(idx) {
-      this.web3 = Utils.web3;
-      const contract = Utils.contract;
-
       // get vote data
-      const rs = await contract.methods.getVote(idx).call();
+      const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
 
       // set data
