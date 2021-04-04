@@ -22,7 +22,7 @@
         </p>
         <!-- <p>메인내용</p> -->
         <b-button>참가자 목록</b-button>
-        <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
+        <GChart type="PieChart" :data="chartData" :options="chartOptions" />
       </div>
     </div>
   </div>
@@ -83,9 +83,10 @@ export default {
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
       // set chart
-      // this.chartData = [["Key", "Value"]];
+      this.chartData = [["Key", "Value"]];
       rs.items.forEach((el) => {
-        // this.chartData.push([el.title, el.count]);
+        console.log(el.title + "데이터 확인" + el.count);
+        this.chartData.push([el.title, el.count*1]);
       });
 
       // load complete
