@@ -3,17 +3,16 @@
     <div class="graph-container">
       <div class="graph-content">
         <h1>{{ mainTitle }}</h1>
-        <h1>메인 제목</h1> 
+        <h1>메인 제목</h1>
         <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
         <p>
           {{ mainDescription }}
         </p>
         <p>
-          메인내용 
+          메인내용
         </p>
 
         <GChart type="PieChart" :data="chartData" :options="chartOptions" />
-     
 
         <div>
           <b-button>참가자 목록</b-button>
@@ -36,6 +35,7 @@ export default {
       mainTitle: '',
       mainDescription: '',
       mainImagePath: '',
+      imageExist: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
@@ -76,7 +76,8 @@ export default {
       // set chart
       this.chartData = [['Key', 'Value']];
       rs.items.forEach((el) => {
-        this.chartData.push([el.title, el.count]);
+        console.log(el.title + '데이터 확인' + el.count);
+        this.chartData.push([el.title, el.count * 1]);
       });
 
       // load complete
@@ -106,9 +107,8 @@ export default {
 </script>
 
 <style>
-
 .graph-container {
-  padding-top : 100px;
+  padding-top: 100px;
   padding-right: 3rem;
   padding-left: 3rem;
   height: 100vh;
@@ -116,10 +116,9 @@ export default {
   justify-content: center;
   background: gray;
 }
-.graph-content{
-  
+.graph-content {
   text-align: center;
-  width: 70%;
-  background: #fff;
+  width: 65%;
+  background: #e9ecef;
 }
 </style>
