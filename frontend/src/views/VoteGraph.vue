@@ -16,7 +16,7 @@
       <div class="graph-content2">
         <h1>{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
-        <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
+        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
         <p>
           {{ mainDescription }}
         </p>
