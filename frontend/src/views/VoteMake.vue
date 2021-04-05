@@ -119,13 +119,21 @@
             </button>
           </div>
           <div class="continer" style="margin-top: 15px">
-            <span>투표기간</span>
+            <span>투표마감일</span>
             <div style="display: flex">
-              <b-form-input type="date"></b-form-input>
-              <span>~</span>
-              <b-form-input type="date"></b-form-input>
+              <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
           </div>
+          <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
+            <b-modal ref="url" title="투표 URL" id="modal-1">
+              <a
+                @click="moveToVotePage"
+                href=""
+                style="font-size: 20px; margin-left: 10px"
+                >https://votenchain.tk/votepage/{{ hashKey }}</a
+              >
+              <!-- <b-button @click="copy()"  v-clipboard="value">URL 복사</b-button> -->
+            </b-modal>
           <div style="margin-top: 15px">
             <button
               @click="createVote()"
