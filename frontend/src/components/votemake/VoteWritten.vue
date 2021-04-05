@@ -3,7 +3,7 @@
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label">항목명</label>
       <input
-        type="email"
+        type="input"
         class="form-control"
         id="exampleFormControlInput1"
         v-model="list.title"

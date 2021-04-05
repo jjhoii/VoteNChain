@@ -13,7 +13,7 @@
       <div ><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
       <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>  
     </div> -->
-    <div class="votemake-content2">
+    <form class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
@@ -146,7 +146,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -203,7 +203,7 @@ export default {
       contentData1: true,
       contentData2: false,
 
-      hashKey: "",
+      hashKey: '',
     };
   },
   created() {
@@ -228,9 +228,6 @@ export default {
     },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
-      console.log(this.endDate);
-      console.log(new Date(this.endDate + "T24:00:00"));
-      // Date.parse(new Date(this.endDate + 'T24:00:00'));
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -352,10 +349,17 @@ export default {
         "width:200px; height:200px";
     },
     createVote() {
+      if (!this.validationCheck()) {
+        // alert('입력을 확인해주세요.');
+        return;
+      }
+
+      this.validationCheck();
+
       this.$store.state.loading.enabled = true;
-      console.log("11");
+      console.log('11');
       this.sendData().then((rs) => {
-        console.log("22");
+        console.log('22');
         (this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -369,7 +373,7 @@ export default {
             })
             .then((response) => {
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-              console.log("gdg");
+              console.log('gdg');
               this.hashKey = response.data.hashKey;
               this.$refs["url"].show();
               //this.$router.replace("/votepage/" + response.data.hashKey);
@@ -384,16 +388,7 @@ export default {
       this.contentData1 = !this.contentData1;
       this.contentData2 = !this.contentData2;
     },
-    CheckWritten() {
-      this.VoteWrittenCnt = 1;
-      this.WrittenCheck = true;
-      this.ImageCheck = false;
-    },
-    CheckImage() {
-      this.VoteImageCnt = 1;
-      this.WrittenCheck = false;
-      this.ImageCheck = true;
-    },
+
     AddSubject() {
       // this.voteList.val.push(this.vote);
       this.voteList.push({
@@ -414,10 +409,36 @@ export default {
       console.log("인덱스", index);
       this.voteList.splice(index, 1);
     },
+    validationCheck() {
+      if (this.title == '') {
+        alert('투표 제목을 입력해주세요.');
+        return false;
+      }
+
+      if (this.description == '') {
+        alert('투표 내용을 입력해주세요.');
+
+        return false;
+      }
+
+      for (var i = 0; i < this.voteList.length; i++) {
+        if (this.voteList[i].title == '') {
+          alert(i + 1 + '번째 투표 항목명을 입력해주세요.');
+          return false;
+        }
+
+        if (this.voteList[i].description == '') {
+          alert(i + 1 + '번쨰 투표 설명을 입력해주세요.');
+          return false;
+        }
+      }
+
+      return true;
+    },
     test() {},
     moveToVotePage() {
-      window.open("/votepage/" + this.hashKey, "_blank");
-      this.$router.replace("/");
+      window.open('/votepage/' + this.hashKey, '_blank');
+      this.$router.replace('/');
       //this.$router.replace("/votepage/" + this.hashKey);
     },
     copy() {
@@ -437,14 +458,14 @@ export default {
       // document.execCommand("copy");
       // alert("복사된 문자열: " + copyText.value);
 
-      var tempElem = document.createElement("textarea");
-      tempElem.value = "I am copied text!";
+      var tempElem = document.createElement('textarea');
+      tempElem.value = 'I am copied text!';
       document.body.appendChild(tempElem);
 
       tempElem.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
       document.body.removeChild(tempElem);
-      alert("복사");
+      alert('복사');
     },
   },
   computed: {
