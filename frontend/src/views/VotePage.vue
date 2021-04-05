@@ -27,7 +27,7 @@
       </div>
       <div name="main-image" style="margin-top: 30px">
         <center>
-          <img
+          <img v-if="mainImagePath != ''"
             :src="mainImagePath"
             style="width: 300px; height: 200px; border-radius: 20px"
             alt=""
