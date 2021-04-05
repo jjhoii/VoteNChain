@@ -132,7 +132,7 @@
               </button>
             </div>
             <div class="continer" style="margin-top: 15px">
-              <span>투표 마감 시간</span>
+              <span>투표 마감일</span>
               <div style="display: flex">
                 <b-form-input type="date" v-model="endDate"></b-form-input>
               </div>
