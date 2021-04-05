@@ -59,7 +59,9 @@ export class Utils {
     static async call(method, args) {
         console.log("call start")
         const account = JSON.parse(localStorage.myData).address;
-        const rs = await method(...args).call();
+        const rs = await method(...args).call({
+            from: JSON.parse(localStorage.myData).address
+        });
         console.log("call end");
         return rs;
     }
