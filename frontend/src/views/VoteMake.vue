@@ -226,7 +226,7 @@ export default {
         description: this.description,
         voteType: 0,
         imagePath: this.mainImagePath,
-        bImageExist: true,
+        bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         endedAt: Date.now() + 600 * 1000, // 5분 뒤
