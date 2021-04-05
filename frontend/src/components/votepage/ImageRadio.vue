@@ -17,7 +17,7 @@
       >
 
       <b-modal ref="detail" title="상세보기">
-        <p class="my-4" style="">description: {{ description }}</p>
+        <p class="my-4" style=""> {{ description }}</p>
       </b-modal>
     </div>
   </label>

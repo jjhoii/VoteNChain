@@ -152,10 +152,17 @@
               >
                 > 제출
               </button>
-              <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-              <b-modal ref="url" title="투표 URL" id="modal-1">
-                <a @click="moveToVotePage" href="" style="font-size:20px;margin-left:10px">https://votenchain.tk/votepage/{{hashKey}}</a>
-                <!-- <b-button @click="copy()"  v-clipboard="value">URL 복사</b-button> -->
+              <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
+              <b-modal ref="url" title="투표 링크" id="modal-1" no-close-on-backdrop hide-footer hide-header>
+                <h3>투표 링크</h3>
+                <a @click="moveToVotePage" href="" style="font-size:20px;margin-left:0px;margin-top:0px;margin-bottom:0px">{{voteUrl}}</a>
+                  <input type="text" id='myInput' v-model="voteUrl"  readonly style="width:300px;margin-left:30px"/>
+                  <b-button variant="outline-secondary" id="copy_button" @click="copyToClipboard('myInput')" >링크 복사</b-button>
+                  <b-button  pill variant="outline-secondary"  @click="moveToPage()" style="margin-left:210px;margin-top:30px">닫기</b-button>
+                <!-- <div>
+                  <textarea v-model="myInput"></textarea>
+                  <button type="button" @click="doCopy">Copy!</button>
+                </div> -->
               </b-modal>
               <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
@@ -226,7 +233,9 @@ export default {
       contentData1: true,
       contentData2: false,
 
+      voteUrl:'https://votenchain.tk/votepage/',
       hashKey:'',
+      myInput:'',
     };
   },
   created() {
@@ -393,6 +402,7 @@ export default {
             .then((response) => {
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               console.log("gdg");
+              this.voteUrl = 'https://votenchain.tk/votepage/' + response.data.hashKey;
               this.hashKey = response.data.hashKey;
               this.$refs['url'].show();
               //this.$router.replace("/votepage/" + response.data.hashKey);
@@ -468,6 +478,20 @@ export default {
         document.execCommand("copy");
         document.body.removeChild(tempElem);
         alert("복사");
+    },
+    doCopy(){
+      this.$copyText(this.myInput);
+      alert(this.myInput+'을 복사했습니다.');
+    },
+    copyToClipboard(val) {
+      const copyText = document.getElementById("myInput");
+      //  const copyText = "https://votenchain.tk/votepage/" +this.hashKey;
+      copyText.select();
+      document.execCommand('copy');
+      alert(copyText.value + '을 복사했습니다.');
+    },
+    moveToPage(){
+      this.$router.replace("/votepage/" + this.hashKey);
     }
   },
   computed: {
@@ -498,5 +522,11 @@ export default {
   margin: 0px 70px 70px 0px;
   padding: 150px 100px 50px 100px;
   width: 60%;
+}
+#copy_button{
+  height:42px;
+  width:100px;
+  margin-bottom: 3px;
+  margin-left: 10px;
 }
 </style>
