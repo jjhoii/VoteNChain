@@ -132,11 +132,9 @@
               </button>
             </div>
             <div class="continer" style="margin-top: 15px">
-              <span>투표기간</span>
+              <span>투표 마감일</span>
               <div style="display: flex">
-                <b-form-input type="date"></b-form-input>
-                <span>~</span>
-                <b-form-input type="date"></b-form-input>
+                <b-form-input type="date" v-model="endDate"></b-form-input>
               </div>
             </div>
             <div style="margin-top: 15px">
@@ -191,6 +189,8 @@ export default {
   },
   data() {
     return {
+      startDate: '',
+      endDate: '',
       loading: true,
       imageFlag: false,
       isPublic: 1,
@@ -218,9 +218,9 @@ export default {
       mainImagePath: '',
       mainDescription: '',
 
-      bucketName: "vncbucket",
-      bucketRegion: "ap-northeast-2",
-      IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
 
       contentData1: true,
       contentData2: false,
@@ -251,6 +251,7 @@ export default {
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
+
       this.loading = false;
       const dat = {
         title: this.title,
@@ -260,7 +261,8 @@ export default {
         bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
-        endedAt: Date.now() + 600 * 1000, // 5분 뒤
+        // endedAt: Date.now() + 600 * 1000, // 5분 뒤
+        endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 5분 뒤
         // items: [
         //   {
         //     title: "Title1",

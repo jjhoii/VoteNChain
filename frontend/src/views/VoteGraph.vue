@@ -42,9 +42,9 @@ export default {
   },
   data() {
     return {
-      mainTitle: "",
-      mainDescription: "",
-      mainImagePath: "",
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
       imageExist: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
@@ -103,8 +103,8 @@ export default {
       // set chart
       this.chartData = [['Key', 'Value']];
       rs.items.forEach((el) => {
-        console.log(el.title + "데이터 확인" + el.count);
-        this.chartData.push([el.title, el.count*1]);
+        console.log(el.title + '데이터 확인' + el.count);
+        this.chartData.push([el.title, el.count * 1]);
       });
 
       // load complete
@@ -182,6 +182,6 @@ export default {
 .graph-content2 {
   text-align: center;
   width: 65%;
-  background: #E9ECEF;
+  background: #e9ecef;
 }
 </style>
