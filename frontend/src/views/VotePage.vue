@@ -1,7 +1,7 @@
 <template>
   <div>
     <HNavGray />
-    <div class="container" id="doVote">
+    <div class="container" id="doVote" style="margin-top: 200px;">
       <!-- <div style=" margin-top: 200px;">
         <b-button id="show-btn" @click="$bvModal.show('bv-modal-example1')"
           >Open Modal</b-button

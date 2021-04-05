@@ -152,6 +152,11 @@
               >
                 > 제출
               </button>
+              <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+              <b-modal ref="url" title="투표 URL" id="modal-1">
+                <a @click="moveToVotePage" href="" style="font-size:20px;margin-left:10px">https://votenchain.tk/votepage/{{hashKey}}</a>
+                <!-- <b-button @click="copy()"  v-clipboard="value">URL 복사</b-button> -->
+              </b-modal>
               <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
@@ -220,6 +225,8 @@ export default {
 
       contentData1: true,
       contentData2: false,
+
+      hashKey:'',
     };
   },
   created() {
@@ -297,8 +304,9 @@ export default {
       // send data
       // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
       console.log(dat);
+      // console.log("ㅋㄴㅋ");
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
-
+      // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
         'send complete: ',
@@ -368,8 +376,9 @@ export default {
     },
     createVote() {
       this.$store.state.loading.enabled = true;
-
+      console.log("11");
       this.sendData().then((rs) => {
+        console.log("22");
         (this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -382,8 +391,11 @@ export default {
               },
             })
             .then((response) => {
-              alert('투표 URL : ' + '/votepage/' + response.data.hashKey);
-              // this.$router.replace('/votepage/' + response.data.hashKey);
+              //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
+              console.log("gdg");
+              this.hashKey = response.data.hashKey;
+              this.$refs['url'].show();
+              //this.$router.replace("/votepage/" + response.data.hashKey);
             })
             .catch(function(error) {
               console.log(error);
@@ -426,6 +438,37 @@ export default {
       this.voteList.splice(index, 1);
     },
     test() {},
+    moveToVotePage(){
+      window.open("/votepage/" + this.hashKey, "_blank", );
+      this.$router.replace("/");
+      //this.$router.replace("/votepage/" + this.hashKey);
+    },
+    copy(){
+      // var url = "https://votenchain.tk/votepage/" +this.hashKey
+      // window.ClipboardData.setData("Text",url);
+      // alert("복사되었습니다.");
+
+      // var obShareUrl = document.getElementById("ShareUrl");
+      // obShareUrl.value = "https://votenchain.tk/votepage/" +this.hashKey  // 현재 URL 을 세팅해 줍니다.
+      // obShareUrl.select();  // 해당 값이 선택되도록 select() 합니다
+      // document.execCommand("copy"); // 클립보드에 복사합니다.
+      // obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿈니다.
+      // alert("URL이 클립보드에 복사되었습니다"); 
+
+      //  var copyText = "https://votenchain.tk/votepage/";
+      // copyText.select();
+      // document.execCommand("copy");
+      // alert("복사된 문자열: " + copyText.value);
+
+       var tempElem = document.createElement('textarea');
+        tempElem.value = 'I am copied text!';  
+        document.body.appendChild(tempElem);
+
+        tempElem.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempElem);
+        alert("복사");
+    }
   },
   computed: {
     btnStates() {
