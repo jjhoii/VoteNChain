@@ -121,7 +121,6 @@
               >
                 제출
               </button>
-              <<<<<<< HEAD =======
               <b-button v-b-modal.modal-1>Launch demo modal</b-button>
               <b-modal ref="url" title="투표 URL" id="modal-1">
                 <a
@@ -140,7 +139,6 @@
               ></span>
               <span class="sr-only">Loading...</span>
             </button> -->
-              >>>>>>> develop
             </div>
           </div>
         </div>
