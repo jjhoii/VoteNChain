@@ -10,8 +10,8 @@
       </div>
 
       <div class="navbar-list">
-        <span @click="$bvModal.show('bv-modal-example')">Login</span>
-
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')">Login</span>
+        <span v-if="login" @click="clearToken">Logout</span>
         <!-- no-close-on-backdrop -->
         <b-modal id="bv-modal-example" hide-header-close hide-footer>
           <template #modal-title>LOGIN</template>
@@ -69,6 +69,7 @@ export default {
         height: 50,
         longtitle: true,
       },
+      login: false
     };
   },
 
@@ -89,7 +90,17 @@ export default {
         scope.$router.push("/");
       });
     },
+    clearToken(){
+      localStorage.clear();
+      window.location.href='/'
+    }
   },
+  created(){
+
+    if (localStorage.getItem('access_token') != undefined) {
+        this.login = true
+    }
+  }
 };
 </script>
 

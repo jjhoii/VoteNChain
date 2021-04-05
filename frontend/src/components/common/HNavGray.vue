@@ -10,8 +10,8 @@
       </div>
 
       <div class="navbargray-list">
-        <span @click="$bvModal.show('bv-modal-example')">Login</span>
-
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')">Login</span>
+        <span v-if="login" @click="clearToken">Logout</span>
         <b-modal
           id="bv-modal-example"
           hide-header-close
@@ -62,6 +62,7 @@ export default {
         height: 50,
         longtitle: true,
       },
+      login: false,
     };
   },
   methods: {
@@ -97,7 +98,17 @@ export default {
       console.log(user.logintype);
       this.$store.dispatch('userStore/getSocialUserinfo', user);
     },
+    clearToken(){
+      localStorage.clear();
+      window.location.href='/'
+    }
   },
+  created(){
+
+    if (localStorage.getItem('access_token') != undefined) {
+        this.login = true
+    }
+  }
 };
 </script>
 
