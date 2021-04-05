@@ -19,7 +19,10 @@
         </div>
       </b-modal>
 
-      <button class="button_status" style="margin-top: 20px">투표현황</button>
+      <button @click="openStatus()" class="button_status" style="margin-top: 20px">투표현황</button>
+      <b-modal  id="vote_status" ref="status" size="xl" title="투표 현황">
+        <VoteGraph style=""/>
+      </b-modal>
       <div name="title">
         <center>
           <h1>{{ mainTitle }}</h1>
@@ -143,6 +146,7 @@ import TextRadio from '@/components/votepage/TextRadio';
 import axios from 'axios';
 import { Utils } from '@/utils/index.js';
 import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import VoteGraph from '@/components/votepage/VoteGraph';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -152,6 +156,7 @@ export default {
     TextRadio,
     HNavGray,
     kakaoLogin,
+    VoteGraph
   },
   data: function() {
     return {
@@ -264,6 +269,9 @@ export default {
     },
     async selectItem(data) {
       this.picked = data;
+    },
+    openStatus(){
+      this.$refs['status'].show();
     },
   },
 };
