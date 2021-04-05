@@ -22,7 +22,7 @@
       <img :src="previewImageData" />
     </span>
     <div class="form-floating" style="margin-top: 15px; margin-bottom:15px">
-      <textarea
+      <textarea 
         class="form-control"
         placeholder="부가 설명을 입력해주세요."
         v-model="list.description"
@@ -32,7 +32,7 @@
     </div>
     <input
       type="button"
-      class="btn btn-secondary"
+      class="button"
       @click="deleteSubject()"
       value="삭제하기"
     />
