@@ -1,9 +1,6 @@
 import axios from "axios";
 import router from "@/router/index.js";
 import { Utils } from "@/utils/index.js";
-//import {requestJoinMember, setSnackBarInfo, requestUpdateMember,
-//        requestDeleteMember,} from "@/apis/accounts_api.js"
-// requestMemberInfo,
 
 const SERVER_URL = "http://localhost:8080";
 

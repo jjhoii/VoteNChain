@@ -1,13 +1,18 @@
 <template>
   <label>
-    <input type="radio" name="imageRadio" value="idx" v-model="picked" @click="clickItem"/>
+    <input
+      type="radio"
+      name="imageRadio"
+      value="idx"
+      v-model="picked"
+      @click="clickItem"
+    />
     <div id="img" style="margin-bottom:20px">
       <h2 style="margin-left:30px;">{{ idx + 1 }} . {{ title }}</h2>
       <img
         :src="imagePath"
         style="margin-left:50px;margin-top:10px; width:200px;height:200px;border-radius:10px"
       />
-      <!-- <button style="margin-left:200px;margin-top:100px">상세 보기</button> -->
       <b-button
         pill
         variant="outline-secondary"
@@ -17,7 +22,7 @@
       >
 
       <b-modal ref="detail" title="상세보기">
-        <p class="my-4" style=""> {{ description }}</p>
+        <p class="my-4" style="">{{ description }}</p>
       </b-modal>
     </div>
   </label>
@@ -29,24 +34,20 @@ export default {
   data() {
     return {
       confirm: -1,
-      picked:'',
+      picked: '',
     };
   },
-  mounted() {
-    // $('input[name=imageRadio]').attr('value',this.idx);
-  },
+
   methods: {
     openDetail() {
-      //this.confirm = this.idx;
       this.$refs['detail'].show();
     },
     closeDetail() {
       this.confirm = -1;
-      //   $bvModal.hide('idx');
     },
-    clickItem(){
+    clickItem() {
       this.$emit('selectItem', this.idx);
-    }
+    },
   },
 };
 </script>
@@ -64,7 +65,6 @@ export default {
   cursor: pointer;
   width: 300px;
   height: 350px;
-  /* outline: 1px solid rgb(14, 12, 12); */
   margin-left: 10px;
   margin-right: 10px;
   background-color: white;
@@ -73,7 +73,6 @@ export default {
 
 /* CHECKED STYLES */
 [type='radio']:checked + div#img {
-  /* border: 2px solid #f00; */
   border: 2px solid #6c757d;
   background-color: #f8f9fa;
 }

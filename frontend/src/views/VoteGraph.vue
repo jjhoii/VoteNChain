@@ -67,9 +67,7 @@ export default {
   },
   async created() {
     // 오류 발생 임시 주석 처리
-    // google.charts.load("current", { packages: ["corechart"] });
-    // google.charts.setOnLoadCallback(this.drawChart());
-    // this.getData(113);
+
     await this.getContractAddress();
   },
   methods: {
@@ -87,7 +85,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      // console.log("false");
       this.$store.state.loading.enabled = false;
     },
 

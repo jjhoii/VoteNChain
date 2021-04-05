@@ -1,30 +1,13 @@
 <template>
   <div class="votemake-container">
     <HNavGray />
-    <!-- <div class="votemake-content1">
-      <h2>Page1</h2>
-      <div><strong> 투표 제목</strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div><strong> 투표 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div><strong> 투표 투표종류</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <h2>Page2</h2>
-      <div><strong> 항목명 </strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div v-show="false"><strong> 항목 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div ><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>  
-    </div> -->
     <form class="votemake-content2">
-      <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
-        <!-- <div class="votemake-content"> -->
         <div class="container-sm">
-          <!-- <div class="mb-3 container-sm"> -->
           <div class="mb-3">
             <div class="">
               <h2 class="votemake-content2-title">Vote Make</h2>
               <div class="input-group input-group-lg">
-                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
-                  >투표 제목</span>         -->
                 <input
                   type="text"
                   class="form-control"
@@ -35,17 +18,7 @@
                 />
               </div>
               <br />
-              <!-- <b-form-file
-                  v-model="fileId"
-                  ref="file"
-                  type="file"
-                  placeholder="첨부파일 없음"
-                  drop-placeholder="Drop file here..."
-                  required
-                  accept=".jpg, .png, .gif"
-                  @change="previewImage"
-                  style="width: 70%"
-            ></b-form-file> -->
+
               Main Image
               <br />
 
@@ -59,9 +32,6 @@
               <img id="previewimage" :src="previewImageData" />
 
               <div class="input-group input-group-lg">
-                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
-                  >투표 내용</span
-                > -->
                 <textarea
                   class="form-control"
                   aria-label="Sizing example input"
@@ -72,18 +42,6 @@
               </div>
             </div>
           </div>
-          <!-- <fieldset class="row mb-3 alien-center">
-            <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
-            <div class="col-sm-10">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="button" style="width: 80px;">단일</button>
-                <button type="button" class="btn btn-secondary">중복</button>
-                <button type="button" class="btn btn-secondary">
-                  가중치
-                </button> 
-              </div>
-            </div>
-          </fieldset> -->
 
           <div style="margin-bottom: 15px">
             <button
@@ -103,7 +61,6 @@
                 v-for="(list, index) in voteList"
                 :key="list.idx"
                 :index="index"
-                @changed="changed"
                 @deleteIndex="deleteIndex"
                 :list="list"
               >
@@ -122,7 +79,6 @@
               <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
           </div>
-          <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
           <b-modal
             ref="url"
             title="투표 링크"
@@ -158,10 +114,6 @@
               style="margin-left:210px;margin-top:30px"
               >닫기</b-button
             >
-            <!-- <div>
-                  <textarea v-model="myInput"></textarea>
-                  <button type="button" @click="doCopy">Copy!</button>
-                </div> -->
           </b-modal>
           <div style="margin-top: 15px">
             <button
@@ -172,18 +124,6 @@
             >
               제출
             </button>
-            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
-                > 제출
-              </button>-->
-            <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
-            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
-              <span
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Loading...</span>
-            </button> -->
           </div>
         </div>
       </div>
@@ -250,9 +190,6 @@ export default {
     };
   },
   created() {
-    // Utils.createAccount().then((rs) => {
-    //   this.sendData();
-    // });
     this.endDate = this.setDate();
   },
   methods: {
@@ -286,7 +223,6 @@ export default {
     },
     async sendData() {
       // send test data to contract
-      // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
 
       this.loading = false;
       const dat = {
@@ -297,34 +233,14 @@ export default {
         bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
-        // endedAt: Date.now() + 600 * 1000, // 5분 뒤
         endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 24시간 뒤
-        // items: [
-        //   {
-        //     title: "Title1",
-        //     description: "Desc1",
-        //     imagePath:
-        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-        //     count: 0, // dummy data.
-        //   },
-        //   {
-        //     title: "Title2",
-        //     description: "Desc2",
-        //     imagePath:
-        //       "https://cdn.pixabay.com/photo/2021/03/26/19/05/flamingo-6126763_960_720.jpg",
-        //     count: 0,
-        //   },
-        // ],
 
         items: this.voteList,
       };
 
       // send data
-      // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
       console.log(dat);
-      // console.log("ㅋㄴㅋ");
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
-      // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
         'send complete: ',
@@ -394,7 +310,6 @@ export default {
     },
     createVote() {
       if (!this.validationCheck()) {
-        // alert('입력을 확인해주세요.');
         return;
       }
 
@@ -416,13 +331,11 @@ export default {
               },
             })
             .then((response) => {
-              //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               console.log('gdg');
               this.voteUrl =
                 'https://votenchain.tk/votepage/' + response.data.hashKey;
               this.hashKey = response.data.hashKey;
               this.$refs['url'].show();
-              //this.$router.replace("/votepage/" + response.data.hashKey);
             })
             .catch(function(error) {
               console.log(error);
@@ -436,7 +349,6 @@ export default {
     },
 
     AddSubject() {
-      // this.voteList.val.push(this.vote);
       this.voteList.push({
         title: '',
         description: '',
@@ -447,10 +359,6 @@ export default {
       console.log(this.voteList);
     },
 
-    changed() {
-      // console.log("인덱스",)
-      // console.log(this.voteList);
-    },
     deleteIndex(index) {
       console.log('인덱스', index);
       this.voteList.splice(index, 1);
@@ -490,25 +398,8 @@ export default {
     moveToVotePage() {
       window.open('/votepage/' + this.hashKey, '_blank');
       this.$router.replace('/');
-      //this.$router.replace("/votepage/" + this.hashKey);
     },
     copy() {
-      // var url = "https://votenchain.tk/votepage/" +this.hashKey
-      // window.ClipboardData.setData("Text",url);
-      // alert("복사되었습니다.");
-
-      // var obShareUrl = document.getElementById("ShareUrl");
-      // obShareUrl.value = "https://votenchain.tk/votepage/" +this.hashKey  // 현재 URL 을 세팅해 줍니다.
-      // obShareUrl.select();  // 해당 값이 선택되도록 select() 합니다
-      // document.execCommand("copy"); // 클립보드에 복사합니다.
-      // obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿈니다.
-      // alert("URL이 클립보드에 복사되었습니다");
-
-      //  var copyText = "https://votenchain.tk/votepage/";
-      // copyText.select();
-      // document.execCommand("copy");
-      // alert("복사된 문자열: " + copyText.value);
-
       var tempElem = document.createElement('textarea');
       tempElem.value = 'I am copied text!';
       document.body.appendChild(tempElem);
@@ -524,7 +415,6 @@ export default {
     },
     copyToClipboard(val) {
       const copyText = document.getElementById('myInput');
-      //  const copyText = "https://votenchain.tk/votepage/" +this.hashKey;
       copyText.select();
       document.execCommand('copy');
       alert(copyText.value + '을 복사했습니다.');

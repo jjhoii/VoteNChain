@@ -10,7 +10,9 @@
       </div>
 
       <div class="navbargray-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')">Login</span>
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+          >Login</span
+        >
         <span v-if="login" @click="clearToken">Logout</span>
         <b-modal
           id="bv-modal-example"
@@ -23,7 +25,6 @@
           <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
             <kakaoLogin />
-            <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
           </div>
           <b-button
             class="mt-3"
@@ -80,37 +81,20 @@ export default {
         scope.$router.push('/');
       });
     },
-    onSuccess(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-      // console.log('access_token' + googleUser.wc.access_token);
-
-      const user = {
-        userEmail: profile.getEmail(),
-        userName: profile.getName(),
-        logintype: 'google',
-        privateKey: '123123',
-      };
-      console.log('시작');
-      console.log(user.userEmail);
-      console.log(user.userName);
-      console.log(user.logintype);
-      this.$store.dispatch('userStore/getSocialUserinfo', user);
-    },
-    clearToken(){
+    clearToken() {
       localStorage.clear();
-      window.location.href='/'
+      window.location.href = '/';
+    },
+    clearToken() {
+      localStorage.clear();
+      window.location.href = '/';
+    },
+  },
+  created() {
+    if (localStorage.getItem('access_token') != undefined) {
+      this.login = true;
     }
   },
-  created(){
-
-    if (localStorage.getItem('access_token') != undefined) {
-        this.login = true
-    }
-  }
 };
 </script>
 
