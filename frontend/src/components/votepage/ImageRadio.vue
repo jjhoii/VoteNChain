@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="radio" name="test" value="small" />
+    <input type="radio" name="imageRadio" value="idx" v-model="picked" @click="clickItem"/>
     <div id="img" style="margin-bottom:20px">
       <h2 style="margin-left:30px;">{{ idx + 1 }} . {{ title }}</h2>
       <img
@@ -17,7 +17,7 @@
       >
 
       <b-modal ref="detail" title="상세보기">
-        <p class="my-4">description: {{ description }}</p>
+        <p class="my-4" style="">description: {{ description }}</p>
       </b-modal>
     </div>
   </label>
@@ -29,7 +29,11 @@ export default {
   data() {
     return {
       confirm: -1,
+      picked:'',
     };
+  },
+  mounted() {
+    // $('input[name=imageRadio]').attr('value',this.idx);
   },
   methods: {
     openDetail() {
@@ -40,6 +44,9 @@ export default {
       this.confirm = -1;
       //   $bvModal.hide('idx');
     },
+    clickItem(){
+      this.$emit('selectItem', this.idx);
+    }
   },
 };
 </script>

@@ -1,13 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userStore from '@/store/modules/userStore.js'
+import loading from '@/store/modules/loading.js'
+
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-      modules: {
-        userStore: userStore,
-      }
+
+  modules: {
+    userStore: userStore,
+    loading: loading,
+  }
 })
 
 export default store

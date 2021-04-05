@@ -37,7 +37,7 @@ public class UserController {
 		HttpStatus status = null;
 		String email = userDto.getUserEmail();
 		System.out.println("checkUser / email : " + userDto.getUserEmail());
-		System.out.println("checkUser / key : " + userDto.getPrivateKey());
+		System.out.println("checkUser / key : " + userDto.getAccount());
 		try {
 			// 이메일 중복 검사
 			boolean userExists = userService.selectUserEmail(userDto);
@@ -46,6 +46,9 @@ public class UserController {
 			if (userExists) { // 이메일 있음 : 이미 가입된 경우.
 				String token = jwtService.create("userEmail", email, "access-token");
 				resultMap.put("access-token", token);
+				
+				String userAccount = userService.selectUserAccount(userDto).getAccount();
+				resultMap.put("userAccount", userAccount);
 				resultMap.put("message", "success");
 				status = HttpStatus.ACCEPTED;
 			} else { // 이메일 없음 : 신규 가입.
@@ -66,7 +69,7 @@ public class UserController {
 		HttpStatus status = null;
 
 		System.out.println("signup / email : " + userDto.getUserEmail());
-		System.out.println("signup / key : " + userDto.getPrivateKey());
+		System.out.println("signup / key : " + userDto.getAccount());
 		try {
 			userService.insertUser(userDto);
 			resultMap.put("message", "success");

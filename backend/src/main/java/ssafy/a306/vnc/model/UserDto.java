@@ -12,24 +12,21 @@ public class UserDto {
 	private Long userIdx;
 	private String userEmail;
 	private String userName;
-	private String loginType;
-	private String privateKey;
+	private String account;
 
 	@Builder
-	public UserDto(Long userIdx,String userEmail, String userName, String loginType, String privateKey) {
+	public UserDto(Long userIdx,String userEmail, String userName, String account) {
 		this.userIdx=userIdx;
 		this.userEmail = userEmail;
 		this.userName = userName;
-		this.loginType = loginType;
-		this.privateKey = privateKey;
+		this.account = account;
 	}
 
 	public UserVo toEntity(){
 		return UserVo.builder()
 				.userName(userName)
 				.userEmail(userEmail)
-				.privateKey(privateKey)
-				.loginType(loginType)
+				.account(account)
 				.build();
 	}
 }

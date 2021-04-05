@@ -1,34 +1,44 @@
 <template>
   <div>
+    <HNavGray />
     <div class="graph-container">
-      <div class="graph-content">
+      <div class="graph-content1">
+        <strong
+          >Reliable <br />
+          Vote.</strong
+        >
+        <h3>신뢰성있는 투표일까?</h3>
+        <p>
+          블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
+          경험해보세요!
+        </p>
+      </div>
+      <div class="graph-content2">
         <h1>{{ mainTitle }}</h1>
-        <h1>메인 제목</h1>
+        <!-- <h1>메인 제목</h1> -->
         <img :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
         <p>
           {{ mainDescription }}
         </p>
-        <p>
-          메인내용
-        </p>
-
+        <!-- <p>메인내용</p> -->
+        <b-button>참가자 목록</b-button>
         <GChart type="PieChart" :data="chartData" :options="chartOptions" />
-
-        <div>
-          <b-button>참가자 목록</b-button>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import HNavGray from '@/components/common/HNavGray';
 import { GChart } from 'vue-google-charts';
 import { Utils } from '@/utils/index.js';
-
+import axios from 'axios';
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
     GChart,
+    HNavGray,
+    axios,
   },
   data() {
     return {
@@ -39,11 +49,11 @@ export default {
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ['Key', 'Value'],
-        ['2014', 1000],
-        ['2015', 1170],
-        ['2016', 660],
-        ['2017', 1030],
+        ['Year', 'Sales', 'Expenses', 'Profit'],
+        ['2014', 1000, 500, 200],
+        ['2015', 1170, 460, 250],
+        ['2016', 660, 1120, 300],
+        ['2017', 1030, 540, 350],
       ],
       chartOptions: {
         chart: {
@@ -53,26 +63,43 @@ export default {
       },
     };
   },
-  created() {
+  async created() {
     // 오류 발생 임시 주석 처리
     // google.charts.load("current", { packages: ["corechart"] });
     // google.charts.setOnLoadCallback(this.drawChart());
-    this.getData(113);
+    // this.getData(113);
+    await this.getContractAddress();
   },
   methods: {
-    async getData(idx) {
-      this.web3 = Utils.web3;
-      const contract = Utils.contract;
+    async getContractAddress() {
+      // console.log("true");
+      this.$store.state.loading.enabled = true;
+      try {
+        const res = await axios.get(`${SERVER_URL}/vote/read`, {
+          params: { hashKey: this.$route.params.hashKey },
+        });
+        const idx = res.data.vote.contractAddress * 1;
+        await this.getData(idx);
 
+        this.n = idx;
+      } catch (err) {
+        console.log(err);
+      }
+      // console.log("false");
+      this.$store.state.loading.enabled = false;
+    },
+
+    async getData(idx) {
       // get vote data
-      const rs = await contract.methods.getVote(idx).call();
+      this.$store.state.loading.enabled = true;
+      const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
 
       // set data
       this.mainTitle = rs.title;
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
-
+      this.imageExist = rs.bImageExist;
       // set chart
       this.chartData = [['Key', 'Value']];
       rs.items.forEach((el) => {
@@ -82,6 +109,7 @@ export default {
 
       // load complete
       this.loaded = true;
+      this.$store.state.loading.enabled = false;
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
@@ -102,6 +130,18 @@ export default {
       );
       chart.draw(data, options);
     },
+    async getContractAddress() {
+      try {
+        const res = await axios.get(`${SERVER_URL}/vote/read`, {
+          params: { hashKey: this.$route.params.hashKey },
+        });
+        const idx = res.data.vote.contractAddress * 1;
+        await this.getData(idx);
+        this.n = idx;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 </script>
@@ -113,10 +153,33 @@ export default {
   padding-left: 3rem;
   height: 100vh;
   display: flex;
-  justify-content: center;
-  background: gray;
+  justify-content: flex-end;
+  background: #f9f9f9;
+  position: relative;
 }
-.graph-content {
+
+.graph-content1 strong {
+  position: absolute;
+  font-size: 120px;
+  left: 10%;
+  top: 10%;
+  line-height: 1.25em;
+}
+.graph-content1 h3 {
+  position: absolute;
+  font-size: 30px;
+  left: 10%;
+  top: 55%;
+  font-weight: 700;
+}
+.graph-content1 p {
+  position: absolute;
+  font-size: 20px;
+  left: 10%;
+  top: 65%;
+  z-index: 99;
+}
+.graph-content2 {
   text-align: center;
   width: 65%;
   background: #e9ecef;

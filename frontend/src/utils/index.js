@@ -9,7 +9,7 @@ export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
 
-    constructor() {}
+    constructor() { }
 
     // 회원가입 시 실행
     static async createAccount() {
@@ -19,6 +19,7 @@ export class Utils {
         const account = await web3.eth.personal.newAccount("ethereum") // temp password: ethereum
         console.log("account: ", account);
         console.log("created!")
+
         localStorage.myData = JSON.stringify({
             address: account
         })
@@ -45,7 +46,7 @@ export class Utils {
 
         if (currentBalance < ether) {
             const rs = await web3.eth.sendTransaction({
-                from: "0xb5d166cc0d82bac74364f17d8977536abac711c6", // main miner. unlocked.
+                from: "0x85f87a4c6aa4b40f2c7fbb5cad924c749c65ba15", // main miner. unlocked.
                 to: JSON.parse(localStorage.myData).address,
                 value: ether
             })
@@ -53,6 +54,14 @@ export class Utils {
             return true;
         }
         return false;
+    }
+
+    static async call(method, args) {
+        console.log("call start")
+        const account = JSON.parse(localStorage.myData).address;
+        const rs = await method(...args).call();
+        console.log("call end");
+        return rs;
     }
 
     // 노드에서 계정을 관리할 경우

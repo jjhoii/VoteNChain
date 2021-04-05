@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="navbar">
-      <div class="navbar-icon">
-        <img src="../../../public/images/votelogo2.png" @click="gohome" />
+    <div class="navbargray">
+      <div class="navbargray-icon">
+        <img src="../../../public/images/votelogo.png" @click="gohome" />
       </div>
 
-      <div class="navbar-title">
-        <span>Vote & Chain</span>
+      <div class="navbargray-title">
+        <span @click="gohome">Vote & Chain</span>
       </div>
 
-      <div class="navbar-list">
+      <div class="navbargray-list">
         <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
         <b-modal
@@ -21,6 +21,7 @@
           <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
             <kakaoLogin />
+            <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
           </div>
           <b-button
             class="mt-3"
@@ -38,11 +39,10 @@
 </template>
 
 <script>
-import Spinner from '@/components/common/Spinner.vue';
 import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import Spinner from '@/components/common/Spinner.vue';
 
 const cid = process.env.VUE_APP_CLIENT_ID;
-
 export default {
   components: {
     kakaoLogin,
@@ -50,7 +50,6 @@ export default {
   },
   data() {
     return {
-      // loding:false,
       user: {
         email: '',
         password: '',
@@ -65,30 +64,46 @@ export default {
       },
     };
   },
-
   methods: {
     gohome() {
       this.$router.push('/');
     },
     kakaoLogin() {
       const scope = this;
-      this.$store.state.loading.enabled = true;
-      login(this.user.email, this.user.password, (response) => {
+
+      login(this.user.email, this.user.password, function(response) {
         scope.$store.commit('setIsSigned', true);
         scope.$store.commit('setUserId', response.data.id);
-        // this.$store.state.loading.enabled = false;
-        console.log('test');
-        console.log(this);
-
         scope.$router.push('/');
       });
+    },
+    onSuccess(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      // console.log('access_token' + googleUser.wc.access_token);
+
+      const user = {
+        userEmail: profile.getEmail(),
+        userName: profile.getName(),
+        logintype: 'google',
+        privateKey: '123123',
+      };
+      console.log('시작');
+      console.log(user.userEmail);
+      console.log(user.userName);
+      console.log(user.logintype);
+      this.$store.dispatch('userStore/getSocialUserinfo', user);
     },
   },
 };
 </script>
 
 <style>
-.navbar {
+.navbargray {
+  background: #f9f9f9;
   z-index: 99;
   display: flex;
   height: 100px;
@@ -97,25 +112,25 @@ export default {
   top: 0;
   position: fixed !important;
 }
-.navbar-icon {
+.navbargray-icon {
   width: 8%;
   height: 100px;
 }
-.navbar-icon img {
+.navbargray-icon img {
   height: 100px;
 }
-.navbar-title {
-  width: 35%;
+.navbargray-title {
+  width: 40%;
   height: 100px;
   display: flex;
   align-items: center;
 }
-.navbar-title span {
+.navbargray-title span {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  color: #fff;
+  color: #000;
   font-size: 35px;
 }
-.navbar-list {
+.navbargray-list {
   width: 50%;
   height: 100%;
 
@@ -123,8 +138,8 @@ export default {
   align-items: center;
   justify-content: flex-end;
 }
-.navbar-list span {
-  color: #fff;
+.navbargray-list span {
+  color: #000;
   font-size: 25px;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;

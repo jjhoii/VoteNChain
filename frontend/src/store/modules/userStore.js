@@ -1,77 +1,62 @@
-import axios from "axios"
-import router from "@/router/index.js"
+import axios from "axios";
+import router from "@/router/index.js";
+import { Utils } from "@/utils/index.js";
 //import {requestJoinMember, setSnackBarInfo, requestUpdateMember,
 //        requestDeleteMember,} from "@/apis/accounts_api.js"
 // requestMemberInfo,
 
-const SERVER_URL="http://localhost:8080";
+const SERVER_URL = "http://localhost:8080";
 
-const userStore={
-    namespaced:true,
+const userStore = {
+  namespaced: true,
 
-    state:{
-        isLogined:false,
-        user:{
-            userIdx:"",
-            userEmail:"",
-            userName:"",
-            logintype:"",
-            privateKey:"",
-        },
+  state: {
+    isLogined: false,
+    user: {
+      userIdx: "",
+      userEmail: "",
+      userName: "",
+      account: "",
     },
-    mutations:{
-
-        setUserinfo(state,payload){
-            console.log("진입");
-            console.log(payload);
-            state.isLogined=true;
-            state.user.userIdx = payload.userIdx;
-            state.user.userEmail = payload.userEmail;
-            state.user.userName = payload.userName;
-            state.user.logintype=payload.loginType;
-            state.user.privateKey=payload.privateKey;
-            //state.user.userIdx=payload["user"].userIdx;
-            //state.user.userEmail=payload["user"].userEmail;
-            //state.user.userName=payload["user"].userName;
-            //state.user.logintype=payload["user"].loginType;
-            //state.user.privateKey=payload["user"].privateKey;
-           // localStorage.setItem("uid",payload["user"].uid);
-        },
-        logout(state){
-            state.accessToken = null;
-            state.user.userIdx = "";
-            state.user.userEmail = "";
-            state.user.userName= "";
-            state.user.loginType= "";
-            state.user.privateKey= "";
-        },
+  },
+  mutations: {
+    setUserinfo(state, payload) {
+      console.log("진입");
+      console.log(payload);
+      state.isLogined = true;
+      state.user.userIdx = payload.userIdx;
+      state.user.userEmail = payload.userEmail;
+      state.user.userName = payload.userName;
+      state.user.account = payload.account;
+      //state.user.userIdx=payload["user"].userIdx;
+      //state.user.userEmail=payload["user"].userEmail;
+      //state.user.userName=payload["user"].userName;
+      //state.user.logintype=payload["user"].loginType;
+      //state.user.privateKey=payload["user"].privateKey;
+      // localStorage.setItem("uid",payload["user"].uid);
     },
+  },
 
-    getters:{
-        getIsLogined(state){
-            return state.isLogined;
-        },
-        getUserId(state) {
-            return state.user.userIdx
-        },
-        getEmail(state){
-            return state.user.userEmail;
-        },
-        getUsername(state){
-            return state.user.userName;
-        },
-        getLogintype(state){
-            return state.user.logintype;
-        },
-        getPhone(state){
-            return state.user.privateKey;
-        },
-
+  getters: {
+    getIsLogined(state) {
+      return state.isLogined;
     },
+    getUserId(state) {
+      return state.user.userIdx;
+    },
+    getEmail(state) {
+      return state.user.userEmail;
+    },
+    getUsername(state) {
+      return state.user.userName;
+    },
+    getPhone(state) {
+      return state.user.account;
+    },
+  },
 
-    actions:{
-
-       /* inserttest(context, user){
+  actions: {
+    /* inserttest(context, user){
             console.log("잘 들어 오니??")
             console.log(user.userEmail);
             console.log(user.userName);
@@ -95,8 +80,8 @@ const userStore={
                 console.log(error);
             })
         },*/
-        //로그인성공시 토큰 정보 받기
-        /*login(context,user){
+    //로그인성공시 토큰 정보 받기
+    /*login(context,user){
             axios({
                 method: "post",
                 url: `${SERVER_URL}/user/login`,
@@ -117,8 +102,8 @@ const userStore={
           })
         },*/
 
-        // 받은 토큰으로 유저 정보 가져오기
-       /* getUserinfo(context){
+    // 받은 토큰으로 유저 정보 가져오기
+    /* getUserinfo(context){
             let token=localStorage.getItem("access_token")
             axios({
                 method: "post",
@@ -130,70 +115,91 @@ const userStore={
             })
         },*/
 
-        getSocialUserinfo(context,user){
-            const self = this;
-            axios({
-                method:"post",
-                url:`${SERVER_URL}/user/checkUser`,
-                data: {
-                    userEmail: user.userEmail,
-                    userName: user.userName,
-                    loginType: user.logintype,
-                    privateKey: user.privateKey,
-                }
-              }).then((response)=>{
-                  console.log(response.data["message"]);
-                  if(response.data["message"]=='needSignup'){
-                    console.log("11");
-                    //context.commit("setSocialUser",user);
-                    context.commit("setUserinfo",user);
-                    console.log("2");
-                    context.dispatch("socialSignup",user);
-                    //context.dispatch("getSocialUserinfo",user);
-                    console.log("33");
-                    //alert("자동 회원가입 완료! 초기 비밀번호를 꼭 수정해주세요");
-                    router.push('/');
-                  }
-                  //자동 로그인
-                  else if(response.data["message"]=="success"){ 
-                    localStorage.setItem("access_token", response.data["access-token"])
-                    localStorage.setItem("isLogin", true)
-                    axios.defaults.headers.common["access-token"]=`${response.data["access-token"]}`;
-                    router.push('/');
-                  }
-              }).catch((error)=>{
-                  console.log(error.message)
-              })
+    // async getSocialUserinfo(context, user) {
+    //     try {
+    //         const response = await axios.post({
+    //             method:"post",
+    //             url:`${SERVER_URL}/user/checkUser`,
+    //             data: {
+    //                 userEmail: user.userEmail,
+    //                 userName: user.userName,
+    //                 loginType: user.logintype,
+    //                 privateKey: user.privateKey,
+    //             }
+    //         })
+    //         console.log(response);
+    //     } catch (error){
+    //         console.error(error);
+    //     }
+    // },
+    async getSocialUserinfo(context, user) {
+      const self = this;
+      // const temp = await Utils.createAccount();
+      // console.log(temp);
+      const response = await axios({
+        method: "post",
+        url: `${SERVER_URL}/user/checkUser`,
+        data: {
+          userEmail: user.userEmail,
+          userName: user.userName,
+          account: user.account,
         },
+      });
+      console.log(response.data["message"]);
+      if (response.data["message"] == "needSignup") {
+        console.log(user.account);
+        const resp = await Utils.createAccount();
+        user.account = resp;
+        console.log("account : " + user.account);
+        context.commit("setUserinfo", user);
+        context.dispatch("socialSignup", user);
+      }
+      //자동 로그인
+      else if (response.data["message"] == "success") {
+        localStorage.setItem("access_token", response.data["access-token"]);
+        localStorage.setItem(
+          "myData",
+          JSON.stringify({
+            address: response.data["userAccount"],
+          })
+        );
 
-        socialSignup(context,user){
-            axios({
-                method:"post",
-                url:`${SERVER_URL}/user/signup`,
-                data:{
-                    userEmail: user.userEmail,
-                    userName: user.userName,
-                    loginType: user.logintype,
-                    privateKey: user.privateKey,
-                }
-            }).then((res)=>{
-                context.dispatch("getSocialUserinfo",user);
-            }).catch((error)=>{
-                console.log(error);
-                alert(error.data["message"]);
-            })
-        },
-
-        logout(context){
-            localStorage.clear();
-            context.commit("logout");
-            axios.defaults.headers.common["access-token"] = undefined;
-            router.push('/');
-            window.location.reload();
-        },
+        localStorage.setItem("isLogin", true);
+        axios.defaults.headers.common[
+          "access-token"
+        ] = `${response.data["access-token"]}`;
+      }
     },
 
-        /*async SIGNUP(context, credentials){
+    socialSignup(context, user) {
+      axios({
+        method: "post",
+        url: `${SERVER_URL}/user/signup`,
+        data: {
+          userEmail: user.userEmail,
+          userName: user.userName,
+          account: user.account,
+        },
+      })
+        .then((res) => {
+          context.dispatch("getSocialUserinfo", user);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.data["message"]);
+        });
+    },
+
+    logout(context) {
+      localStorage.clear();
+      context.commit("logout");
+      axios.defaults.headers.common["access-token"] = undefined;
+      router.push("/");
+      window.location.reload();
+    },
+  },
+
+  /*async SIGNUP(context, credentials){
             try {
                 context.commit('START_LOADING')
                 context.commit('START_SPINNER')
@@ -237,5 +243,5 @@ const userStore={
                 context.commit('NOT_ME')
               }
         }, */
-}
-export default userStore
+};
+export default userStore;
