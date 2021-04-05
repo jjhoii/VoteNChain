@@ -186,7 +186,6 @@ export default {
   },
   data() {
     return {
-      startDate: '',
       endDate: '',
       loading: true,
       imageFlag: false,
@@ -227,10 +226,27 @@ export default {
     // Utils.createAccount().then((rs) => {
     //   this.sendData();
     // });
+    this.endDate = this.setDate();
   },
   methods: {
+    setDate() {
+      var date = new Date();
+      var y = date.getUTCFullYear();
+      var m = date.getUTCMonth() + 1;
+      var d = date.getUTCDate();
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (d < 10) {
+        d = '0' + d;
+      }
+      return y + '-' + m + '-' + d;
+    },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
+      console.log(this.endDate);
+      console.log(new Date(this.endDate + 'T24:00:00'));
+      // Date.parse(new Date(this.endDate + 'T24:00:00'));
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -257,7 +273,7 @@ export default {
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         // endedAt: Date.now() + 600 * 1000, // 5분 뒤
-        endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 5분 뒤
+        endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 24시간 뒤
         // items: [
         //   {
         //     title: "Title1",
@@ -366,8 +382,8 @@ export default {
               },
             })
             .then((response) => {
-              //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-              this.$router.replace('/votepage/' + response.data.hashKey);
+              alert('투표 URL : ' + '/votepage/' + response.data.hashKey);
+              // this.$router.replace('/votepage/' + response.data.hashKey);
             })
             .catch(function(error) {
               console.log(error);
