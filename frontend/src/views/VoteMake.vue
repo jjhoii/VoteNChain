@@ -528,8 +528,7 @@ export default {
 .votemake-content2-title {
   font-family: 'Playfair Display', serif;
 }
-.votemake-content2-input {
-}
+
 .button {
   background-color: #343a40;
   border: 2px solid #333;
