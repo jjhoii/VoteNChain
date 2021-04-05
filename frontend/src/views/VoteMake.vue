@@ -221,15 +221,16 @@ export default {
   methods: {
     setDate() {
       var date = new Date();
-      var y = date.getUTCFullYear();
-      var m = date.getUTCMonth() + 1;
-      var d = date.getUTCDate();
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      var d = date.getDate();
       if (m < 10) {
         m = '0' + m;
       }
       if (d < 10) {
         d = '0' + d;
       }
+
       return y + '-' + m + '-' + d;
     },
     changeFlag() {
@@ -435,6 +436,11 @@ export default {
 
         if (this.voteList[i].description == '') {
           alert(i + 1 + '번쨰 투표 설명을 입력해주세요.');
+          return false;
+        }
+
+        if (this.imageFlag && this.voteList[i].imagePath == '') {
+          alert(i + 1 + '번쨰 투표 이미지를 입력해주세요.');
           return false;
         }
       }
