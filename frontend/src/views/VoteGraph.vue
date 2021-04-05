@@ -29,6 +29,7 @@
 </template>
 
 <script>
+// import HNavGray from '@/components/common/HNavGray';
 import HNavGray from '@/components/common/HNavGray';
 import { GChart } from 'vue-google-charts';
 import { Utils } from '@/utils/index.js';
@@ -49,11 +50,11 @@ export default {
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-         ['Element', 'Density', { role: 'style' }, { role: 'annotation' } ],
-         ['Copper', 8.94, '#b87333', 1 ],
-         ['Silver', 10.49, 'silver', 'Ag' ],
-         ['Gold', 19.30, 'gold', 'Au' ],
-         ['Platinum', 21.45, 'color: #e5e4e2', 'Pt' ]
+        ['Element', 'Density', { role: 'style' }, { role: 'annotation' }],
+        ['Copper', 8.94, '#b87333', 1],
+        ['Silver', 10.49, 'silver', 'Ag'],
+        ['Gold', 19.3, 'gold', 'Au'],
+        ['Platinum', 21.45, 'color: #e5e4e2', 'Pt'],
       ],
       chartOptions: {
         chart: {

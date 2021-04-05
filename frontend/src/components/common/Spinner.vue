@@ -28,6 +28,6 @@ export default {
   opacity: 0.5;
   height: 100vh;
   width: 100vw;
-  z-index: 100;
+  z-index: 9999;
 }
 </style>

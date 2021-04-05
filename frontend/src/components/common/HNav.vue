@@ -20,7 +20,6 @@
           @mousedown.stop
           no-close-on-backdrop
           no-close-on-esc
-          style="z-index:50;"
         >
           <template #modal-title>LOGIN</template>
           <div style="text-align:center; font-family:sans-serif;">
