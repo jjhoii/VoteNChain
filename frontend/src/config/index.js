@@ -1,4 +1,4 @@
-export const contractAddress = "0x37226C95616b33D0f6b40d6A721BB5E0bFFaF9A1";
+export const contractAddress = "0x89BBf07dF62749663c92818ed852f73CdC610589";
 
 export const abi = require("../build/contracts/VoteManager.json").abi;
 

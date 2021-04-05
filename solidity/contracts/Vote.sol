@@ -54,7 +54,7 @@ contract VoteManager {
     }
 
     function voteTo(uint256 idx, uint256 itemId) public sizeAvailable(idx) {
-        votes[idx].voteTo(itemId);
+        votes[idx].voteTo(itemId, msg.sender);
     }
 
     function isVoteEnd(uint256 idx)
@@ -67,7 +67,7 @@ contract VoteManager {
     }
 
     function isVote(uint256 idx) public view sizeAvailable(idx) returns (bool) {
-        return votes[idx].isVote();
+        return votes[idx].isVote(msg.sender);
     }
 }
 
@@ -93,11 +93,11 @@ contract Vote is Ownable {
         }
     }
 
-    function voteTo(uint256 itemId) public {
+    function voteTo(uint256 itemId, address _from) public {
         require(itemId < data.items.length, "Index not available");
         require(block.timestamp < data.endedAt, "Vote ended");
-        require(addressIsVote[msg.sender] != true, "Already voted");
-        addressIsVote[msg.sender] = true;
+        require(addressIsVote[_from] != true, "Already voted");
+        addressIsVote[_from] = true;
 
         data.items[itemId].count++;
 
@@ -109,8 +109,8 @@ contract Vote is Ownable {
         return false;
     }
 
-    function isVote() public view returns (bool) {
-        if (addressIsVote[msg.sender] != true) return false;
+    function isVote(address _from) public view returns (bool) {
+        if (addressIsVote[_from] != true) return false;
         return true;
     }
 
