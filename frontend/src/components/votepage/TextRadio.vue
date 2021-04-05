@@ -1,6 +1,6 @@
 <template>
   <label>
-    <input type="radio" name="textRadio" value="idx" v-model="idx"/>
+    <input type="radio" name="textRadio" value="idx" @click="clickItem"/>
     <div id="txt">
       <span style="margin-left:10px;font-size:30px"
         >{{ idx + 1 }} . {{ title }}</span
@@ -38,6 +38,9 @@ export default {
       this.confirm = -1;
       //   $bvModal.hide('idx');
     },
+    clickItem(){
+      this.$emit('selectItem', this.idx);
+    }
   },
 };
 </script>

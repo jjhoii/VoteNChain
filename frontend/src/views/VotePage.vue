@@ -90,6 +90,7 @@
             :idx="idx"
             :title="item.title"
             :description="item.description"
+            v-on:selectItem="selectItem"
           />
         </div>
       </div>
