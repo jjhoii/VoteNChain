@@ -48,7 +48,7 @@
             ></b-form-file> -->
               Main Image
               <br />
-              
+
               <input
                 id="upload-image"
                 ref="file"
@@ -94,8 +94,6 @@
             >
               항목 / 이미지 투표 전환
             </button>
-
-            
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -125,17 +123,46 @@
             </div>
           </div>
           <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
-            <b-modal ref="url" title="투표 링크" id="modal-1" no-close-on-backdrop hide-footer hide-header>
-                <h3>투표 링크</h3>
-                <a @click="moveToVotePage" href="" style="font-size:20px;margin-left:0px;margin-top:0px;margin-bottom:0px">{{voteUrl}}</a>
-                  <input type="text" id='myInput' v-model="voteUrl"  readonly style="width:300px;margin-left:30px"/>
-                  <b-button variant="outline-secondary" id="copy_button" @click="copyToClipboard('myInput')" >링크 복사</b-button>
-                  <b-button  pill variant="outline-secondary"  @click="moveToPage()" style="margin-left:210px;margin-top:30px">닫기</b-button>
-                <!-- <div>
+          <b-modal
+            ref="url"
+            title="투표 링크"
+            id="modal-1"
+            no-close-on-backdrop
+            hide-footer
+            hide-header
+          >
+            <h3>투표 링크</h3>
+            <a
+              @click="moveToVotePage"
+              href=""
+              style="font-size:20px;margin-left:0px;margin-top:0px;margin-bottom:0px"
+              >{{ voteUrl }}</a
+            >
+            <input
+              type="text"
+              id="myInput"
+              v-model="voteUrl"
+              readonly
+              style="width:300px;margin-left:30px"
+            />
+            <b-button
+              variant="outline-secondary"
+              id="copy_button"
+              @click="copyToClipboard('myInput')"
+              >링크 복사</b-button
+            >
+            <b-button
+              pill
+              variant="outline-secondary"
+              @click="moveToPage()"
+              style="margin-left:210px;margin-top:30px"
+              >닫기</b-button
+            >
+            <!-- <div>
                   <textarea v-model="myInput"></textarea>
                   <button type="button" @click="doCopy">Copy!</button>
                 </div> -->
-              </b-modal>
+          </b-modal>
           <div style="margin-top: 15px">
             <button
               @click="createVote()"
@@ -148,8 +175,8 @@
             <!-- <button class="btn btn-secondary" type="button" disabled v-else>
                 > 제출
               </button>-->
-              <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
-              <!-- <button class="btn btn-secondary" type="button" disabled v-else>
+            <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
+            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
@@ -165,12 +192,12 @@
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import axios from "axios";
-import { Utils } from "@/utils/index.js";
-import VoteWritten from "@/components/votemake/VoteWritten";
-import VoteImage from "@/components/votemake/VoteImage";
-import AWS from "aws-sdk";
+import HNavGray from '@/components/common/HNavGray';
+import axios from 'axios';
+import { Utils } from '@/utils/index.js';
+import VoteWritten from '@/components/votemake/VoteWritten';
+import VoteImage from '@/components/votemake/VoteImage';
+import AWS from 'aws-sdk';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
@@ -182,13 +209,13 @@ export default {
   },
   data() {
     return {
-      endDate: "",
+      endDate: '',
       loading: true,
       imageFlag: false,
       isPublic: 1,
-      title: "",
-      description: "",
-      previewImageData: "",
+      title: '',
+      description: '',
+      previewImageData: '',
       ImageCheck: false,
       WrittenCheck: true,
       VoteWrittenCnt: 1,
@@ -196,30 +223,30 @@ export default {
       fileId: null,
       voteList: [
         {
-          idx: "",
-          title: "",
-          description: "",
-          imagePath: "",
+          idx: '',
+          title: '',
+          description: '',
+          imagePath: '',
           count: 0,
         },
       ],
       idxCount: 0,
 
-      voteTitle: "",
+      voteTitle: '',
       mainImage: null,
-      mainImagePath: "",
-      mainDescription: "",
+      mainImagePath: '',
+      mainDescription: '',
 
-      bucketName: "vncbucket",
-      bucketRegion: "ap-northeast-2",
-      IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
+      bucketName: 'vncbucket',
+      bucketRegion: 'ap-northeast-2',
+      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
 
       contentData1: true,
       contentData2: false,
 
-      voteUrl:'https://votenchain.tk/votepage/',
-      hashKey:'',
-      myInput:'',
+      voteUrl: 'https://votenchain.tk/votepage/',
+      hashKey: '',
+      myInput: '',
     };
   },
   created() {
@@ -231,16 +258,17 @@ export default {
   methods: {
     setDate() {
       var date = new Date();
-      var y = date.getUTCFullYear();
-      var m = date.getUTCMonth() + 1;
-      var d = date.getUTCDate();
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      var d = date.getDate();
       if (m < 10) {
-        m = "0" + m;
+        m = '0' + m;
       }
       if (d < 10) {
-        d = "0" + d;
+        d = '0' + d;
       }
-      return y + "-" + m + "-" + d;
+
+      return y + '-' + m + '-' + d;
     },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
@@ -254,7 +282,7 @@ export default {
       console.log(rs);
     },
     sendCallback(data) {
-      console.log("result!!: ", data);
+      console.log('result!!: ', data);
     },
     async sendData() {
       // send test data to contract
@@ -270,7 +298,7 @@ export default {
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         // endedAt: Date.now() + 600 * 1000, // 5분 뒤
-        endedAt: Date.parse(new Date(this.endDate + "T24:00:00")), // 24시간 뒤
+        endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 24시간 뒤
         // items: [
         //   {
         //     title: "Title1",
@@ -299,7 +327,7 @@ export default {
       // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
-        "send complete: ",
+        'send complete: ',
         rs,
         parseInt(rs.events.VoteCreated.raw.data)
       );
@@ -308,7 +336,7 @@ export default {
     },
     uploadImage() {
       this.mainImage = this.$refs.file.files[0];
-      console.log(this.mainImage, "파일 업로드");
+      console.log(this.mainImage, '파일 업로드');
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -318,14 +346,14 @@ export default {
       });
 
       var s3 = new AWS.S3({
-        apiVersion: "2006-03-01",
+        apiVersion: '2006-03-01',
         params: {
           Bucket: this.bucketName,
         },
       });
 
       let imageName = this.mainImage.name;
-      let imageKey = "images/" + Date.now().toString() + "_" + imageName;
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName;
 
       console.log(imageKey);
 
@@ -333,14 +361,14 @@ export default {
         {
           Key: imageKey,
           Body: this.mainImage,
-          ACL: "public-read",
+          ACL: 'public-read',
         },
         (err, data) => {
           if (err) {
             console.log(err);
           } else {
             this.mainImagePath = data.Location;
-            console.log("mainImagePath : " + this.mainImagePath);
+            console.log('mainImagePath : ' + this.mainImagePath);
           }
         }
       );
@@ -354,15 +382,15 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log("uploadImage start");
+        console.log('uploadImage start');
         this.uploadImage();
-        console.log("uploadImage end");
+        console.log('uploadImage end');
       } else {
         this.previewImageData = null;
       }
 
-      document.getElementById("previewimage").style =
-        "width:200px; height:200px";
+      document.getElementById('previewimage').style =
+        'width:200px; height:200px';
     },
     createVote() {
       if (!this.validationCheck()) {
@@ -383,16 +411,17 @@ export default {
           axios
             .post(`${SERVER_URL}/vote/create`, this.form, {
               headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset = utf-8",
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json; charset = utf-8',
               },
             })
             .then((response) => {
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-              console.log("gdg");
-              this.voteUrl = 'https://votenchain.tk/votepage/' + response.data.hashKey;
+              console.log('gdg');
+              this.voteUrl =
+                'https://votenchain.tk/votepage/' + response.data.hashKey;
               this.hashKey = response.data.hashKey;
-              this.$refs["url"].show();
+              this.$refs['url'].show();
               //this.$router.replace("/votepage/" + response.data.hashKey);
             })
             .catch(function(error) {
@@ -409,9 +438,9 @@ export default {
     AddSubject() {
       // this.voteList.val.push(this.vote);
       this.voteList.push({
-        title: "",
-        description: "",
-        imagePath: "",
+        title: '',
+        description: '',
+        imagePath: '',
         count: 0,
         idx: this.idxCount++,
       });
@@ -423,7 +452,7 @@ export default {
       // console.log(this.voteList);
     },
     deleteIndex(index) {
-      console.log("인덱스", index);
+      console.log('인덱스', index);
       this.voteList.splice(index, 1);
     },
     validationCheck() {
@@ -446,6 +475,11 @@ export default {
 
         if (this.voteList[i].description == '') {
           alert(i + 1 + '번쨰 투표 설명을 입력해주세요.');
+          return false;
+        }
+
+        if (this.imageFlag && this.voteList[i].imagePath == '') {
+          alert(i + 1 + '번쨰 투표 이미지를 입력해주세요.');
           return false;
         }
       }
@@ -479,25 +513,25 @@ export default {
       tempElem.value = 'I am copied text!';
       document.body.appendChild(tempElem);
 
-        tempElem.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempElem);
-        alert("복사");
+      tempElem.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempElem);
+      alert('복사');
     },
-    doCopy(){
+    doCopy() {
       this.$copyText(this.myInput);
-      alert(this.myInput+'을 복사했습니다.');
+      alert(this.myInput + '을 복사했습니다.');
     },
     copyToClipboard(val) {
-      const copyText = document.getElementById("myInput");
+      const copyText = document.getElementById('myInput');
       //  const copyText = "https://votenchain.tk/votepage/" +this.hashKey;
       copyText.select();
       document.execCommand('copy');
       alert(copyText.value + '을 복사했습니다.');
     },
-    moveToPage(){
-      this.$router.replace("/votepage/" + this.hashKey);
-    }
+    moveToPage() {
+      this.$router.replace('/votepage/' + this.hashKey);
+    },
   },
   computed: {
     btnStates() {
@@ -538,17 +572,16 @@ export default {
   padding: 0px 100px 50px 100px;
   width: 100%;
   border-radius: 10px;
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
   line-height: 1.7;
 
   font-weight: 100;
   font-size: 1rem;
 }
 .votemake-content2-title {
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
 }
-.votemake-content2-input {
-}
+
 .button {
   background-color: #343a40;
   border: 2px solid #333;
@@ -562,9 +595,9 @@ export default {
   color: #212529;
 }
 
-#copy_button{
-  height:42px;
-  width:100px;
+#copy_button {
+  height: 42px;
+  width: 100px;
   margin-bottom: 3px;
   margin-left: 10px;
 }

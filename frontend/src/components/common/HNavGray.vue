@@ -17,6 +17,8 @@
           hide-header-close
           hide-footer
           no-close-on-backdrop
+          @mousedown.stop
+          no-close-on-esc
         >
           <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
