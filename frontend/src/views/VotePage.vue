@@ -90,6 +90,7 @@
             :idx="idx"
             :title="item.title"
             :description="item.description"
+            v-on:selectItem="selectItem"
           />
         </div>
       </div>
@@ -156,7 +157,7 @@ export default {
     HNavGray,
     kakaoLogin,
   },
-  data: function () {
+  data: function() {
     return {
       items: [],
       mainTitle: '',
@@ -178,7 +179,7 @@ export default {
       console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
-        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
+        this.$router.replace('/votegraph/' + this.$route.params.hashKey);
         return;
       }
 
@@ -226,18 +227,20 @@ export default {
       // 추가 소켓 통신
 
       // go to graph
-      this.$router.replace("/votegraph/" + this.$route.params.hashKey);
+      this.$router.replace('/votegraph/' + this.$route.params.hashKey);
     },
     async sendVote(idx) {
+      this.$store.state.loading.enabled = true;
       console.log('sending');
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
       console.log('result: ', rs);
+      this.$store.state.loading.enabled = false;
       alert('투표가 완료 되었습니다.');
       this.$router.replace('/');
     },
     async getContractAddress() {
       // console.log("true");
-      this.$store.state.loading.enabled = true;
+
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
@@ -250,7 +253,6 @@ export default {
         console.log(err);
       }
       // console.log("false");
-      this.$store.state.loading.enabled = false;
     },
     async getData(idx) {
       // get vote data
