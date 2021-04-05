@@ -1,138 +1,147 @@
 <template>
   <div class="votemake-container">
     <HNavGray />
-    <div class="votemake-content1">
-      <!-- <img  src="../../public/images/votelogo3.jpg" /> -->
-    </div>
+    <!-- <div class="votemake-content1">
+      <h2>Page1</h2>
+      <div><strong> 투표 제목</strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 투표종류</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <h2>Page2</h2>
+      <div><strong> 항목명 </strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div v-show="false"><strong> 항목 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div ><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>  
+    </div> -->
     <form class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
-          <div v-if="contentData1">
-            <div class="mb-3">
-              <div class="">
-                <h3>투표 만들기</h3>
-                <div class="input-group input-group-lg">
-                  <span class="input-group-text" id="inputGroup-sizing-lg"
-                    >투표 제목</span
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    v-model="title"
-                    aria-describedby="inputGroup-sizing-lg"
-                  />
-                </div>
-                <br />
-
-                메인이미지
-                <br />
+          <div class="mb-3">
+            <div class="">
+              <h2 class="votemake-content2-title">Vote Make</h2>
+              <div class="input-group input-group-lg">
+                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
+                  >투표 제목</span>         -->
                 <input
-                  id="upload-image"
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  v-model="title"
+                  aria-describedby="inputGroup-sizing-lg"
+                  placeholder="투표 제목을 입력해주세요."
+                />
+              </div>
+              <br />
+              <!-- <b-form-file
+                  v-model="fileId"
                   ref="file"
                   type="file"
+                  placeholder="첨부파일 없음"
+                  drop-placeholder="Drop file here..."
+                  required
                   accept=".jpg, .png, .gif"
                   @change="previewImage"
-                /><br />
-                <img id="previewimage" :src="previewImageData" />
+                  style="width: 70%"
+            ></b-form-file> -->
+              Main Image
+              <br />
 
-                <div class="input-group input-group-lg">
-                  <span class="input-group-text" id="inputGroup-sizing-lg"
-                    >투표 내용</span
-                  >
-                  <textarea
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-lg"
-                    v-model="description"
-                  ></textarea>
-                </div>
+              <input
+                id="upload-image"
+                ref="file"
+                type="file"
+                accept=".jpg, .png, .gif"
+                @change="previewImage"
+              /><br />
+              <img id="previewimage" :src="previewImageData" />
+
+              <div class="input-group input-group-lg">
+                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
+                  >투표 내용</span
+                > -->
+                <textarea
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-lg"
+                  v-model="description"
+                  placeholder="투표에 대한 설명을 입력해주세요."
+                ></textarea>
               </div>
             </div>
-            <div style="margin-bottom: 15px">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                @click="chageContent()"
+          </div>
+          <!-- <fieldset class="row mb-3 alien-center">
+            <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
+            <div class="col-sm-10">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="button" style="width: 80px;">단일</button>
+                <button type="button" class="btn btn-secondary">중복</button>
+                <button type="button" class="btn btn-secondary">
+                  가중치
+                </button> 
+              </div>
+            </div>
+          </fieldset> -->
+
+          <div style="margin-bottom: 15px">
+            <button
+              type="button"
+              class="button"
+              :imageFlag="this.imageFlag"
+              @click="changeFlag()"
+            >
+              항목 / 이미지 투표 전환
+            </button>
+          </div>
+          <!-- 계속 추가되는 라인 -->
+          <div>
+            <div v-if="WrittenCheck" class="border-top border-bottom">
+              <VoteWritten
+                :imageFlag="imageFlag"
+                v-for="(list, index) in voteList"
+                :key="list.idx"
+                :index="index"
+                @changed="changed"
+                @deleteIndex="deleteIndex"
+                :list="list"
               >
-                Next
-              </button>
+              </VoteWritten>
             </div>
           </div>
 
-          <div v-if="contentData2">
-            <div style="margin-bottom: 15px">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                :imageFlag="this.imageFlag"
-                @click="changeFlag()"
-              >
-                항목 / 이미지 투표 전환
-              </button>
-
-              이미지 투표
+          <div>
+            <button type="button" class="button" @click="AddSubject()">
+              항목 추가
+            </button>
+          </div>
+          <div class="continer" style="margin-top: 15px">
+            <span>투표마감일</span>
+            <div style="display: flex">
+              <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
-            <!-- 계속 추가되는 라인 -->
-            <div>
-              <div v-if="WrittenCheck" class="border-top border-bottom">
-                <VoteWritten
-                  :imageFlag="imageFlag"
-                  v-for="(list, index) in voteList"
-                  :key="list.idx"
-                  :index="index"
-                  @changed="changed"
-                  @deleteIndex="deleteIndex"
-                  :list="list"
-                >
-                </VoteWritten>
-              </div>
-            </div>
-            <div>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                @click="AddSubject()"
-              >
-                항목 추가
-              </button>
-            </div>
-            <div class="continer" style="margin-top: 15px">
-              <span>투표 마감일</span>
-              <div style="display: flex">
-                <b-form-input type="date" v-model="endDate"></b-form-input>
-              </div>
-            </div>
-            <div style="margin-top: 15px">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                @click="chageContent()"
-              >
-                Pre
-              </button>
-              <button
-                @click="createVote()"
-                type="button"
-                class="btn btn-secondary"
-              >
-                제출
-              </button>
-
-              <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-              <b-modal ref="url" title="투표 URL" id="modal-1">
-                <a
-                  @click="moveToVotePage"
-                  href=""
-                  style="font-size:20px;margin-left:10px"
-                  >https://votenchain.tk/votepage/{{ hashKey }}</a
-                >
-                <!-- <b-button @click="copy()"  v-clipboard="value">URL 복사</b-button> -->
-              </b-modal>
-              <!-- <button class="btn btn-secondary" type="button" disabled v-else>
+          </div>
+          <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
+          <b-modal ref="url" title="투표 URL" id="modal-1">
+            <a
+              @click="moveToVotePage"
+              href=""
+              style="font-size: 20px; margin-left: 10px"
+              >https://votenchain.tk/votepage/{{ hashKey }}</a
+            >
+            <!-- <b-button @click="copy()"  v-clipboard="value">URL 복사</b-button> -->
+          </b-modal>
+          <div style="margin-top: 15px">
+            <button
+              @click="createVote()"
+              type="button"
+              class="button"
+              style="width:80px"
+            >
+              제출
+            </button>
+            <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
                 role="status"
@@ -140,13 +149,13 @@
               ></span>
               <span class="sr-only">Loading...</span>
             </button> -->
-            </div>
           </div>
         </div>
       </div>
     </form>
   </div>
 </template>
+
 <script>
 import HNavGray from '@/components/common/HNavGray';
 import axios from 'axios';
@@ -165,15 +174,6 @@ export default {
   },
   data() {
     return {
-      voteList: [
-        {
-          idx: '',
-          title: '',
-          description: '',
-          imagePath: '',
-          count: 0,
-        },
-      ],
       endDate: '',
       loading: true,
       imageFlag: false,
@@ -186,6 +186,15 @@ export default {
       VoteWrittenCnt: 1,
       VoteImageCnt: 1,
       fileId: null,
+      voteList: [
+        {
+          idx: '',
+          title: '',
+          description: '',
+          imagePath: '',
+          count: 0,
+        },
+      ],
       idxCount: 0,
 
       voteTitle: '',
@@ -199,17 +208,16 @@ export default {
 
       contentData1: true,
       contentData2: false,
+
       hashKey: '',
     };
   },
-
   created() {
     // Utils.createAccount().then((rs) => {
     //   this.sendData();
     // });
     this.endDate = this.setDate();
   },
-
   methods: {
     setDate() {
       var date = new Date();
@@ -278,7 +286,6 @@ export default {
       console.log(dat);
       // console.log("ㅋㄴㅋ");
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
-
       // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
@@ -356,7 +363,6 @@ export default {
       this.validationCheck();
 
       this.$store.state.loading.enabled = true;
-
       console.log('11');
       this.sendData().then((rs) => {
         console.log('22');
@@ -372,8 +378,6 @@ export default {
               },
             })
             .then((response) => {
-              alert('투표 URL : ' + '/votepage/' + response.data.hashKey);
-              // this.$router.replace('/votepage/' + response.data.hashKey);
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               console.log('gdg');
               this.hashKey = response.data.hashKey;
@@ -402,6 +406,7 @@ export default {
       });
       console.log(this.voteList);
     },
+
     changed() {
       // console.log("인덱스",)
       // console.log(this.voteList);
@@ -436,6 +441,7 @@ export default {
 
       return true;
     },
+    test() {},
     moveToVotePage() {
       window.open('/votepage/' + this.hashKey, '_blank');
       this.$router.replace('/');
@@ -482,19 +488,52 @@ export default {
   display: flex;
 }
 .votemake-content1 {
-  padding: 100px 0px 0px 0px;
-  margin: 0px 0px 70px 70px;
-  width: 40%;
-  background: white;
+  padding: 180px 0px 0px 0px;
+  margin: 0px 0px 70px 150px;
+  width: 30%;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
 }
-.votemake-content1 img {
+.votemake-content1 div {
+  height: 60px;
   width: 100%;
-  height: 100%;
+  margin-left: 10px;
+}
+.votemake-content1 div strong {
+  font-size: 20px;
+}
+.votemake-content1-img {
+  width: 50px;
+  height: 50px;
 }
 .votemake-content2 {
-  background: #f7f6e7;
-  margin: 0px 70px 70px 0px;
-  padding: 150px 100px 50px 100px;
-  width: 60%;
+  background: white;
+  margin: 140px 270px 70px 270px;
+  padding: 0px 100px 50px 100px;
+  width: 100%;
+  border-radius: 10px;
+  font-family: 'Playfair Display', serif;
+  line-height: 1.7;
+
+  font-weight: 100;
+  font-size: 1rem;
+}
+.votemake-content2-title {
+  font-family: 'Playfair Display', serif;
+}
+.votemake-content2-input {
+}
+.button {
+  background-color: #343a40;
+  border: 2px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  line-height: 50px;
+}
+.button:hover {
+  background-color: #fff;
+  border-color: #212529;
+  color: #212529;
 }
 </style>
