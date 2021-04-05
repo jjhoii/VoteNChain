@@ -9,7 +9,7 @@ export class Utils {
     static web3 = new Web3(gethHost);
     static contract = new this.web3.eth.Contract(abi, contractAddress);
 
-    constructor() { }
+    constructor() {}
 
     // 회원가입 시 실행
     static async createAccount() {
@@ -44,7 +44,7 @@ export class Utils {
         const currentBalance = await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
         console.log("currentBalance: ", currentBalance);
 
-        if (currentBalance < ether) {
+        if (parseInt(currentBalance) < parseInt(ether)) {
             const rs = await web3.eth.sendTransaction({
                 from: "0x85f87a4c6aa4b40f2c7fbb5cad924c749c65ba15", // main miner. unlocked.
                 to: JSON.parse(localStorage.myData).address,
@@ -59,7 +59,9 @@ export class Utils {
     static async call(method, args) {
         console.log("call start")
         const account = JSON.parse(localStorage.myData).address;
-        const rs = await method(...args).call();
+        const rs = await method(...args).call({
+            from: JSON.parse(localStorage.myData).address
+        });
         console.log("call end");
         return rs;
     }
@@ -67,10 +69,12 @@ export class Utils {
     // 노드에서 계정을 관리할 경우
     static async send(method, args) {
         // ether가 모자랄 경우 수급
-        await this.receiveBalance()
+        console.log("get balance: ", await this.receiveBalance())
 
         console.log("send start")
         const account = JSON.parse(localStorage.myData).address;
+        //this.web3.eth.defaultAccount = account;
+        console.log("account: ", account);
 
         try {
             const rs = await method(...args).send({

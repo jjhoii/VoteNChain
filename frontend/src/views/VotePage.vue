@@ -1,7 +1,7 @@
 <template>
   <div>
     <HNavGray />
-    <div class="container" id="doVote">
+    <div class="container" id="doVote" style="margin-top: 200px;">
       <!-- <div style=" margin-top: 200px;">
         <b-button id="show-btn" @click="$bvModal.show('bv-modal-example1')"
           >Open Modal</b-button
@@ -13,10 +13,15 @@
         hide-footer
         no-close-on-backdrop
       >
-        <template #modal-title> 로그인 </template>
+        <template #modal-title>LOGIN</template>
+        <div style="text-align:center; font-family:sans-serif;">
+          Login 후 투표를 진행할 수 있습니다.
+          <!-- <hr /> -->
+          <img src="@/assets/votelogo.png" />
+        </div>
+        <br />
         <div class="d-block text-center justify-center">
           <kakaoLogin />
-          <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
         </div>
       </b-modal>
       <!-- </div> -->
@@ -91,6 +96,7 @@
             :idx="idx"
             :title="item.title"
             :description="item.description"
+            v-on:selectItem="selectItem"
           />
         </div>
       </div>
@@ -102,7 +108,7 @@
           {{ picked }}
           <a class="button_do" @click="doVote">투표 하기!</a>
         </center>
-        <div class="modal" tabindex="-1" style="margin-top : 200px">
+        <div class="modal" tabindex="-1" style="margin-top: 200px">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -177,6 +183,7 @@ export default {
       console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
+        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
         return;
       }
 
@@ -222,17 +229,22 @@ export default {
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
+
+      // go to graph
+      this.$router.replace("/votegraph/" + this.$route.params.hashKey);
     },
     async sendVote(idx) {
+      this.$store.state.loading.enabled = true;
       console.log("sending");
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
       console.log("result: ", rs);
+      this.$store.state.loading.enabled = false;
       alert("투표가 완료 되었습니다.");
       this.$router.replace("/");
     },
     async getContractAddress() {
       // console.log("true");
-      this.$store.state.loading.enabled = true;
+
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
@@ -245,7 +257,6 @@ export default {
         console.log(err);
       }
       // console.log("false");
-      this.$store.state.loading.enabled = false;
     },
     async getData(idx) {
       // get vote data

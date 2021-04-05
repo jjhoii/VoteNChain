@@ -1,5 +1,5 @@
 <template>
-  <div class="votemake-container" >
+  <div class="votemake-container">
     <HNavGray />
     <!-- <div class="votemake-content1">
       <h2>Page1</h2>
@@ -11,22 +11,16 @@
       <div><strong> 항목명 </strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
       <div v-show="false"><strong> 항목 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
       <div ><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
-      
-   
-   
+      <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>  
     </div> -->
-
     <div class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
-           
           <div class="mb-3">
             <div class="">
-              
               <h2 class="votemake-content2-title">Vote Make</h2>
               <div class="input-group input-group-lg">
                 <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
@@ -54,6 +48,7 @@
             ></b-form-file> -->
               Main Image
               <br />
+              
               <input
                 id="upload-image"
                 ref="file"
@@ -77,25 +72,19 @@
               </div>
             </div>
           </div>
-          <fieldset class="row mb-3 alien-center">
+          <!-- <fieldset class="row mb-3 alien-center">
             <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
             <div class="col-sm-10">
               <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="button" style="width: 80px;">단일</button>
-                <!-- <button type="button" class="btn btn-secondary">중복</button>
+                <button type="button" class="btn btn-secondary">중복</button>
                 <button type="button" class="btn btn-secondary">
                   가중치
-                </button> -->
+                </button> 
               </div>
             </div>
-          </fieldset>
-          <!-- <button type="button" class="btn btn-secondary" @click="chageContent()"> Next </button> -->
-          
-          <!-- <div class="content-title">
-          <button @click="CheckWritten()">글</button>
-          <button @click="CheckImage()">이미지</button>
-        </div> -->
-        
+          </fieldset> -->
+
           <div style="margin-bottom: 15px">
             <button
               type="button"
@@ -106,12 +95,11 @@
               항목 / 이미지 투표 전환
             </button>
 
-          
+            
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
             <div v-if="WrittenCheck" class="border-top border-bottom">
-              <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
               <VoteWritten
                 :imageFlag="imageFlag"
                 v-for="(list, index) in voteList"
@@ -125,17 +113,8 @@
             </div>
           </div>
 
-          <!-- <div v-if="ImageCheck">
-            <div  v-for="idx in VoteImageCnt" :key="idx" class="content-title">
-              <VoteImage />
-            </div>
-          </div> -->
           <div>
-            <button
-              type="button"
-              class="button"
-              @click="AddSubject()"
-            >
+            <button type="button" class="button" @click="AddSubject()">
               항목 추가
             </button>
           </div>
@@ -148,7 +127,6 @@
             </div>
           </div>
           <div style="margin-top: 15px">
-            <!-- <button type="button" class="btn btn-secondary" @click="chageContent()"> Pre </button> -->
             <button
               @click="createVote()"
               type="button"
@@ -165,7 +143,6 @@
               ></span>
               <span class="sr-only">Loading...</span>
             </button> -->
-           
           </div>
         </div>
       </div>
@@ -191,6 +168,7 @@ export default {
   },
   data() {
     return {
+      endDate: "",
       loading: true,
       imageFlag: false,
       isPublic: 1,
@@ -224,16 +202,35 @@ export default {
 
       contentData1: true,
       contentData2: false,
+
+      hashKey: "",
     };
   },
   created() {
     // Utils.createAccount().then((rs) => {
     //   this.sendData();
     // });
+    this.endDate = this.setDate();
   },
   methods: {
+    setDate() {
+      var date = new Date();
+      var y = date.getUTCFullYear();
+      var m = date.getUTCMonth() + 1;
+      var d = date.getUTCDate();
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (d < 10) {
+        d = "0" + d;
+      }
+      return y + "-" + m + "-" + d;
+    },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
+      console.log(this.endDate);
+      console.log(new Date(this.endDate + "T24:00:00"));
+      // Date.parse(new Date(this.endDate + 'T24:00:00'));
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -249,16 +246,18 @@ export default {
     async sendData() {
       // send test data to contract
       // data: { title:"test", description:"test", voteType:0, imagePath:"path", bImageExist:true, bShowDetail:true, createdAt:Date.now(), endedAt:Date.now() + 600 * 1000, items:[{ title:"test1", description:"test1", imagePath:"testPath", count:0 },{ title:"test2" description:"test2", imagePath:"testPath2", count:0 }] }
+
       this.loading = false;
       const dat = {
         title: this.title,
         description: this.description,
         voteType: 0,
         imagePath: this.mainImagePath,
-        bImageExist: true,
+        bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
-        endedAt: Date.now() + 600 * 1000, // 5분 뒤
+        // endedAt: Date.now() + 600 * 1000, // 5분 뒤
+        endedAt: Date.parse(new Date(this.endDate + "T24:00:00")), // 24시간 뒤
         // items: [
         //   {
         //     title: "Title1",
@@ -282,8 +281,9 @@ export default {
       // send data
       // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
       console.log(dat);
+      // console.log("ㅋㄴㅋ");
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
-
+      // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
         "send complete: ",
@@ -353,8 +353,9 @@ export default {
     },
     createVote() {
       this.$store.state.loading.enabled = true;
-
+      console.log("11");
       this.sendData().then((rs) => {
+        console.log("22");
         (this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -367,16 +368,19 @@ export default {
               },
             })
             .then((response) => {
-              alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-              //this.$router.replace("/votelist");
+              //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
+              console.log("gdg");
+              this.hashKey = response.data.hashKey;
+              this.$refs["url"].show();
+              //this.$router.replace("/votepage/" + response.data.hashKey);
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log(error);
             });
         this.$store.state.loading.enabled = false;
       });
     },
-    chageContent(){
+    chageContent() {
       this.contentData1 = !this.contentData1;
       this.contentData2 = !this.contentData2;
     },
@@ -411,6 +415,37 @@ export default {
       this.voteList.splice(index, 1);
     },
     test() {},
+    moveToVotePage() {
+      window.open("/votepage/" + this.hashKey, "_blank");
+      this.$router.replace("/");
+      //this.$router.replace("/votepage/" + this.hashKey);
+    },
+    copy() {
+      // var url = "https://votenchain.tk/votepage/" +this.hashKey
+      // window.ClipboardData.setData("Text",url);
+      // alert("복사되었습니다.");
+
+      // var obShareUrl = document.getElementById("ShareUrl");
+      // obShareUrl.value = "https://votenchain.tk/votepage/" +this.hashKey  // 현재 URL 을 세팅해 줍니다.
+      // obShareUrl.select();  // 해당 값이 선택되도록 select() 합니다
+      // document.execCommand("copy"); // 클립보드에 복사합니다.
+      // obShareUrl.blur(); // 선택된 것을 다시 선택안된것으로 바꿈니다.
+      // alert("URL이 클립보드에 복사되었습니다");
+
+      //  var copyText = "https://votenchain.tk/votepage/";
+      // copyText.select();
+      // document.execCommand("copy");
+      // alert("복사된 문자열: " + copyText.value);
+
+      var tempElem = document.createElement("textarea");
+      tempElem.value = "I am copied text!";
+      document.body.appendChild(tempElem);
+
+      tempElem.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempElem);
+      alert("복사");
+    },
   },
   computed: {
     btnStates() {
@@ -421,10 +456,9 @@ export default {
 </script>
 
 <style>
-.votemake-container{
+.votemake-container {
   background: #f9f9f9;
   display: flex;
-  
 }
 .votemake-content1 {
   padding: 180px 0px 0px 0px;
@@ -432,15 +466,15 @@ export default {
   width: 30%;
   background: #f9f9f9;
   display: flex;
-  flex-direction: column ;
+  flex-direction: column;
 }
-.votemake-content1 div{
- height: 60px;
- width: 100%;
- margin-left: 10px;
+.votemake-content1 div {
+  height: 60px;
+  width: 100%;
+  margin-left: 10px;
 }
-.votemake-content1 div strong{
- font-size: 20px;
+.votemake-content1 div strong {
+  font-size: 20px;
 }
 .votemake-content1-img {
   width: 50px;
@@ -454,26 +488,26 @@ export default {
   border-radius: 10px;
   font-family: "Playfair Display", serif;
   line-height: 1.7;
-   
+
   font-weight: 100;
   font-size: 1rem;
 }
-.votemake-content2-title{
+.votemake-content2-title {
   font-family: "Playfair Display", serif;
 }
-.votemake-content2-input{
-  
+.votemake-content2-input {
 }
 .button {
-	background-color: #343A40;
-	border: 2px solid #333;
+  background-color: #343a40;
+  border: 2px solid #333;
   border-radius: 10px;
-	color: #fff;
-	line-height: 50px;
+  color: #fff;
+  line-height: 50px;
 }
 .button:hover {
-	background-color: #fff;
-	border-color: #212529;
-	color: #212529  ;
+  background-color: #fff;
+  border-color: #212529;
+  color: #212529;
 }
+
 </style>

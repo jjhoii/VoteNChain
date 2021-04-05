@@ -22,29 +22,29 @@
         </p>
         <!-- <p>메인내용</p> -->
         <b-button>참가자 목록</b-button>
-        <GChart type="ColumnChart" :data="chartData" :options="chartOptions" />
+        <GChart type="BarChart" :data="chartData" :options="chartOptions" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import { GChart } from "vue-google-charts";
-import { Utils } from "@/utils/index.js";
-import axios from "axios";
+import HNavGray from '@/components/common/HNavGray';
+import { GChart } from 'vue-google-charts';
+import { Utils } from '@/utils/index.js';
+import axios from 'axios';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-
 export default {
   components: {
     GChart,
     HNavGray,
+    axios,
   },
   data() {
     return {
-      mainTitle: "",
-      mainDescription: "",
-      mainImagePath: "",
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
       imageExist: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
@@ -57,20 +57,38 @@ export default {
       ],
       chartOptions: {
         chart: {
-          title: "Company Performance",
-          subtitle: "Sales, Expenses, and Profit: 2014-2017",
+          title: 'Company Performance',
+          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
         },
       },
     };
   },
   async created() {
-    await this.getContractAddress();
     // 오류 발생 임시 주석 처리
     // google.charts.load("current", { packages: ["corechart"] });
     // google.charts.setOnLoadCallback(this.drawChart());
     // this.getData(113);
+    await this.getContractAddress();
   },
   methods: {
+    async getContractAddress() {
+      // console.log("true");
+      this.$store.state.loading.enabled = true;
+      try {
+        const res = await axios.get(`${SERVER_URL}/vote/read`, {
+          params: { hashKey: this.$route.params.hashKey },
+        });
+        const idx = res.data.vote.contractAddress * 1;
+        await this.getData(idx);
+
+        this.n = idx;
+      } catch (err) {
+        console.log(err);
+      }
+      // console.log("false");
+      this.$store.state.loading.enabled = false;
+    },
+
     async getData(idx) {
       // get vote data
       this.$store.state.loading.enabled = true;
@@ -83,9 +101,10 @@ export default {
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
       // set chart
-      // this.chartData = [["Key", "Value"]];
+      this.chartData = [['Key', 'Value']];
       rs.items.forEach((el) => {
-        // this.chartData.push([el.title, el.count]);
+        console.log(el.title + '데이터 확인' + el.count);
+        this.chartData.push([el.title, el.count * 1]);
       });
 
       // load complete
@@ -94,20 +113,20 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ["Task", "Hours per Day"],
-        ["Work", 9],
-        ["Eat", 2],
-        ["TV", 4],
-        ["Gym", 2],
-        ["Sleep", 8],
+        ['Task', 'Hours per Day'],
+        ['Work', 9],
+        ['Eat', 2],
+        ['TV', 4],
+        ['Gym', 2],
+        ['Sleep', 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: "My Average Day", width: 550, height: 400 };
+      var options = { title: 'My Average Day', width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById("piechart")
+        document.getElementById('piechart')
       );
       chart.draw(data, options);
     },
@@ -163,6 +182,6 @@ export default {
 .graph-content2 {
   text-align: center;
   width: 65%;
-  background: #E9ECEF;
+  background: #e9ecef;
 }
 </style>

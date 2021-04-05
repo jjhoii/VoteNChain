@@ -10,24 +10,33 @@
       </div>
 
       <div class="navbar-list">
-        <span @ ="$bvModal.show('bv-modal-example')">Login</span>
+        <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
-        <b-modal
-          id="bv-modal-example"
-          hide-header-close
-          hide-footer
-          no-close-on-backdrop
-        >
-          <template #modal-title> 로그인 </template>
+        <!-- no-close-on-backdrop -->
+        <b-modal id="bv-modal-example" hide-header-close hide-footer>
+          <template #modal-title>LOGIN</template>
+          <div style="text-align:center; font-family:sans-serif;">
+            Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
+            <!-- <hr /> -->
+            <img src="../../../public/images/votelogo.png" />
+          </div>
+          <br />
           <div class="d-block text-center justify-center">
             <kakaoLogin />
           </div>
-          <b-button
-            class="mt-3"
-            block
-            @click="$bvModal.hide('bv-modal-example')"
-            >Close Me</b-button
-          >
+          <br />
+          <div style="text-align:center;">
+            <b-button
+              variant="info"
+              class="mt-3"
+              style="width: 50%;"
+              @click="
+                $bvModal.hide('bv-modal-example'),
+                  ($store.state.loading.enabled = false)
+              "
+              >Close Me</b-button
+            >
+          </div>
         </b-modal>
       </div>
     </div>

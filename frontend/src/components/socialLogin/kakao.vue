@@ -1,7 +1,12 @@
 <template>
-  <v-btn icon elevation="3" outlined style="cursor:pointer">
+  <b-button
+    icon
+    elevation="3"
+    outlined
+    style="background-color: transparent; border:0; outline:0;"
+  >
     <img src="@/assets/kakao_login.png" @click="Kakaologin" alt="kakao" />
-  </v-btn>
+  </b-button>
 </template>
 
 <script>

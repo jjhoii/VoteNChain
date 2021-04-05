@@ -37,7 +37,7 @@ public class VoteController {
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 
 
-			String hashKey = getHash(format1.format (System.currentTimeMillis())).substring(0,9);
+			String hashKey = getHash(format1.format (System.currentTimeMillis()) + Double.toString(Math.random())).substring(0,9);
 			System.out.println(hashKey);
 			vote.setHashKey(hashKey);
 			entity = new ResponseEntity<VoteVo>(voteService.save(vote), HttpStatus.OK);

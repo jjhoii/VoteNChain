@@ -12,7 +12,12 @@
       <div class="navbargray-list">
         <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
-        <b-modal id="bv-modal-example" hide-footer>
+        <b-modal
+          id="bv-modal-example"
+          hide-header-close
+          hide-footer
+          no-close-on-backdrop
+        >
           <template #modal-title> 로그인 </template>
           <div class="d-block text-center justify-center">
             <kakaoLogin />
@@ -21,7 +26,10 @@
           <b-button
             class="mt-3"
             block
-            @click="$bvModal.hide('bv-modal-example')"
+            @click="
+              $bvModal.hide('bv-modal-example'),
+                ($store.state.loading.enabled = false)
+            "
             >Close Me</b-button
           >
         </b-modal>
@@ -31,8 +39,8 @@
 </template>
 
 <script>
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
-import Spinner from "@/components/common/Spinner.vue";
+import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import Spinner from '@/components/common/Spinner.vue';
 
 const cid = process.env.VUE_APP_CLIENT_ID;
 export default {
@@ -43,8 +51,8 @@ export default {
   data() {
     return {
       user: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
       params: {
         client_id: cid,
@@ -58,36 +66,36 @@ export default {
   },
   methods: {
     gohome() {
-      this.$router.push("/");
+      this.$router.push('/');
     },
     kakaoLogin() {
       const scope = this;
 
-      login(this.user.email, this.user.password, function (response) {
-        scope.$store.commit("setIsSigned", true);
-        scope.$store.commit("setUserId", response.data.id);
-        scope.$router.push("/");
+      login(this.user.email, this.user.password, function(response) {
+        scope.$store.commit('setIsSigned', true);
+        scope.$store.commit('setUserId', response.data.id);
+        scope.$router.push('/');
       });
     },
     onSuccess(googleUser) {
       var profile = googleUser.getBasicProfile();
-      console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log("Name: " + profile.getName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
       // console.log('access_token' + googleUser.wc.access_token);
 
       const user = {
         userEmail: profile.getEmail(),
         userName: profile.getName(),
-        logintype: "google",
-        privateKey: "123123",
+        logintype: 'google',
+        privateKey: '123123',
       };
-      console.log("시작");
+      console.log('시작');
       console.log(user.userEmail);
       console.log(user.userName);
       console.log(user.logintype);
-      this.$store.dispatch("userStore/getSocialUserinfo", user);
+      this.$store.dispatch('userStore/getSocialUserinfo', user);
     },
   },
 };
@@ -118,7 +126,7 @@ export default {
   align-items: center;
 }
 .navbargray-title span {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #000;
   font-size: 35px;
 }
@@ -133,7 +141,7 @@ export default {
 .navbargray-list span {
   color: #000;
   font-size: 25px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 </style>
