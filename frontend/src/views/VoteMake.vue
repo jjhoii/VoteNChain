@@ -4,7 +4,7 @@
     <div class="votemake-content1">
       <!-- <img  src="../../public/images/votelogo3.jpg" /> -->
     </div>
-    <div class="votemake-content2">
+    <form class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
@@ -27,17 +27,7 @@
                   />
                 </div>
                 <br />
-                <!-- <b-form-file
-                  v-model="fileId"
-                  ref="file"
-                  type="file"
-                  placeholder="첨부파일 없음"
-                  drop-placeholder="Drop file here..."
-                  required
-                  accept=".jpg, .png, .gif"
-                  @change="previewImage"
-                  style="width: 70%"
-            ></b-form-file> -->
+
                 메인이미지
                 <br />
                 <input
@@ -62,31 +52,17 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!-- <fieldset class="row mb-3 alien-center">
-            <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
-            <div class="col-sm-10">
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">단일</button>
-                <button type="button" class="btn btn-secondary">중복</button>
-                <button type="button" class="btn btn-secondary">가중치</button>
-              </div>
+            <div style="margin-bottom: 15px">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                @click="chageContent()"
+              >
+                Next
+              </button>
             </div>
-          </fieldset> -->
-
-          <div style="margin-bottom: 15px">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              @click="chageContent()"
-            >
-              Next
-            </button>
           </div>
-          <!-- <div class="content-title">
-          <button @click="CheckWritten()">글</button>
-          <button @click="CheckImage()">이미지</button>
-        </div> -->
+
           <div v-if="contentData2">
             <div style="margin-bottom: 15px">
               <button
@@ -103,7 +79,6 @@
             <!-- 계속 추가되는 라인 -->
             <div>
               <div v-if="WrittenCheck" class="border-top border-bottom">
-                <!-- <div v-for="idx in voteList" :key="idx" class="border-top border-bottom "> -->
                 <VoteWritten
                   :imageFlag="imageFlag"
                   v-for="(list, index) in voteList"
@@ -116,12 +91,6 @@
                 </VoteWritten>
               </div>
             </div>
-
-            <!-- <div v-if="ImageCheck">
-            <div  v-for="idx in VoteImageCnt" :key="idx" class="content-title">
-              <VoteImage />
-            </div>
-          </div> -->
             <div>
               <button
                 type="button"
@@ -150,21 +119,13 @@
                 type="button"
                 class="btn btn-secondary"
               >
-                > 제출
+                제출
               </button>
-              <!-- <button class="btn btn-secondary" type="button" disabled v-else>
-              <span
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>
-              <span class="sr-only">Loading...</span>
-            </button> -->
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
@@ -244,9 +205,6 @@ export default {
     },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
-      console.log(this.endDate);
-      console.log(new Date(this.endDate + 'T24:00:00'));
-      // Date.parse(new Date(this.endDate + 'T24:00:00'));
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -367,6 +325,13 @@ export default {
         'width:200px; height:200px';
     },
     createVote() {
+      if (!this.validationCheck()) {
+        // alert('입력을 확인해주세요.');
+        return;
+      }
+
+      this.validationCheck();
+
       this.$store.state.loading.enabled = true;
 
       this.sendData().then((rs) => {
@@ -395,16 +360,7 @@ export default {
       this.contentData1 = !this.contentData1;
       this.contentData2 = !this.contentData2;
     },
-    CheckWritten() {
-      this.VoteWrittenCnt = 1;
-      this.WrittenCheck = true;
-      this.ImageCheck = false;
-    },
-    CheckImage() {
-      this.VoteImageCnt = 1;
-      this.WrittenCheck = false;
-      this.ImageCheck = true;
-    },
+
     AddSubject() {
       // this.voteList.val.push(this.vote);
       this.voteList.push({
@@ -425,7 +381,32 @@ export default {
       console.log('인덱스', index);
       this.voteList.splice(index, 1);
     },
-    test() {},
+    validationCheck() {
+      if (this.title == '') {
+        alert('투표 제목을 입력해주세요.');
+        return false;
+      }
+
+      if (this.description == '') {
+        alert('투표 내용을 입력해주세요.');
+
+        return false;
+      }
+
+      for (var i = 0; i < this.voteList.length; i++) {
+        if (this.voteList[i].title == '') {
+          alert(i + 1 + '번째 투표 항목명을 입력해주세요.');
+          return false;
+        }
+
+        if (this.voteList[i].description == '') {
+          alert(i + 1 + '번쨰 투표 설명을 입력해주세요.');
+          return false;
+        }
+      }
+
+      return true;
+    },
   },
   computed: {
     btnStates() {
