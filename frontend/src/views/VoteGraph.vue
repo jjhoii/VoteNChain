@@ -29,7 +29,6 @@
 </template>
 
 <script>
-// import HNavGray from '@/components/common/HNavGray';
 import HNavGray from '@/components/common/HNavGray';
 import { GChart } from 'vue-google-charts';
 import { Utils } from '@/utils/index.js';
