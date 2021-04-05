@@ -172,6 +172,7 @@ export default {
       imageExist: false,
       isLogin: false,
       picked: 10000,
+      hashKey: "",
     };
   },
   async created() {
@@ -233,7 +234,8 @@ export default {
       // 추가 소켓 통신
 
       // go to graph
-      this.$router.replace("/votegraph/" + this.$route.params.hashKey);
+      console.log("hashKey2 : " + this.hashKey);
+      this.$router.replace("/votegraph/" + this.hashKey);
     },
     async sendVote(idx) {
       this.$store.state.loading.enabled = true;
@@ -251,6 +253,9 @@ export default {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
         });
+
+        this.hashKey = res.data.vote.hashKey;
+        console.log("hashKey1 :" + this.hashKey);
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
 
