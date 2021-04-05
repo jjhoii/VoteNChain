@@ -102,7 +102,7 @@
           {{ picked }}
           <a class="button_do" @click="doVote">투표 하기!</a>
         </center>
-        <div class="modal" tabindex="-1" style="margin-top : 200px">
+        <div class="modal" tabindex="-1" style="margin-top: 200px">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -157,7 +157,7 @@ export default {
     HNavGray,
     kakaoLogin,
   },
-  data: function() {
+  data: function () {
     return {
       items: [],
       mainTitle: "",
@@ -179,6 +179,7 @@ export default {
       console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
+        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
         return;
       }
 
@@ -224,13 +225,14 @@ export default {
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
+
+      // go to graph
+      this.$router.replace("/votegraph/" + this.$route.params.hashKey);
     },
     async sendVote(idx) {
       console.log("sending");
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
       console.log("result: ", rs);
-      alert("투표가 완료 되었습니다.");
-      this.$router.replace("/");
     },
     async getContractAddress() {
       // console.log("true");
