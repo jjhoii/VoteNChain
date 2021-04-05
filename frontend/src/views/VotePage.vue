@@ -16,7 +16,6 @@
         <template #modal-title> 로그인 </template>
         <div class="d-block text-center justify-center">
           <kakaoLogin />
-          <!-- <GoogleLogin  :params="params" :renderParams="renderParams" :onSuccess="onSuccess"></GoogleLogin> -->
         </div>
       </b-modal>
       <!-- </div> -->
@@ -138,14 +137,14 @@
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import VoteCard from "@/components/votepage/VoteCard";
-import VoteWritten from "@/components/votepage/VoteWritten";
-import ImageRadio from "@/components/votepage/ImageRadio";
-import TextRadio from "@/components/votepage/TextRadio";
-import axios from "axios";
-import { Utils } from "@/utils/index.js";
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
+import HNavGray from '@/components/common/HNavGray';
+import VoteCard from '@/components/votepage/VoteCard';
+import VoteWritten from '@/components/votepage/VoteWritten';
+import ImageRadio from '@/components/votepage/ImageRadio';
+import TextRadio from '@/components/votepage/TextRadio';
+import axios from 'axios';
+import { Utils } from '@/utils/index.js';
+import kakaoLogin from '@/components/socialLogin/kakao.vue';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -160,9 +159,9 @@ export default {
   data: function () {
     return {
       items: [],
-      mainTitle: "",
-      mainDescription: "",
-      mainImagePath: "",
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
       imageExist: false,
       isLogin: false,
       picked: 10000,
@@ -176,7 +175,7 @@ export default {
 
       const isVoteEnd = await this.isVoteEnd(this.n);
       const isVote = await this.isVote(this.n);
-      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
+      console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
         this.$router.replace("/votegraph/" + this.$route.params.hashKey);
@@ -188,22 +187,22 @@ export default {
   },
   mounted() {
     if (this.isLogin == false) {
-      this.$bvModal.show("bv-modal-example1");
+      this.$bvModal.show('bv-modal-example1');
     }
-    console.log("Test");
+    console.log('Test');
   },
   methods: {
     loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
+      console.log(localStorage.getItem('access_token'));
+      console.log(localStorage.getItem('myData'));
       if (
-        localStorage.getItem("access_token") == undefined ||
-        localStorage.getItem("myData") == undefined
+        localStorage.getItem('access_token') == undefined ||
+        localStorage.getItem('myData') == undefined
       ) {
-        console.log("로그인 안됨.");
+        console.log('로그인 안됨.');
         //this.$router.push("VoteMake");
       } else {
-        console.log("로그인 됨.");
+        console.log('로그인 됨.');
         this.isLogin = true;
         //this.$router.push("VoteMake");
       }
@@ -219,9 +218,9 @@ export default {
     },
     async doVote() {
       if (this.picked == 10000) {
-        alert("항목을 선택해 주세요!");
+        alert('항목을 선택해 주세요!');
       } else {
-        console.log(this.picked + "들어옴");
+        console.log(this.picked + '들어옴');
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
@@ -230,9 +229,11 @@ export default {
       this.$router.replace("/votegraph/" + this.$route.params.hashKey);
     },
     async sendVote(idx) {
-      console.log("sending");
+      console.log('sending');
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
-      console.log("result: ", rs);
+      console.log('result: ', rs);
+      alert('투표가 완료 되었습니다.');
+      this.$router.replace('/');
     },
     async getContractAddress() {
       // console.log("true");
@@ -324,7 +325,7 @@ a.button_do:hover {
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;

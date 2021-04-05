@@ -25,7 +25,10 @@
           <b-button
             class="mt-3"
             block
-            @click="$bvModal.hide('bv-modal-example')"
+            @click="
+              $bvModal.hide('bv-modal-example'),
+                ($store.state.loading.enabled = false)
+            "
             >Close Me</b-button
           >
         </b-modal>
@@ -35,8 +38,8 @@
 </template>
 
 <script>
-import Spinner from "@/components/common/Spinner.vue";
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
+import Spinner from '@/components/common/Spinner.vue';
+import kakaoLogin from '@/components/socialLogin/kakao.vue';
 
 const cid = process.env.VUE_APP_CLIENT_ID;
 
@@ -49,8 +52,8 @@ export default {
     return {
       // loding:false,
       user: {
-        email: "",
-        password: "",
+        email: '',
+        password: '',
       },
       params: {
         client_id: cid,
@@ -65,19 +68,19 @@ export default {
 
   methods: {
     gohome() {
-      this.$router.push("/");
+      this.$router.push('/');
     },
     kakaoLogin() {
       const scope = this;
       this.$store.state.loading.enabled = true;
       login(this.user.email, this.user.password, (response) => {
-        scope.$store.commit("setIsSigned", true);
-        scope.$store.commit("setUserId", response.data.id);
+        scope.$store.commit('setIsSigned', true);
+        scope.$store.commit('setUserId', response.data.id);
         // this.$store.state.loading.enabled = false;
-        console.log("test");
+        console.log('test');
         console.log(this);
 
-        scope.$router.push("/");
+        scope.$router.push('/');
       });
     },
   },
@@ -108,7 +111,7 @@ export default {
   align-items: center;
 }
 .navbar-title span {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   color: #fff;
   font-size: 35px;
 }
@@ -123,7 +126,7 @@ export default {
 .navbar-list span {
   color: #fff;
   font-size: 25px;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 </style>

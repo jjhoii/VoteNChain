@@ -62,18 +62,19 @@
                 </div>
               </div>
             </div>
-            <fieldset class="row mb-3 alien-center">
-              <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
-              <div class="col-sm-10">
-                <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-secondary">단일</button>
-                  <button type="button" class="btn btn-secondary">중복</button>
-                  <button type="button" class="btn btn-secondary">
-                    가중치
-                  </button>
-                </div>
+          </div>
+          <!-- <fieldset class="row mb-3 alien-center">
+            <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
+            <div class="col-sm-10">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary">단일</button>
+                <button type="button" class="btn btn-secondary">중복</button>
+                <button type="button" class="btn btn-secondary">가중치</button>
               </div>
-            </fieldset>
+            </div>
+          </fieldset> -->
+
+          <div style="margin-bottom: 15px">
             <button
               type="button"
               class="btn btn-secondary"
@@ -170,12 +171,12 @@
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import axios from "axios";
-import { Utils } from "@/utils/index.js";
-import VoteWritten from "@/components/votemake/VoteWritten";
-import VoteImage from "@/components/votemake/VoteImage";
-import AWS from "aws-sdk";
+import HNavGray from '@/components/common/HNavGray';
+import axios from 'axios';
+import { Utils } from '@/utils/index.js';
+import VoteWritten from '@/components/votemake/VoteWritten';
+import VoteImage from '@/components/votemake/VoteImage';
+import AWS from 'aws-sdk';
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
@@ -190,9 +191,9 @@ export default {
       loading: true,
       imageFlag: false,
       isPublic: 1,
-      title: "",
-      description: "",
-      previewImageData: "",
+      title: '',
+      description: '',
+      previewImageData: '',
       ImageCheck: false,
       WrittenCheck: true,
       VoteWrittenCnt: 1,
@@ -200,19 +201,19 @@ export default {
       fileId: null,
       voteList: [
         {
-          idx: "",
-          title: "",
-          description: "",
-          imagePath: "",
+          idx: '',
+          title: '',
+          description: '',
+          imagePath: '',
           count: 0,
         },
       ],
       idxCount: 0,
 
-      voteTitle: "",
+      voteTitle: '',
       mainImage: null,
-      mainImagePath: "",
-      mainDescription: "",
+      mainImagePath: '',
+      mainDescription: '',
 
       bucketName: "vncbucket",
       bucketRegion: "ap-northeast-2",
@@ -240,7 +241,7 @@ export default {
       console.log(rs);
     },
     sendCallback(data) {
-      console.log("result!!: ", data);
+      console.log('result!!: ', data);
     },
     async sendData() {
       // send test data to contract
@@ -251,7 +252,7 @@ export default {
         description: this.description,
         voteType: 0,
         imagePath: this.mainImagePath,
-        bImageExist: true,
+        bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
         endedAt: Date.now() + 600 * 1000, // 5분 뒤
@@ -282,7 +283,7 @@ export default {
 
       // send complete
       console.log(
-        "send complete: ",
+        'send complete: ',
         rs,
         parseInt(rs.events.VoteCreated.raw.data)
       );
@@ -291,7 +292,7 @@ export default {
     },
     uploadImage() {
       this.mainImage = this.$refs.file.files[0];
-      console.log(this.mainImage, "파일 업로드");
+      console.log(this.mainImage, '파일 업로드');
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -301,14 +302,14 @@ export default {
       });
 
       var s3 = new AWS.S3({
-        apiVersion: "2006-03-01",
+        apiVersion: '2006-03-01',
         params: {
           Bucket: this.bucketName,
         },
       });
 
       let imageName = this.mainImage.name;
-      let imageKey = "images/" + Date.now().toString() + "_" + imageName;
+      let imageKey = 'images/' + Date.now().toString() + '_' + imageName;
 
       console.log(imageKey);
 
@@ -316,14 +317,14 @@ export default {
         {
           Key: imageKey,
           Body: this.mainImage,
-          ACL: "public-read",
+          ACL: 'public-read',
         },
         (err, data) => {
           if (err) {
             console.log(err);
           } else {
             this.mainImagePath = data.Location;
-            console.log("mainImagePath : " + this.mainImagePath);
+            console.log('mainImagePath : ' + this.mainImagePath);
           }
         }
       );
@@ -337,15 +338,15 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log("uploadImage start");
+        console.log('uploadImage start');
         this.uploadImage();
-        console.log("uploadImage end");
+        console.log('uploadImage end');
       } else {
         this.previewImageData = null;
       }
 
-      document.getElementById("previewimage").style =
-        "width:200px; height:200px";
+      document.getElementById('previewimage').style =
+        'width:200px; height:200px';
     },
     createVote() {
       this.$store.state.loading.enabled = true;
@@ -358,15 +359,15 @@ export default {
           axios
             .post(`${SERVER_URL}/vote/create`, this.form, {
               headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset = utf-8",
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json; charset = utf-8',
               },
             })
             .then((response) => {
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
               this.$router.replace("/votepage/" + response.data.hashKey);
             })
-            .catch(function (error) {
+            .catch(function(error) {
               console.log(error);
             });
         this.$store.state.loading.enabled = false;
@@ -389,9 +390,9 @@ export default {
     AddSubject() {
       // this.voteList.val.push(this.vote);
       this.voteList.push({
-        title: "",
-        description: "",
-        imagePath: "",
+        title: '',
+        description: '',
+        imagePath: '',
         count: 0,
         idx: this.idxCount++,
       });
@@ -403,7 +404,7 @@ export default {
       // console.log(this.voteList);
     },
     deleteIndex(index) {
-      console.log("인덱스", index);
+      console.log('인덱스', index);
       this.voteList.splice(index, 1);
     },
     test() {},
