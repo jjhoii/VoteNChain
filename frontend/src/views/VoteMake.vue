@@ -154,6 +154,9 @@
               >
                 > 제출
               </button>
+              <b-modal ref="url" title="투표 URL">
+                <p class="my-4"><a @click="moveToVotePage" href="">votenchain.tk/votepage/{{hashKey}}</a></p>
+              </b-modal>
               <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
                 class="spinner-border spinner-border-sm"
@@ -221,6 +224,8 @@ export default {
 
       contentData1: true,
       contentData2: false,
+
+      hashKey:'',
     };
   },
   created() {
@@ -279,8 +284,9 @@ export default {
       // send data
       // const rs = await Utils.signAndSend(Utils.contract.methods.setVote, [dat]);
       console.log(dat);
+      // console.log("ㅋㄴㅋ");
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
-
+      // console.log("ㅋㅁㅋ");
       // send complete
       console.log(
         'send complete: ',
@@ -350,8 +356,9 @@ export default {
     },
     createVote() {
       this.$store.state.loading.enabled = true;
-
+      console.log("11");
       this.sendData().then((rs) => {
+        console.log("22");
         (this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -365,7 +372,10 @@ export default {
             })
             .then((response) => {
               //alert("투표 URL : " + "/votepage/" + response.data.hashKey);
-              this.$router.replace("/votepage/" + response.data.hashKey);
+              console.log("gdg");
+              this.hashKey = response.data.hashKey;
+              this.$refs['url'].show();
+              //this.$router.replace("/votepage/" + response.data.hashKey);
             })
             .catch(function(error) {
               console.log(error);
@@ -408,6 +418,9 @@ export default {
       this.voteList.splice(index, 1);
     },
     test() {},
+    moveToVotePage(){
+      this.$router.replace("/votepage/" + this.hashKey);
+    },
   },
   computed: {
     btnStates() {
