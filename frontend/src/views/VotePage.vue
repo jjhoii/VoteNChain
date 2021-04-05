@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="display:flex;">
     <HNavGray />
     <div class="container" id="doVote" style="margin-top: 200px;">
       <b-modal
