@@ -140,7 +140,6 @@
 <script>
 import HNavGray from "@/components/common/HNavGray";
 import VoteCard from "@/components/votepage/VoteCard";
-import VoteWritten from "@/components/votepage/VoteWritten";
 import ImageRadio from "@/components/votepage/ImageRadio";
 import TextRadio from "@/components/votepage/TextRadio";
 import axios from "axios";
@@ -151,7 +150,6 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
     VoteCard,
-    VoteWritten,
     ImageRadio,
     TextRadio,
     HNavGray,

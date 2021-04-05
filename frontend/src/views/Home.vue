@@ -279,7 +279,7 @@ export default {
   margin-top: 25px;
 }
 .header-content button {
-  position: fixed;
+  
   background-color: #ad1315;
   width: 150px;
   height: 150px;

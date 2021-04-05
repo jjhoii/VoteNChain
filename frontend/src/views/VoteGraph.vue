@@ -49,11 +49,11 @@ export default {
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ["Year", "Sales", "Expenses", "Profit"],
-        ["2014", 1000, 500, 200],
-        ["2015", 1170, 460, 250],
-        ["2016", 660, 1120, 300],
-        ["2017", 1030, 540, 350],
+         ['Element', 'Density', { role: 'style' }, { role: 'annotation' } ],
+         ['Copper', 8.94, '#b87333', 1 ],
+         ['Silver', 10.49, 'silver', 'Ag' ],
+         ['Gold', 19.30, 'gold', 'Au' ],
+         ['Platinum', 21.45, 'color: #e5e4e2', 'Pt' ]
       ],
       chartOptions: {
         chart: {

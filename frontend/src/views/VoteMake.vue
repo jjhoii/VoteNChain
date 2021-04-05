@@ -1,28 +1,43 @@
 <template>
   <div class="votemake-container" >
     <HNavGray />
-    <div class="votemake-content1">
-      <!-- <img  src="../../public/images/votelogo3.jpg" /> -->
-    </div>
+    <!-- <div class="votemake-content1">
+      <h2>Page1</h2>
+      <div><strong> 투표 제목</strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 투표종류</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <h2>Page2</h2>
+      <div><strong> 항목명 </strong><img v-if="title" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div v-show="false"><strong> 항목 이미지</strong><img v-if="previewImageData" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div ><strong> 투표 내용</strong><img v-if="description" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      <div><strong> 투표 기간</strong><img v-if="false" class="votemake-content1-img" src="../../public/images/check.jpg" /></div>
+      
+   
+   
+    </div> -->
+
     <div class="votemake-content2">
       <!-- <div class="votemake-container"> -->
       <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
         <!-- <div class="votemake-content"> -->
         <div class="container-sm">
           <!-- <div class="mb-3 container-sm"> -->
-            <div v-if="contentData1">
+           
           <div class="mb-3">
             <div class="">
-              <h3>투표 만들기</h3>
+              
+              <h2 class="votemake-content2-title">Vote Make</h2>
               <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg"
-                  >투표 제목</span>        
+                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
+                  >투표 제목</span>         -->
                 <input
                   type="text"
                   class="form-control"
                   aria-label="Sizing example input"
                   v-model="title"
                   aria-describedby="inputGroup-sizing-lg"
+                  placeholder="투표 제목을 입력해주세요."
                 />
               </div>
               <br />
@@ -37,7 +52,7 @@
                   @change="previewImage"
                   style="width: 70%"
             ></b-form-file> -->
-              메인이미지
+              Main Image
               <br />
               <input
                 id="upload-image"
@@ -49,14 +64,15 @@
               <img id="previewimage" :src="previewImageData" />
 
               <div class="input-group input-group-lg">
-                <span class="input-group-text" id="inputGroup-sizing-lg"
+                <!-- <span class="input-group-text" id="inputGroup-sizing-lg"
                   >투표 내용</span
-                >
+                > -->
                 <textarea
                   class="form-control"
                   aria-label="Sizing example input"
                   aria-describedby="inputGroup-sizing-lg"
                   v-model="description"
+                  placeholder="투표에 대한 설명을 입력해주세요."
                 ></textarea>
               </div>
             </div>
@@ -65,32 +81,32 @@
             <legend class="col-form-label col-sm-2 pt-0">투표 종류</legend>
             <div class="col-sm-10">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">단일</button>
-                <button type="button" class="btn btn-secondary">중복</button>
+                <button type="button" class="button" style="width: 80px;">단일</button>
+                <!-- <button type="button" class="btn btn-secondary">중복</button>
                 <button type="button" class="btn btn-secondary">
                   가중치
-                </button>
+                </button> -->
               </div>
             </div>
           </fieldset>
-          <button type="button" class="btn btn-secondary" @click="chageContent()"> Next </button>
-            </div>
+          <!-- <button type="button" class="btn btn-secondary" @click="chageContent()"> Next </button> -->
+          
           <!-- <div class="content-title">
           <button @click="CheckWritten()">글</button>
           <button @click="CheckImage()">이미지</button>
         </div> -->
-        <div v-if="contentData2">
+        
           <div style="margin-bottom: 15px">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="button"
               :imageFlag="this.imageFlag"
               @click="changeFlag()"
             >
               항목 / 이미지 투표 전환
             </button>
 
-            이미지 투표
+          
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -117,7 +133,7 @@
           <div>
             <button
               type="button"
-              class="btn btn-secondary"
+              class="button"
               @click="AddSubject()"
             >
               항목 추가
@@ -132,13 +148,14 @@
             </div>
           </div>
           <div style="margin-top: 15px">
-            <button type="button" class="btn btn-secondary" @click="chageContent()"> Pre </button>
+            <!-- <button type="button" class="btn btn-secondary" @click="chageContent()"> Pre </button> -->
             <button
               @click="createVote()"
               type="button"
-              class="btn btn-secondary"
+              class="button"
+              style="width:80px"
             >
-              > 제출
+              제출
             </button>
             <!-- <button class="btn btn-secondary" type="button" disabled v-else>
               <span
@@ -148,7 +165,7 @@
               ></span>
               <span class="sr-only">Loading...</span>
             </button> -->
-            </div>
+           
           </div>
         </div>
       </div>
@@ -407,22 +424,56 @@ export default {
 .votemake-container{
   background: #f9f9f9;
   display: flex;
+  
 }
 .votemake-content1 {
-  padding: 100px 0px 0px 0px;
-  margin: 0px 0px 70px 70px;
-  width: 40%;
-  background: white;
+  padding: 180px 0px 0px 0px;
+  margin: 0px 0px 70px 150px;
+  width: 30%;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column ;
 }
-.votemake-content1 img {
-  width: 100%;
-  height: 100%;
+.votemake-content1 div{
+ height: 60px;
+ width: 100%;
+ margin-left: 10px;
+}
+.votemake-content1 div strong{
+ font-size: 20px;
+}
+.votemake-content1-img {
+  width: 50px;
+  height: 50px;
 }
 .votemake-content2 {
-  background: #f7f6e7;
-  margin: 0px 70px 70px 0px;
-  padding: 150px 100px 50px 100px;
-  width: 60%;
+  background: white;
+  margin: 140px 270px 70px 270px;
+  padding: 0px 100px 50px 100px;
+  width: 100%;
+  border-radius: 10px;
+  font-family: "Playfair Display", serif;
+  line-height: 1.7;
+   
+  font-weight: 100;
+  font-size: 1rem;
 }
-
+.votemake-content2-title{
+  font-family: "Playfair Display", serif;
+}
+.votemake-content2-input{
+  
+}
+.button {
+	background-color: #343A40;
+	border: 2px solid #333;
+  border-radius: 10px;
+	color: #fff;
+	line-height: 50px;
+}
+.button:hover {
+	background-color: #fff;
+	border-color: #212529;
+	color: #212529  ;
+}
 </style>
