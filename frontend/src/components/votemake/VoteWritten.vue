@@ -22,7 +22,7 @@
       <img :src="previewImageData" />
     </span>
     <div class="form-floating" style="margin-top: 15px; margin-bottom:15px">
-      <textarea 
+      <textarea
         class="form-control"
         placeholder="부가 설명을 입력해주세요."
         v-model="list.description"
@@ -45,14 +45,8 @@ import AWS from 'aws-sdk';
 export default {
   data() {
     return {
-      // list:{
-      //     subject:"",
-      //     image:"",
-      //     content:"",
-      // }
       previewImageData: '',
       itemImage: null,
-      // imageFlag: true,
       bucketName: 'vncbucket',
       bucketRegion: 'ap-northeast-2',
       IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
@@ -62,10 +56,8 @@ export default {
 
   methods: {
     changed() {
-      // this.previewImage2();
       console.log(this.imageFlag);
       console.log('Emit: ', this.list);
-      // this.$parent.previewImage();
 
       this.$emit('changed', this.list);
     },
@@ -107,8 +99,6 @@ export default {
           } else {
             this.list.imagePath = data.Location;
             this.$emit('changed', this.list);
-            //this.mainImagePath= data.Location;
-            //console.log('mainImagePath : ' + this.mainImagePath);
           }
         }
       );

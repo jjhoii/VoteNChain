@@ -1,11 +1,10 @@
 <template>
   <label>
-    <input type="radio" name="textRadio" value="idx" @click="clickItem"/>
+    <input type="radio" name="textRadio" value="idx" @click="clickItem" />
     <div id="txt">
       <span style="margin-left:10px;font-size:30px"
         >{{ idx + 1 }} . {{ title }}</span
       >
-      <!-- <button style="margin-left:200px;margin-top:100px">상세 보기</button> -->
       <b-button
         @click="openDetail"
         pill
@@ -31,16 +30,14 @@ export default {
   },
   methods: {
     openDetail() {
-      //this.confirm = this.idx;
       this.$refs['detail'].show();
     },
     closeDetail() {
       this.confirm = -1;
-      //   $bvModal.hide('idx');
     },
-    clickItem(){
+    clickItem() {
       this.$emit('selectItem', this.idx);
-    }
+    },
   },
 };
 </script>

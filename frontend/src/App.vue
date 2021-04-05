@@ -16,13 +16,3 @@ export default {
   },
 };
 </script>
-<style>
-.footbar {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding: 15px 0;
-  text-align: center;
-  background: #333;
-}
-</style>

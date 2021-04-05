@@ -73,7 +73,6 @@ export class Utils {
 
         console.log("send start")
         const account = JSON.parse(localStorage.myData).address;
-        //this.web3.eth.defaultAccount = account;
         console.log("account: ", account);
 
         try {

@@ -2,11 +2,6 @@
   <div>
     <HNavGray />
     <div class="container" id="doVote" style="margin-top: 200px;">
-      <!-- <div style=" margin-top: 200px;">
-        <b-button id="show-btn" @click="$bvModal.show('bv-modal-example1')"
-          >Open Modal</b-button
-        > -->
-
       <b-modal
         id="bv-modal-example1"
         hide-header-close
@@ -16,7 +11,6 @@
         <template #modal-title>LOGIN</template>
         <div style="text-align:center; font-family:sans-serif;">
           Login 후 투표를 진행할 수 있습니다.
-          <!-- <hr /> -->
           <img src="@/assets/votelogo.png" />
         </div>
         <br />
@@ -24,7 +18,6 @@
           <kakaoLogin />
         </div>
       </b-modal>
-      <!-- </div> -->
 
       <button class="button_status" style="margin-top: 20px">투표현황</button>
       <div name="title">
@@ -67,7 +60,6 @@
         "
       >
         <!-- 이미지 있는 투표 항목-->
-        <!-- <div v-if="imageExist"> -->
         <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
         <div
           v-for="(item, idx) in items"
@@ -175,7 +167,6 @@ export default {
   },
   async created() {
     this.loginCheck();
-    //this.$bvModal.show("bv-modal-example");
     if (this.isLogin == true) {
       await this.getContractAddress();
 
@@ -187,8 +178,6 @@ export default {
         this.$router.replace('/votegraph/' + this.$route.params.hashKey);
         return;
       }
-
-      //await this.doVote(0); // 임시 0번 투표 진행
     }
   },
   mounted() {
@@ -206,13 +195,10 @@ export default {
         localStorage.getItem('myData') == undefined
       ) {
         console.log('로그인 안됨.');
-        //this.$router.push("VoteMake");
       } else {
         console.log('로그인 됨.');
         this.isLogin = true;
-        //this.$router.push("VoteMake");
       }
-      // console.log(this.$bvModal.show("bv-modal-example1"));
     },
     async isVote(idx) {
       const rs = await Utils.call(Utils.contract.methods.isVote, [idx]);
@@ -245,8 +231,6 @@ export default {
       this.$router.replace('/');
     },
     async getContractAddress() {
-      // console.log("true");
-
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
           params: { hashKey: this.$route.params.hashKey },
@@ -273,12 +257,7 @@ export default {
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
-      // this.imageExist = false;
       this.items = rs.items;
-      //   if(this.mainImagePath==""){
-      //       haveImage = false;
-      //   }
-      //console.log("이미지 경로" + this.mainImagePath+"ㅎ");
 
       // load complete
       this.loaded = true;
@@ -329,9 +308,6 @@ a.button_do:hover {
   border: 1px solid rgb(245, 233, 233);
   border-radius: 20px;
   margin-bottom: 50px;
-  /* background-image: url('~@/assets/note4.jpg'); */
-
-  /* opacity: 0.9; */
 }
 .button_status {
   width: 140px;
