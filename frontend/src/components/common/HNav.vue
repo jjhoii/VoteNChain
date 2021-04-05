@@ -12,25 +12,31 @@
       <div class="navbar-list">
         <span @click="$bvModal.show('bv-modal-example')">Login</span>
 
-        <b-modal
-          id="bv-modal-example"
-          hide-header-close
-          hide-footer
-          no-close-on-backdrop
-        >
-          <template #modal-title> 로그인 </template>
+        <!-- no-close-on-backdrop -->
+        <b-modal id="bv-modal-example" hide-header-close hide-footer>
+          <template #modal-title>LOGIN</template>
+          <div style="text-align:center; font-family:sans-serif;">
+            Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
+            <!-- <hr /> -->
+            <img src="../../../public/images/votelogo.png" />
+          </div>
+          <br />
           <div class="d-block text-center justify-center">
             <kakaoLogin />
           </div>
-          <b-button
-            class="mt-3"
-            block
-            @click="
-              $bvModal.hide('bv-modal-example'),
-                ($store.state.loading.enabled = false)
-            "
-            >Close Me</b-button
-          >
+          <br />
+          <div style="text-align:center;">
+            <b-button
+              variant="info"
+              class="mt-3"
+              style="width: 50%;"
+              @click="
+                $bvModal.hide('bv-modal-example'),
+                  ($store.state.loading.enabled = false)
+              "
+              >Close Me</b-button
+            >
+          </div>
         </b-modal>
       </div>
     </div>
@@ -38,8 +44,8 @@
 </template>
 
 <script>
-import Spinner from '@/components/common/Spinner.vue';
-import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import Spinner from "@/components/common/Spinner.vue";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
 
 const cid = process.env.VUE_APP_CLIENT_ID;
 
@@ -52,8 +58,8 @@ export default {
     return {
       // loding:false,
       user: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       },
       params: {
         client_id: cid,
@@ -68,19 +74,19 @@ export default {
 
   methods: {
     gohome() {
-      this.$router.push('/');
+      this.$router.push("/");
     },
     kakaoLogin() {
       const scope = this;
       this.$store.state.loading.enabled = true;
       login(this.user.email, this.user.password, (response) => {
-        scope.$store.commit('setIsSigned', true);
-        scope.$store.commit('setUserId', response.data.id);
+        scope.$store.commit("setIsSigned", true);
+        scope.$store.commit("setUserId", response.data.id);
         // this.$store.state.loading.enabled = false;
-        console.log('test');
+        console.log("test");
         console.log(this);
 
-        scope.$router.push('/');
+        scope.$router.push("/");
       });
     },
   },
@@ -111,7 +117,7 @@ export default {
   align-items: center;
 }
 .navbar-title span {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #fff;
   font-size: 35px;
 }
@@ -126,7 +132,7 @@ export default {
 .navbar-list span {
   color: #fff;
   font-size: 25px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-    'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 </style>
