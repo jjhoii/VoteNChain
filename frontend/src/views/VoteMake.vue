@@ -1,12 +1,12 @@
 <template>
   <div class="votemake-container">
     <HNavGray />
-    <form class="votemake-content2">
-      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
+    <form class="votemake-content">
+      <div class="container d-flex p-1 bd-highlight" style="margin-top: 50px">
         <div class="container-sm">
           <div class="mb-3">
             <div class="">
-              <h2 class="votemake-content2-title">Vote Make</h2>
+              <h2 class="votemake-content-title">Vote Make</h2>
               <div class="input-group input-group-lg">
                 <input
                   type="text"
@@ -18,19 +18,17 @@
                 />
               </div>
               <br />
-
-              Main Image
-              <br />
-
+              <p>메인 이미지</p>
               <input
                 id="upload-image"
                 ref="file"
                 type="file"
                 accept=".jpg, .png, .gif"
                 @change="previewImage"
-              /><br />
-              <img id="previewimage" :src="previewImageData" />
-
+              />
+              <br />
+              <img class="preimg" :src="previewImageData" v-if="previewImageData" />
+              <br />
               <div class="input-group input-group-lg">
                 <textarea
                   class="form-control"
@@ -43,15 +41,33 @@
             </div>
           </div>
 
-          <div style="margin-bottom: 15px">
-            <button
+          <div style="margin-bottom: 15px; display:flex;">
+            <!-- <button
               type="button"
               class="button"
               :imageFlag="this.imageFlag"
               @click="changeFlag()"
             >
               항목 / 이미지 투표 전환
-            </button>
+            </button> -->
+            <b-form-radio-group
+              v-on:change="changeFlag()"
+              v-model="selected"
+              :options="options"
+              class="mb-3"
+              value-field="item"
+              text-field="name"
+            ></b-form-radio-group>
+
+              <b-button id="tooltip-target-1">
+              Tip!
+            </b-button>
+            <b-tooltip  placement="topright" variant="danger" target="tooltip-target-1" triggers="hover">
+              글: 이미지가없는 투표 항목 <br>
+              이미지: 이미지가있는 투표 항목
+            </b-tooltip>
+
+
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -69,7 +85,7 @@
           </div>
 
           <div>
-            <button type="button" class="button" @click="AddSubject()">
+            <button type="button" class="button" style="margin-top: 15px;" @click="AddSubject()">
               항목 추가
             </button>
           </div>
@@ -189,9 +205,15 @@ export default {
       contentData1: true,
       contentData2: false,
 
-      voteUrl: "https://votenchain.tk/votepage/",
-      hashKey: "",
-      myInput: "",
+      voteUrl: 'https://votenchain.tk/votepage/',
+      hashKey: '',
+      myInput: '',
+      selected: '',
+       options: [
+          { item: '글', name: '글' },
+          { item: '이미지', name: '이미지' },
+         
+        ]
     };
   },
   created() {
@@ -213,7 +235,15 @@ export default {
       return y + "-" + m + "-" + d;
     },
     changeFlag() {
-      this.imageFlag = !this.imageFlag;
+      // this.imageFlag = !this.imageFlag;
+      
+      if(this.selected == '글'){
+        this.imageFlag = false;
+      }
+
+      if(this.selected == '이미지'){
+        this.imageFlag = true;
+      }
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -295,11 +325,14 @@ export default {
       );
     },
     previewImage(event) {
+      
+    
       var input = event.target;
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = (e) => {
           this.previewImageData = e.target.result;
+          
         };
         reader.readAsDataURL(input.files[0]);
 
@@ -309,9 +342,7 @@ export default {
       } else {
         this.previewImageData = null;
       }
-
-      document.getElementById("previewimage").style =
-        "width:200px; height:200px";
+    
     },
     createVote() {
       if (!this.validationCheck()) {
@@ -400,7 +431,6 @@ export default {
 
       return true;
     },
-    test() {},
     moveToVotePage() {
       window.open("/votepage/" + this.hashKey, "_blank");
       this.$router.replace("/");
@@ -442,27 +472,8 @@ export default {
   background: #f9f9f9;
   display: flex;
 }
-.votemake-content1 {
-  padding: 180px 0px 0px 0px;
-  margin: 0px 0px 70px 150px;
-  width: 30%;
-  background: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-}
-.votemake-content1 div {
-  height: 60px;
-  width: 100%;
-  margin-left: 10px;
-}
-.votemake-content1 div strong {
-  font-size: 20px;
-}
-.votemake-content1-img {
-  width: 50px;
-  height: 50px;
-}
-.votemake-content2 {
+
+.votemake-content {
   background: white;
   margin: 140px 270px 70px 270px;
   padding: 0px 100px 50px 100px;
@@ -474,8 +485,8 @@ export default {
   font-weight: 100;
   font-size: 1rem;
 }
-.votemake-content2-title {
-  font-family: "Playfair Display", serif;
+.votemake-content-title {
+  font-family: 'Playfair Display', serif;
 }
 
 .button {
@@ -497,4 +508,15 @@ export default {
   margin-bottom: 3px;
   margin-left: 10px;
 }
+#tooltip-target-1{
+  font-size : 13px;
+  background: white;
+  color :rosybrown;
+  border-color: rosybrown;
+  height: 30px;
+}
+/* #upload-image[type='file']
+   { top:0; left:0; width:350px; height:43px; opacity:0;}
+   */
+
 </style>

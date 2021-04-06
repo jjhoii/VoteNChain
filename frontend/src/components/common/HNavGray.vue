@@ -85,10 +85,6 @@ export default {
       localStorage.clear();
       window.location.href = '/';
     },
-    clearToken() {
-      localStorage.clear();
-      window.location.href = '/';
-    },
   },
   created() {
     if (localStorage.getItem('access_token') != undefined) {
