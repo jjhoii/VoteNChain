@@ -11,23 +11,10 @@ import ssafy.a306.vnc.model.ChartVO;
 @Controller
 public class WebSocketController {
 
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public ChartVO sendMessage(@Payload ChartVO chatVO) {
-        return chatVO;
-    }
-
-    @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
-    public ChartVO addUser(@Payload ChartVO chatVO, SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("username", chatVO.getSender());
-        return chatVO;
-    }
-
-
     @MessageMapping("/socket/chart/{hashcode}/receive")
     @SendTo("/socket/chart/{hashcode}/send")
-    public ChartVO chartSocketHandler(@DestinationVariable String hashcode, ChartVO data){
+    public ChartVO chartSocketHandler(@DestinationVariable String hashcode,@Payload ChartVO data){
+
         return data;
     }
 }
