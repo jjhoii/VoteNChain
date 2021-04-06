@@ -3,7 +3,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ssafy.a306.vnc.entity.UserVo;
+import ssafy.a306.vnc.entity.UserEntity;
 
 @Getter
 @Data
@@ -22,8 +22,8 @@ public class UserDto {
 		this.account = account;
 	}
 
-	public UserVo toEntity(){
-		return UserVo.builder()
+	public UserEntity toEntity(){
+		return UserEntity.builder()
 				.userName(userName)
 				.userEmail(userEmail)
 				.account(account)
