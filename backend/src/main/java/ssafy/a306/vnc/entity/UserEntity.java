@@ -1,8 +1,6 @@
 package ssafy.a306.vnc.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -12,9 +10,10 @@ public class UserEntity {
 	private Long userIdx;
 	private String userEmail;
 	private String userName;
-	private String loginType;
-	private String privateKey;
-
+	//private String loginType;
+	//private String privateKey;
+	private String account;
+	
 	public Long getUserIdx() {
 		return userIdx;
 	}
@@ -39,20 +38,13 @@ public class UserEntity {
 		this.userName = userName;
 	}
 
-	public String getLoginType() {
-		return loginType;
+
+	public String getAccount() {
+		return account;
 	}
 
-	public void setLoginType(String loginType) {
-		this.loginType = loginType;
-	}
-
-	public String getPrivateKey() {
-		return privateKey;
-	}
-
-	public void setPrivateKey(String privateKey) {
-		this.privateKey = privateKey;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	

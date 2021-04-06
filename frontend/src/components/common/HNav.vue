@@ -1,56 +1,140 @@
 <template>
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-light">
-    <div class="container">
-      <img id="nav-icon" src="../../../public/images/horizontal_on_white_by_logaster__3_-removebg-preview.png">
-      <router-link  style="color : black" class="navbar-brand" to="/">Vote & Chain</router-link>
-      <div
-        class="navbar-collapse offcanvas-collapse"
-        id="navbarsExampleDefault"
-      >
-        <ul class="navbar-nav ml-auto">
-          
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/votemake">투표만들기</router-link>
-          </li>
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/votelist">투표리스트</router-link>
-          </li>
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/votepage">투표페이지</router-link>
-          </li>
+  <div>
+    <div class="navbar">
+      <div class="navbar-icon">
+        <img src="../../../public/images/votelogo2.png" @click="gohome" />
+      </div>
 
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/mypage">마이페이지</router-link>
-          </li>
+      <div class="navbar-title">
+        <span>Vote & Chain</span>
+      </div>
 
-          
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/votegraph">통계페이지</router-link>
-          </li>
+      <div class="navbar-list">
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+          >Login</span
+        >
+        <span v-if="login" @click="clearToken">Logout</span>
 
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/login">Sign In</router-link>
-          </li>
-          <!-- <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/register">Sign Up</router-link>
-          </li> -->
-          <li class="nav-item" v-if="$store.state.isSigned">
-            <router-link style="color : black" class="nav-link" to="/logout">Sign out</router-link>
-          </li>
-        </ul>
+        <b-modal
+          id="bv-modal-example"
+          hide-header-close
+          hide-footer
+          @mousedown.stop
+          no-close-on-backdrop
+          no-close-on-esc
+        >
+          <template #modal-title>LOGIN</template>
+          <div style="text-align:center; font-family:sans-serif;">
+            Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
+            <img src="../../../public/images/votelogo.png" />
+          </div>
+          <br />
+          <div class="d-block text-center justify-center">
+            <kakaoLogin />
+          </div>
+          <br />
+          <div style="text-align:center;">
+            <b-button
+              variant="info"
+              class="mt-3"
+              style="width: 50%;"
+              @click="$bvModal.hide('bv-modal-example')"
+              >Close Me</b-button
+            >
+          </div>
+        </b-modal>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
 
 <script>
-export default {};
+import Spinner from "@/components/common/Spinner.vue";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
+
+const cid = process.env.VUE_APP_CLIENT_ID;
+
+export default {
+  components: {
+    kakaoLogin,
+    Spinner,
+  },
+  data() {
+    return {
+      // loding:false,
+      user: {
+        email: "",
+        password: "",
+      },
+      params: {
+        client_id: cid,
+      },
+      renderParams: {
+        width: 250,
+        height: 50,
+        longtitle: true,
+      },
+      login: false,
+    };
+  },
+
+  methods: {
+    gohome() {
+      this.$router.push("/");
+    },
+    clearToken() {
+      localStorage.clear();
+      window.location.href = "/";
+    },
+  },
+  created() {
+    if (localStorage.getItem("access_token") != undefined) {
+      this.login = true;
+    }
+  },
+};
 </script>
 
 <style>
-#nav-icon {
-  height: 60px;
-  padding-right: 0.5rem;
+.navbar {
+  z-index: 99;
+  display: flex;
+  height: 100px;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: fixed !important;
 }
+.navbar-icon {
+  width: 8%;
+  height: 100px;
+}
+.navbar-icon img {
+  height: 100px;
+}
+.navbar-title {
+  width: 35%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.navbar-title span {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: #fff;
+  font-size: 35px;
+}
+.navbar-list {
+  width: 50%;
+  height: 100%;
 
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.navbar-list span {
+  color: #fff;
+  font-size: 25px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
 </style>

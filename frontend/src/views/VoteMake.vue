@@ -1,149 +1,299 @@
 <template>
-  <div class="container">
-    <div class="body1">
-      <header class="vid-header container vote-make-header">
-        <div class="fullscreen-vid-wrap">
-          <video
-            src="video/VoteVideo.mp4"
-            muted="muted"
-            autoplay="true"
-            loop="true"
-          ></video>
-        </div>
-        <div class="header-overlay"></div>
-        <div class="header-content">
-          <h1 style="text-align: left; margin : 0px 15% 1% 15%">투표만들기</h1>
-          <div id="vote-make">
-            <span>투표성격</span><br />
-            <b-button-group>
-              <b-button @click="isPublic = 1">공개</b-button>
-              <b-button @click="isPublic = 0">
-                비공개</b-button
-              > </b-button-group
-            ><br />
+  <div class="votemake-container">
+    <HNavGray />
+    <form class="votemake-content2">
+      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
+        <div class="container-sm">
+          <div class="mb-3">
+            <div class="">
+              <h2 class="votemake-content2-title">Vote Make</h2>
+              <div class="input-group input-group-lg">
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  v-model="title"
+                  aria-describedby="inputGroup-sizing-lg"
+                  placeholder="투표 제목을 입력해주세요."
+                />
+              </div>
+              <br />
 
-            <span>투표명</span><br />
-            <b-form-input
-              v-model="title"
-              placeholder="Enter your name"
-            ></b-form-input>
-            <span>카테고리 선택</span><br />
-            <table>
-              <th>
-                <b-form-input
-                  v-model="categoryName"
-                  placeholder="Enter your name"
-                ></b-form-input>
-              </th>
-              <th>
-                <b-button v-b-modal.category>선택</b-button>
-                <b-modal id="category" title="Category">
-                  <button v-for="(categoryItem,index) in categoryItems" v-bind:key="index" @click="category=index;categoryName=categoryItem.category">{{categoryItem.category}}</button>
-                </b-modal>
-              </th>
-            </table>
+              Main Image
+              <br />
 
-            <span>투표 종류</span><br />
-            <b-button-group>
-              <b-button>단일</b-button>
-              <b-button>복수</b-button>
-              <b-button>가중치</b-button> </b-button-group
-            ><br />
+              <input
+                id="upload-image"
+                ref="file"
+                type="file"
+                accept=".jpg, .png, .gif"
+                @change="previewImage"
+              /><br />
+              <img id="previewimage" :src="previewImageData" />
 
-            <span>대표 이미지</span><br />
-            <b-form-file
-              v-model="fileId"
-              :state="Boolean(file1)"
-              placeholder="첨부파일 없음"
-              drop-placeholder="Drop file here..."
-              required
-              accept=".jpg, .png, .gif"
-              @change="previewImage"
-              style="width: 70%;"
-            ></b-form-file
-            ><br />
-
-            <img class="profile_image" :src="previewImageData" /><br />
-
-            <span>설명</span><br />
-            <b-form-textarea
-              id="textarea"
-              v-model="text"
-              placeholder="Enter something..."
-              rows="3"
-              max-rows="6"
-            ></b-form-textarea
-            ><br />
-
-            <span>투표 항목</span> <b-button>이미지/글</b-button> <br />
-            <b-card
-              title=""
-              img-src=""
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 20rem;"
-              class="mb-2"
-            >
-              제목<b-form-input
-                v-model="text"
-                placeholder="Enter your name"
-              ></b-form-input>
-              <b-card-text>
-                <span>내용</span>
-                <b-form-textarea
-                  id="textarea"
-                  v-model="text"
-                  placeholder="Enter something..."
-                  rows="3"
-                  max-rows="6"
-                ></b-form-textarea>
-              </b-card-text>
-            </b-card>
-
-            <span>투표기간</span>
-            <div style="display : flex;">
-              <b-form-input style="width:30%" type="date"></b-form-input>
-              <span>~</span>
-              <b-form-input style="width:30%" type="date"></b-form-input>
+              <div class="input-group input-group-lg">
+                <textarea
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-lg"
+                  v-model="description"
+                  placeholder="투표에 대한 설명을 입력해주세요."
+                ></textarea>
+              </div>
             </div>
-            <b-button @click="createVote">제출</b-button>
+          </div>
+
+          <div style="margin-bottom: 15px">
+            <button
+              type="button"
+              class="button"
+              :imageFlag="this.imageFlag"
+              @click="changeFlag()"
+            >
+              항목 / 이미지 투표 전환
+            </button>
+          </div>
+          <!-- 계속 추가되는 라인 -->
+          <div>
+            <div v-if="WrittenCheck" class="border-top border-bottom">
+              <VoteWritten
+                :imageFlag="imageFlag"
+                v-for="(list, index) in voteList"
+                :key="list.idx"
+                :index="index"
+                @deleteIndex="deleteIndex"
+                :list="list"
+              >
+              </VoteWritten>
+            </div>
+          </div>
+
+          <div>
+            <button type="button" class="button" @click="AddSubject()">
+              항목 추가
+            </button>
+          </div>
+          <div class="continer" style="margin-top: 15px">
+            <span>투표마감일</span>
+            <div style="display: flex">
+              <b-form-input type="date" v-model="endDate"></b-form-input>
+            </div>
+          </div>
+          <b-modal
+            ref="url"
+            title="투표 링크"
+            id="modal-1"
+            no-close-on-backdrop
+            hide-footer
+            hide-header
+          >
+            <h3>투표 링크</h3>
+            <a
+              @click="moveToVotePage"
+              href=""
+              style="
+                font-size: 20px;
+                margin-left: 0px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+              "
+              >{{ voteUrl }}</a
+            >
+            <input
+              type="text"
+              id="myInput"
+              v-model="voteUrl"
+              readonly
+              style="width: 300px; margin-left: 30px"
+            />
+            <b-button
+              variant="outline-secondary"
+              id="copy_button"
+              @click="copyToClipboard('myInput')"
+              >링크 복사</b-button
+            >
+            <b-button
+              pill
+              variant="outline-secondary"
+              @click="moveToPage()"
+              style="margin-left: 210px; margin-top: 30px"
+              >닫기</b-button
+            >
+          </b-modal>
+          <div style="margin-top: 15px">
+            <button
+              @click="createVote()"
+              type="button"
+              class="button"
+              style="width: 80px"
+            >
+              제출
+            </button>
           </div>
         </div>
-      </header>
-    </div>
-
-     <div>
-          <FootBar class="footbar" />
-        </div>
-        
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
-import FootBar from "../components/common/FootBar";
-import axios from 'axios';
+import HNavGray from "@/components/common/HNavGray";
+import axios from "axios";
+import { Utils } from "@/utils/index.js";
+import VoteWritten from "@/components/votemake/VoteWritten";
+import VoteImage from "@/components/votemake/VoteImage";
+import AWS from "aws-sdk";
+
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
   components: {
-      FootBar
+    VoteWritten,
+    VoteImage,
+    HNavGray,
   },
   data() {
     return {
-      previewImageData: 'https://source.unsplash.com/random',
+      endDate: "",
+      loading: true,
+      imageFlag: false,
       isPublic: 1,
-      title: '',
-      categoryName:'',
-      categoryItems: [
-          { category: '운동'  },
-          { category: '음악'  },
-          { category: '병원'  },
-          { category: '선거'  }
-        ]
+      title: "",
+      description: "",
+      previewImageData: "",
+      ImageCheck: false,
+      WrittenCheck: true,
+      VoteWrittenCnt: 1,
+      VoteImageCnt: 1,
+      fileId: null,
+      voteList: [
+        {
+          idx: "",
+          title: "",
+          description: "",
+          imagePath: "",
+          count: 0,
+        },
+      ],
+      idxCount: 0,
+
+      voteTitle: "",
+      mainImage: null,
+      mainImagePath: "",
+      mainDescription: "",
+
+      bucketName: "vncbucket",
+      bucketRegion: "ap-northeast-2",
+      IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
+
+      contentData1: true,
+      contentData2: false,
+
+      voteUrl: "https://votenchain.tk/votepage/",
+      hashKey: "",
+      myInput: "",
     };
   },
+  created() {
+    this.endDate = this.setDate();
+  },
   methods: {
+    setDate() {
+      var date = new Date();
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      var d = date.getDate();
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (d < 10) {
+        d = "0" + d;
+      }
+
+      return y + "-" + m + "-" + d;
+    },
+    changeFlag() {
+      this.imageFlag = !this.imageFlag;
+    },
+    async showBalance() {
+      const rs = await Utils.getBalance();
+      console.log(rs);
+    },
+    async getBalance() {
+      const rs = await Utils.receiveBalance();
+      console.log(rs);
+    },
+    sendCallback(data) {
+      console.log("result!!: ", data);
+    },
+    async sendData() {
+      // send test data to contract
+
+      this.loading = false;
+      const dat = {
+        title: this.title,
+        description: this.description,
+        voteType: 0,
+        imagePath: this.mainImagePath,
+        bImageExist: this.imageFlag,
+        bShowDetail: true,
+        createdAt: Date.now(), // dummy data. contract gets current time from block.
+        endedAt: Date.parse(new Date(this.endDate + "T24:00:00")), // 24시간 뒤
+
+        items: this.voteList,
+      };
+
+      // send data
+      console.log(dat);
+      const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
+      // send complete
+      console.log(
+        "send complete: ",
+        rs,
+        parseInt(rs.events.VoteCreated.raw.data)
+      );
+      this.loading = true;
+      return parseInt(rs.events.VoteCreated.raw.data);
+    },
+    uploadImage() {
+      this.mainImage = this.$refs.file.files[0];
+      console.log(this.mainImage, "파일 업로드");
+
+      AWS.config.update({
+        region: this.bucketRegion,
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: this.IdentityPoolId,
+        }),
+      });
+
+      var s3 = new AWS.S3({
+        apiVersion: "2006-03-01",
+        params: {
+          Bucket: this.bucketName,
+        },
+      });
+
+      let imageName = this.mainImage.name;
+      let imageKey = "images/" + Date.now().toString() + "_" + imageName;
+
+      console.log(imageKey);
+
+      s3.upload(
+        {
+          Key: imageKey,
+          Body: this.mainImage,
+          ACL: "public-read",
+        },
+        (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            this.mainImagePath = data.Location;
+            console.log("mainImagePath : " + this.mainImagePath);
+          }
+        }
+      );
+    },
     previewImage(event) {
       var input = event.target;
       if (input.files && input.files[0]) {
@@ -152,33 +302,132 @@ export default {
           this.previewImageData = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
+
+        console.log("uploadImage start");
+        this.uploadImage();
+        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
+
+      document.getElementById("previewimage").style =
+        "width:200px; height:200px";
     },
-    createVote(){
-      this.form = {
-        "userIdx" : 1,
-        "contractAddress" : "tmp_contractAddress",
-        "title" : this.title,
-        "category" : this.category,
-        "isPublic" : this.isPublic
+    createVote() {
+      if (!this.validationCheck()) {
+        return;
       }
-      axios
-        .post(`${SERVER_URL}/vote/create`,this.form,{
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json; charset = utf-8'
+
+      this.validationCheck();
+
+      this.$store.state.loading.text = "투표를 생성하는 중입니다...";
+      this.$store.state.loading.enabled = true;
+      console.log("11");
+      this.sendData().then((rs) => {
+        console.log("22");
+        (this.form = {
+          userIdx: 1,
+          contractAddress: rs,
+        }),
+          axios
+            .post(`${SERVER_URL}/vote/create`, this.form, {
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset = utf-8",
+              },
+            })
+            .then((response) => {
+              console.log("gdg");
+              this.voteUrl =
+                "https://votenchain.tk/votepage/" + response.data.hashKey;
+              this.hashKey = response.data.hashKey;
+              this.$refs["url"].show();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        this.$store.state.loading.enabled = false;
+      });
+    },
+    chageContent() {
+      this.contentData1 = !this.contentData1;
+      this.contentData2 = !this.contentData2;
+    },
+
+    AddSubject() {
+      this.voteList.push({
+        title: "",
+        description: "",
+        imagePath: "",
+        count: 0,
+        idx: this.idxCount++,
+      });
+      console.log(this.voteList);
+    },
+
+    deleteIndex(index) {
+      console.log("인덱스", index);
+      this.voteList.splice(index, 1);
+    },
+    validationCheck() {
+      if (this.title == "") {
+        alert("투표 제목을 입력해주세요.");
+        return false;
+      }
+
+      if (this.description == "") {
+        alert("투표 내용을 입력해주세요.");
+
+        return false;
+      }
+
+      for (var i = 0; i < this.voteList.length; i++) {
+        if (this.voteList[i].title == "") {
+          alert(i + 1 + "번째 투표 항목명을 입력해주세요.");
+          return false;
         }
-      } )
-        .then((response) => {
-          console.log("테스트"+response.title + " " + response.voteIdx);
-          this.$router.replace('/votelist');
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
+
+        if (this.voteList[i].description == "") {
+          alert(i + 1 + "번쨰 투표 설명을 입력해주세요.");
+          return false;
+        }
+
+        if (this.imageFlag && this.voteList[i].imagePath == "") {
+          alert(i + 1 + "번쨰 투표 이미지를 입력해주세요.");
+          return false;
+        }
+      }
+
+      return true;
+    },
+    test() {},
+    moveToVotePage() {
+      window.open("/votepage/" + this.hashKey, "_blank");
+      this.$router.replace("/");
+    },
+    copy() {
+      var tempElem = document.createElement("textarea");
+      tempElem.value = "I am copied text!";
+      document.body.appendChild(tempElem);
+
+      tempElem.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempElem);
+      alert("복사");
+    },
+    doCopy() {
+      this.$copyText(this.myInput);
+      alert(this.myInput + "을 복사했습니다.");
+    },
+    copyToClipboard(val) {
+      const copyText = document.getElementById("myInput");
+      copyText.select();
+      document.execCommand("copy");
+      alert(copyText.value + "을 복사했습니다.");
+    },
+    moveToPage() {
+      this.$router.replace("/votepage/" + this.hashKey);
+    },
   },
   computed: {
     btnStates() {
@@ -189,26 +438,63 @@ export default {
 </script>
 
 <style>
-.vote-make-header {
-  color: #233;
+.votemake-container {
+  background: #f9f9f9;
+  display: flex;
 }
-#vote-make {
-  margin: 0px 0px 0px 15%;
-  width: 70%;
-  padding: 3%;
-  text-align: left;
-  background-color: #f3f4ed;
-  border: black;
-  border-style: solid;
-  border-width: 3px;
-  border-radius: 40px;
+.votemake-content1 {
+  padding: 180px 0px 0px 0px;
+  margin: 0px 0px 70px 150px;
+  width: 30%;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
 }
-button {
-  border-radius: 50%;
+.votemake-content1 div {
+  height: 60px;
+  width: 100%;
+  margin-left: 10px;
 }
-.profile_image {
-  width: 70%;
-  height: 100%;
-  object-fit: cover;
+.votemake-content1 div strong {
+  font-size: 20px;
+}
+.votemake-content1-img {
+  width: 50px;
+  height: 50px;
+}
+.votemake-content2 {
+  background: white;
+  margin: 140px 270px 70px 270px;
+  padding: 0px 100px 50px 100px;
+  width: 100%;
+  border-radius: 10px;
+  font-family: "Playfair Display", serif;
+  line-height: 1.7;
+
+  font-weight: 100;
+  font-size: 1rem;
+}
+.votemake-content2-title {
+  font-family: "Playfair Display", serif;
+}
+
+.button {
+  background-color: #343a40;
+  border: 2px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  line-height: 50px;
+}
+.button:hover {
+  background-color: #fff;
+  border-color: #212529;
+  color: #212529;
+}
+
+#copy_button {
+  height: 42px;
+  width: 100px;
+  margin-bottom: 3px;
+  margin-left: 10px;
 }
 </style>
