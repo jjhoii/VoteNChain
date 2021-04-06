@@ -10,9 +10,11 @@
       </div>
 
       <div class="navbar-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')">Login</span>
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+          >Login</span
+        >
         <span v-if="login" @click="clearToken">Logout</span>
-        <!-- no-close-on-backdrop -->
+
         <b-modal
           id="bv-modal-example"
           hide-header-close
@@ -24,7 +26,6 @@
           <template #modal-title>LOGIN</template>
           <div style="text-align:center; font-family:sans-serif;">
             Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
-            <!-- <hr /> -->
             <img src="../../../public/images/votelogo.png" />
           </div>
           <br />
@@ -37,10 +38,7 @@
               variant="info"
               class="mt-3"
               style="width: 50%;"
-              @click="
-                $bvModal.hide('bv-modal-example'),
-                  ($store.state.loading.enabled = false)
-              "
+              @click="$bvModal.hide('bv-modal-example')"
               >Close Me</b-button
             >
           </div>
@@ -51,8 +49,8 @@
 </template>
 
 <script>
-import Spinner from '@/components/common/Spinner.vue';
-import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import Spinner from "@/components/common/Spinner.vue";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
 
 const cid = process.env.VUE_APP_CLIENT_ID;
 
@@ -65,8 +63,8 @@ export default {
     return {
       // loding:false,
       user: {
-        email: '',
-        password: '',
+        email: "",
+        password: "",
       },
       params: {
         client_id: cid,
@@ -76,38 +74,24 @@ export default {
         height: 50,
         longtitle: true,
       },
-      login: false
+      login: false,
     };
   },
 
   methods: {
     gohome() {
-      this.$router.push('/');
+      this.$router.push("/");
     },
-    kakaoLogin() {
-      const scope = this;
-      this.$store.state.loading.enabled = true;
-      login(this.user.email, this.user.password, (response) => {
-        scope.$store.commit('setIsSigned', true);
-        scope.$store.commit('setUserId', response.data.id);
-        // this.$store.state.loading.enabled = false;
-        console.log('test');
-        console.log(this);
-
-        scope.$router.push('/');
-      });
-    },
-    clearToken(){
+    clearToken() {
       localStorage.clear();
-      window.location.href='/'
+      window.location.href = "/";
+    },
+  },
+  created() {
+    if (localStorage.getItem("access_token") != undefined) {
+      this.login = true;
     }
   },
-  created(){
-
-    if (localStorage.getItem('access_token') != undefined) {
-        this.login = true
-    }
-  }
 };
 </script>
 
@@ -135,7 +119,7 @@ export default {
   align-items: center;
 }
 .navbar-title span {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #fff;
   font-size: 35px;
 }
@@ -150,7 +134,7 @@ export default {
 .navbar-list span {
   color: #fff;
   font-size: 25px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-    'Lucida Sans', Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
 }
 </style>
