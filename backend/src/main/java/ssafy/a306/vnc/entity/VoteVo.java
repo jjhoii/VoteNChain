@@ -7,6 +7,8 @@ import lombok.*;
 //@Data
 //@AllArgsConstructor
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Getter
 @Entity(name="Vote")
 public class VoteVo {
 	//d
@@ -17,49 +19,14 @@ public class VoteVo {
 	private String contractAddress;
 	private String hashKey;
 	
-	public VoteVo() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Builder
-	public VoteVo(int userIdx, String contractAddress) {
+	public VoteVo(int userIdx, String contractAddress, String hashKey) {
 		super();
 		this.userIdx = userIdx;
 		this.contractAddress = contractAddress;
-		
-	}
-
-	public int getVoteIdx() {
-		return voteIdx;
-	}
-
-	public void setVoteIdx(int voteIdx) {
-		this.voteIdx = voteIdx;
-	}
-
-	public int getUserIdx() {
-		return userIdx;
-	}
-
-	public void setUserIdx(int userIdx) {
-		this.userIdx = userIdx;
-	}
-
-	public String getContractAddress() {
-		return contractAddress;
-	}
-
-	public void setContractAddress(String contractAddress) {
-		this.contractAddress = contractAddress;
-	}
-
-	public String getHashKey() {
-		return hashKey;
-	}
-
-	public void setHashKey(String hashKey) {
 		this.hashKey = hashKey;
 	}
+
 
 	@Override
 	public String toString() {

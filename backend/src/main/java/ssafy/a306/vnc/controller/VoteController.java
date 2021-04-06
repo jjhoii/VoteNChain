@@ -21,26 +21,28 @@ import org.springframework.web.bind.annotation.RestController;
 import ssafy.a306.vnc.entity.VoteVo;
 import ssafy.a306.vnc.model.VoteDto;
 import ssafy.a306.vnc.model.service.VoteService;
+import ssafy.a306.vnc.repository.VoteRepository;
 
 @RestController
 @RequestMapping("/vote")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class VoteController {
 
-	@Autowired
-	VoteService voteService;
 
+	@Autowired
+	VoteRepository voteRepository;
+	
 	@PostMapping(value = "/create")
-	public ResponseEntity<VoteVo> create(@RequestBody VoteVo vote) {
+	public ResponseEntity<VoteVo> create(@RequestBody VoteDto vote) {
 		ResponseEntity<VoteVo> entity = null;
 		try {
 			SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
 
-
+			
 			String hashKey = getHash(format1.format (System.currentTimeMillis()) + Double.toString(Math.random())).substring(0,9);
 			System.out.println(hashKey);
 			vote.setHashKey(hashKey);
-			entity = new ResponseEntity<VoteVo>(voteService.save(vote), HttpStatus.OK);
+			entity = new ResponseEntity<VoteVo>(voteRepository.save(vote.toEntity()), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,7 +70,7 @@ public class VoteController {
 	
 	
 	private String getHash(String str) {
-		String hash = null;
+		String hash = "";
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			md.update(str.getBytes());
@@ -79,7 +81,7 @@ public class VoteController {
 			hash = sb.toString();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
-			hash = null;
+			
 		}
 		return hash;
 	}
