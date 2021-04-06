@@ -102,6 +102,14 @@
           />
         </div>
       </div>
+      <button @click="test()">테스트</button>
+      <p
+        style="padding: 0; margin: 0"
+        v-for="(obj, index) in receivedMessages"
+        :key="index"
+      >
+        {{ obj.sender }} : {{ obj.content }}
+      </p>
       <div
         name="vote-end-button"
         style="margin-top: -10px; margin-bottom: 20px"
@@ -146,14 +154,16 @@
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import VoteCard from "@/components/votepage/VoteCard";
-import ImageRadio from "@/components/votepage/ImageRadio";
-import TextRadio from "@/components/votepage/TextRadio";
-import axios from "axios";
-import { Utils } from "@/utils/index.js";
-import kakaoLogin from "@/components/socialLogin/kakao.vue";
-import VoteGraph from "@/components/votepage/VoteGraph";
+import HNavGray from '@/components/common/HNavGray';
+import VoteCard from '@/components/votepage/VoteCard';
+import ImageRadio from '@/components/votepage/ImageRadio';
+import TextRadio from '@/components/votepage/TextRadio';
+import axios from 'axios';
+import { Utils } from '@/utils/index.js';
+import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import VoteGraph from '@/components/votepage/VoteGraph';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -165,16 +175,19 @@ export default {
     kakaoLogin,
     VoteGraph,
   },
-  data: function () {
+  data: function() {
     return {
+      userName: '',
+      message: '',
+      receivedMessages: [],
       items: [],
-      mainTitle: "",
-      mainDescription: "",
-      mainImagePath: "",
+      mainTitle: '',
+      mainDescription: '',
+      mainImagePath: '',
       imageExist: false,
       isLogin: false,
       picked: 10000,
-      hashKey: "",
+      hashKey: '',
     };
   },
   async created() {
@@ -184,31 +197,31 @@ export default {
 
       const isVoteEnd = await this.isVoteEnd(this.n);
       const isVote = await this.isVote(this.n);
-      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
+      console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
-        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
+        this.$router.replace('/votegraph/' + this.$route.params.hashKey);
         return;
       }
     }
   },
   mounted() {
     if (this.isLogin == false) {
-      this.$bvModal.show("bv-modal-example1");
+      this.$bvModal.show('bv-modal-example1');
     }
-    console.log("Test");
+    console.log('Test');
   },
   methods: {
     loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
+      console.log(localStorage.getItem('access_token'));
+      console.log(localStorage.getItem('myData'));
       if (
-        localStorage.getItem("access_token") == undefined ||
-        localStorage.getItem("myData") == undefined
+        localStorage.getItem('access_token') == undefined ||
+        localStorage.getItem('myData') == undefined
       ) {
-        console.log("로그인 안됨.");
+        console.log('로그인 안됨.');
       } else {
-        console.log("로그인 됨.");
+        console.log('로그인 됨.');
         this.isLogin = true;
       }
     },
@@ -222,26 +235,26 @@ export default {
     },
     async doVote() {
       if (this.picked == 10000) {
-        alert("항목을 선택해 주세요!");
+        alert('항목을 선택해 주세요!');
       } else {
-        console.log(this.picked + "들어옴");
+        console.log(this.picked + '들어옴');
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
 
       // go to graph
-      console.log("hashKey2 : " + this.hashKey);
-      this.$router.replace("/votegraph/" + this.hashKey);
+      console.log('hashKey2 : ' + this.hashKey);
+      this.$router.replace('/votegraph/' + this.hashKey);
     },
     async sendVote(idx) {
-      this.$store.state.loading.text = "투표가 진행중입니다...";
+      this.$store.state.loading.text = '투표가 진행중입니다...';
       this.$store.state.loading.enabled = true;
-      console.log("sending");
+      console.log('sending');
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
-      console.log("result: ", rs);
+      console.log('result: ', rs);
       this.$store.state.loading.enabled = false;
-      alert("투표가 완료 되었습니다.");
-      this.$router.replace("/");
+      alert('투표가 완료 되었습니다.');
+      this.$router.replace('/');
     },
     async getContractAddress() {
       try {
@@ -250,7 +263,7 @@ export default {
         });
 
         this.hashKey = res.data.vote.hashKey;
-        console.log("hashKey1 :" + this.hashKey);
+        console.log('hashKey1 :' + this.hashKey);
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
 
@@ -279,7 +292,53 @@ export default {
       this.picked = data;
     },
     openStatus() {
-      this.$refs["status"].show();
+      this.$refs['status'].show();
+    },
+
+    test() {
+      const serverURL = 'http://localhost:8080/ws';
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect('', this.onConnected, this.onError);
+    },
+
+    onConnected() {
+      //sendData
+      var hashcode = this.$route.params.hashKey;
+      this.stompClient.subscribe(
+        '/socket/chart/' + hashcode + '/send',
+        this.onMessageReceived
+      );
+      // console.log('여기에용 ' + this.items[0].title);
+      this.stompClient.send(
+        '/socket/chart/' + hashcode + '/receive',
+        {},
+        JSON.stringify({
+          content: '',
+          // sender: this.items[this.picked].count,
+          sender: this.picked,
+          type: 'JOIN',
+        })
+      );
+    },
+    onError(error) {
+      console.log('에러임');
+      console.log(error);
+    },
+    onDisconnected() {
+      this.stompClient = null;
+      this.receivedMessages = [];
+    },
+
+    onMessageReceived(payload) {
+      const receiveMessage = JSON.parse(payload.body);
+      console.log(receiveMessage.sender);
+
+      if (receiveMessage.type === 'JOIN') {
+        receiveMessage.content = receiveMessage.sender + ' joined!';
+      }
+
+      this.receivedMessages.push(receiveMessage);
     },
   },
 };
@@ -328,7 +387,7 @@ a.button_do:hover {
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
