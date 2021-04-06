@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ssafy.a306.vnc.entity.UserVo;
+import ssafy.a306.vnc.entity.UserEntity;
 import ssafy.a306.vnc.model.UserDto;
 import ssafy.a306.vnc.repository.UserRepository;
 
@@ -27,8 +27,8 @@ public class UserService {
     	return result;
     }
     
-    public UserVo selectUserAccount(UserDto userDto) {
-    	UserVo userInfo= userRepository.findByuserEmail(userDto.getUserEmail());
+    public UserEntity selectUserAccount(UserDto userDto) {
+    	UserEntity userInfo= userRepository.findByuserEmail(userDto.getUserEmail());
     	return userInfo;
     }
 }
