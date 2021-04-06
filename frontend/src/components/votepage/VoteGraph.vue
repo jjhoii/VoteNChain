@@ -1,17 +1,34 @@
 <template>
   <div>
     <div class="graph-container">
-
-      <div class="graph-content2" style="margin-right:160px; margin-top:-40px;margin-bottom:40px">
+      <div
+        class="graph-content2"
+        style="margin-right: 160px; margin-top: -40px; margin-bottom: 40px"
+      >
         <h1>{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
-        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 50%; height: 30%; margin-top:20px;margin-bottom:-100px" />
+        <img
+          v-if="mainImagePath != ''"
+          :src="mainImagePath"
+          alt=""
+          style="
+            width: 50%;
+            height: 30%;
+            margin-top: 20px;
+            margin-bottom: -100px;
+          "
+        />
         <p>
           {{ mainDescription }}
         </p>
         <!-- <p>메인내용</p> -->
-        <b-button style="margin-top:40px">참가자 목록</b-button>
-        <GChart type="BarChart" :data="chartData" :options="chartOptions" style="margin-top:90px"/>
+        <b-button style="margin-top: 40px">참가자 목록</b-button>
+        <GChart
+          type="BarChart"
+          :data="chartData"
+          :options="chartOptions"
+          style="margin-top: 90px"
+        />
       </div>
     </div>
   </div>
@@ -19,10 +36,10 @@
 
 <script>
 // import HNavGray from '@/components/common/HNavGray';
-import HNavGray from '@/components/common/HNavGray';
-import { GChart } from 'vue-google-charts';
-import { Utils } from '@/utils/index.js';
-import axios from 'axios';
+import HNavGray from "@/components/common/HNavGray";
+import { GChart } from "vue-google-charts";
+import { Utils } from "@/utils/index.js";
+import axios from "axios";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
@@ -32,24 +49,23 @@ export default {
   },
   data() {
     return {
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ['Element', 'Density', { role: 'style' }, { role: 'annotation' }],
-        ['Copper', 8.94, '#b87333', 1],
-        ['Silver', 10.49, 'silver', 'Ag'],
-        ['Gold', 19.3, 'gold', 'Au'],
-        ['Platinum', 21.45, 'color: #e5e4e2', 'Pt'],
+        ["Element", "Density", { role: "style" }, { role: "annotation" }],
+        ["Copper", 8.94, "#b87333", 1],
+        ["Silver", 10.49, "silver", "Ag"],
+        ["Gold", 19.3, "gold", "Au"],
+        ["Platinum", 21.45, "color: #e5e4e2", "Pt"],
       ],
       chartOptions: {
         chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          
+          title: "Company Performance",
+          subtitle: "Sales, Expenses, and Profit: 2014-2017",
         },
       },
     };
@@ -62,6 +78,7 @@ export default {
   methods: {
     async getContractAddress() {
       // console.log("true");
+      this.$store.state.loading.text = "투표 주소를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
@@ -79,6 +96,7 @@ export default {
 
     async getData(idx) {
       // get vote data
+      this.$store.state.loading.text = "투표 데이터를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
@@ -89,9 +107,9 @@ export default {
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
       // set chart
-      this.chartData = [['Key', 'Value']];
+      this.chartData = [["Key", "Value"]];
       rs.items.forEach((el) => {
-        console.log(el.title + '데이터 확인' + el.count);
+        console.log(el.title + "데이터 확인" + el.count);
         this.chartData.push([el.title, el.count * 1]);
       });
 
@@ -101,20 +119,20 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 9],
-        ['Eat', 2],
-        ['TV', 4],
-        ['Gym', 2],
-        ['Sleep', 8],
+        ["Task", "Hours per Day"],
+        ["Work", 9],
+        ["Eat", 2],
+        ["TV", 4],
+        ["Gym", 2],
+        ["Sleep", 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: 'My Average Day', width: 550, height: 400 };
+      var options = { title: "My Average Day", width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById('piechart')
+        document.getElementById("piechart")
       );
       chart.draw(data, options);
     },

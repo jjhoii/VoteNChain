@@ -3,7 +3,7 @@
     icon
     elevation="3"
     outlined
-    style="background-color: transparent; border:0; outline:0;"
+    style="background-color: transparent; border: 0; outline: 0"
   >
     <img src="@/assets/kakao_login.png" @click="Kakaologin" alt="kakao" />
   </b-button>
@@ -14,6 +14,7 @@ export default {
   name: "kakaoLogin",
   methods: {
     Kakaologin() {
+      this.$store.state.loading.text = "로그인 중입니다...";
       this.$store.state.loading.enabled = true;
       window.Kakao.Auth.login({
         scope: "profile, account_email",
@@ -40,7 +41,7 @@ export default {
           this.$store.state.loading.enabled = false;
           window.location.reload();
         },
-        fail: function(error) {
+        fail: function (error) {
           console.log(error.message);
         },
       });

@@ -91,7 +91,12 @@
             <a
               @click="moveToVotePage"
               href=""
-              style="font-size:20px;margin-left:0px;margin-top:0px;margin-bottom:0px"
+              style="
+                font-size: 20px;
+                margin-left: 0px;
+                margin-top: 0px;
+                margin-bottom: 0px;
+              "
               >{{ voteUrl }}</a
             >
             <input
@@ -99,7 +104,7 @@
               id="myInput"
               v-model="voteUrl"
               readonly
-              style="width:300px;margin-left:30px"
+              style="width: 300px; margin-left: 30px"
             />
             <b-button
               variant="outline-secondary"
@@ -111,7 +116,7 @@
               pill
               variant="outline-secondary"
               @click="moveToPage()"
-              style="margin-left:210px;margin-top:30px"
+              style="margin-left: 210px; margin-top: 30px"
               >닫기</b-button
             >
           </b-modal>
@@ -120,7 +125,7 @@
               @click="createVote()"
               type="button"
               class="button"
-              style="width:80px"
+              style="width: 80px"
             >
               제출
             </button>
@@ -132,12 +137,12 @@
 </template>
 
 <script>
-import HNavGray from '@/components/common/HNavGray';
-import axios from 'axios';
-import { Utils } from '@/utils/index.js';
-import VoteWritten from '@/components/votemake/VoteWritten';
-import VoteImage from '@/components/votemake/VoteImage';
-import AWS from 'aws-sdk';
+import HNavGray from "@/components/common/HNavGray";
+import axios from "axios";
+import { Utils } from "@/utils/index.js";
+import VoteWritten from "@/components/votemake/VoteWritten";
+import VoteImage from "@/components/votemake/VoteImage";
+import AWS from "aws-sdk";
 
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
@@ -149,13 +154,13 @@ export default {
   },
   data() {
     return {
-      endDate: '',
+      endDate: "",
       loading: true,
       imageFlag: false,
       isPublic: 1,
-      title: '',
-      description: '',
-      previewImageData: '',
+      title: "",
+      description: "",
+      previewImageData: "",
       ImageCheck: false,
       WrittenCheck: true,
       VoteWrittenCnt: 1,
@@ -163,30 +168,30 @@ export default {
       fileId: null,
       voteList: [
         {
-          idx: '',
-          title: '',
-          description: '',
-          imagePath: '',
+          idx: "",
+          title: "",
+          description: "",
+          imagePath: "",
           count: 0,
         },
       ],
       idxCount: 0,
 
-      voteTitle: '',
+      voteTitle: "",
       mainImage: null,
-      mainImagePath: '',
-      mainDescription: '',
+      mainImagePath: "",
+      mainDescription: "",
 
-      bucketName: 'vncbucket',
-      bucketRegion: 'ap-northeast-2',
-      IdentityPoolId: 'ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350',
+      bucketName: "vncbucket",
+      bucketRegion: "ap-northeast-2",
+      IdentityPoolId: "ap-northeast-2:de2bc69f-a616-4734-a2c5-1d7bc1b95350",
 
       contentData1: true,
       contentData2: false,
 
-      voteUrl: 'https://votenchain.tk/votepage/',
-      hashKey: '',
-      myInput: '',
+      voteUrl: "https://votenchain.tk/votepage/",
+      hashKey: "",
+      myInput: "",
     };
   },
   created() {
@@ -199,13 +204,13 @@ export default {
       var m = date.getMonth() + 1;
       var d = date.getDate();
       if (m < 10) {
-        m = '0' + m;
+        m = "0" + m;
       }
       if (d < 10) {
-        d = '0' + d;
+        d = "0" + d;
       }
 
-      return y + '-' + m + '-' + d;
+      return y + "-" + m + "-" + d;
     },
     changeFlag() {
       this.imageFlag = !this.imageFlag;
@@ -219,7 +224,7 @@ export default {
       console.log(rs);
     },
     sendCallback(data) {
-      console.log('result!!: ', data);
+      console.log("result!!: ", data);
     },
     async sendData() {
       // send test data to contract
@@ -233,7 +238,7 @@ export default {
         bImageExist: this.imageFlag,
         bShowDetail: true,
         createdAt: Date.now(), // dummy data. contract gets current time from block.
-        endedAt: Date.parse(new Date(this.endDate + 'T24:00:00')), // 24시간 뒤
+        endedAt: Date.parse(new Date(this.endDate + "T24:00:00")), // 24시간 뒤
 
         items: this.voteList,
       };
@@ -243,7 +248,7 @@ export default {
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
       // send complete
       console.log(
-        'send complete: ',
+        "send complete: ",
         rs,
         parseInt(rs.events.VoteCreated.raw.data)
       );
@@ -252,7 +257,7 @@ export default {
     },
     uploadImage() {
       this.mainImage = this.$refs.file.files[0];
-      console.log(this.mainImage, '파일 업로드');
+      console.log(this.mainImage, "파일 업로드");
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -262,14 +267,14 @@ export default {
       });
 
       var s3 = new AWS.S3({
-        apiVersion: '2006-03-01',
+        apiVersion: "2006-03-01",
         params: {
           Bucket: this.bucketName,
         },
       });
 
       let imageName = this.mainImage.name;
-      let imageKey = 'images/' + Date.now().toString() + '_' + imageName;
+      let imageKey = "images/" + Date.now().toString() + "_" + imageName;
 
       console.log(imageKey);
 
@@ -277,14 +282,14 @@ export default {
         {
           Key: imageKey,
           Body: this.mainImage,
-          ACL: 'public-read',
+          ACL: "public-read",
         },
         (err, data) => {
           if (err) {
             console.log(err);
           } else {
             this.mainImagePath = data.Location;
-            console.log('mainImagePath : ' + this.mainImagePath);
+            console.log("mainImagePath : " + this.mainImagePath);
           }
         }
       );
@@ -298,15 +303,15 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log('uploadImage start');
+        console.log("uploadImage start");
         this.uploadImage();
-        console.log('uploadImage end');
+        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
 
-      document.getElementById('previewimage').style =
-        'width:200px; height:200px';
+      document.getElementById("previewimage").style =
+        "width:200px; height:200px";
     },
     createVote() {
       if (!this.validationCheck()) {
@@ -315,10 +320,11 @@ export default {
 
       this.validationCheck();
 
+      this.$store.state.loading.text = "투표를 생성하는 중입니다...";
       this.$store.state.loading.enabled = true;
-      console.log('11');
+      console.log("11");
       this.sendData().then((rs) => {
-        console.log('22');
+        console.log("22");
         (this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -326,18 +332,18 @@ export default {
           axios
             .post(`${SERVER_URL}/vote/create`, this.form, {
               headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json; charset = utf-8',
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset = utf-8",
               },
             })
             .then((response) => {
-              console.log('gdg');
+              console.log("gdg");
               this.voteUrl =
-                'https://votenchain.tk/votepage/' + response.data.hashKey;
+                "https://votenchain.tk/votepage/" + response.data.hashKey;
               this.hashKey = response.data.hashKey;
-              this.$refs['url'].show();
+              this.$refs["url"].show();
             })
-            .catch(function(error) {
+            .catch(function (error) {
               console.log(error);
             });
         this.$store.state.loading.enabled = false;
@@ -350,9 +356,9 @@ export default {
 
     AddSubject() {
       this.voteList.push({
-        title: '',
-        description: '',
-        imagePath: '',
+        title: "",
+        description: "",
+        imagePath: "",
         count: 0,
         idx: this.idxCount++,
       });
@@ -360,34 +366,34 @@ export default {
     },
 
     deleteIndex(index) {
-      console.log('인덱스', index);
+      console.log("인덱스", index);
       this.voteList.splice(index, 1);
     },
     validationCheck() {
-      if (this.title == '') {
-        alert('투표 제목을 입력해주세요.');
+      if (this.title == "") {
+        alert("투표 제목을 입력해주세요.");
         return false;
       }
 
-      if (this.description == '') {
-        alert('투표 내용을 입력해주세요.');
+      if (this.description == "") {
+        alert("투표 내용을 입력해주세요.");
 
         return false;
       }
 
       for (var i = 0; i < this.voteList.length; i++) {
-        if (this.voteList[i].title == '') {
-          alert(i + 1 + '번째 투표 항목명을 입력해주세요.');
+        if (this.voteList[i].title == "") {
+          alert(i + 1 + "번째 투표 항목명을 입력해주세요.");
           return false;
         }
 
-        if (this.voteList[i].description == '') {
-          alert(i + 1 + '번쨰 투표 설명을 입력해주세요.');
+        if (this.voteList[i].description == "") {
+          alert(i + 1 + "번쨰 투표 설명을 입력해주세요.");
           return false;
         }
 
-        if (this.imageFlag && this.voteList[i].imagePath == '') {
-          alert(i + 1 + '번쨰 투표 이미지를 입력해주세요.');
+        if (this.imageFlag && this.voteList[i].imagePath == "") {
+          alert(i + 1 + "번쨰 투표 이미지를 입력해주세요.");
           return false;
         }
       }
@@ -396,31 +402,31 @@ export default {
     },
     test() {},
     moveToVotePage() {
-      window.open('/votepage/' + this.hashKey, '_blank');
-      this.$router.replace('/');
+      window.open("/votepage/" + this.hashKey, "_blank");
+      this.$router.replace("/");
     },
     copy() {
-      var tempElem = document.createElement('textarea');
-      tempElem.value = 'I am copied text!';
+      var tempElem = document.createElement("textarea");
+      tempElem.value = "I am copied text!";
       document.body.appendChild(tempElem);
 
       tempElem.select();
-      document.execCommand('copy');
+      document.execCommand("copy");
       document.body.removeChild(tempElem);
-      alert('복사');
+      alert("복사");
     },
     doCopy() {
       this.$copyText(this.myInput);
-      alert(this.myInput + '을 복사했습니다.');
+      alert(this.myInput + "을 복사했습니다.");
     },
     copyToClipboard(val) {
-      const copyText = document.getElementById('myInput');
+      const copyText = document.getElementById("myInput");
       copyText.select();
-      document.execCommand('copy');
-      alert(copyText.value + '을 복사했습니다.');
+      document.execCommand("copy");
+      alert(copyText.value + "을 복사했습니다.");
     },
     moveToPage() {
-      this.$router.replace('/votepage/' + this.hashKey);
+      this.$router.replace("/votepage/" + this.hashKey);
     },
   },
   computed: {
@@ -462,14 +468,14 @@ export default {
   padding: 0px 100px 50px 100px;
   width: 100%;
   border-radius: 10px;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   line-height: 1.7;
 
   font-weight: 100;
   font-size: 1rem;
 }
 .votemake-content2-title {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
 }
 
 .button {
