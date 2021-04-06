@@ -58,7 +58,6 @@ export class Utils {
 
     static async call(method, args) {
         console.log("call start")
-        const account = JSON.parse(localStorage.myData).address;
         const rs = await method(...args).call({
             from: JSON.parse(localStorage.myData).address
         });
@@ -117,8 +116,8 @@ export class Utils {
             } else {
                 // send
                 try {
-                    const rs = await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-                    callback(rs)
+                    const _rs = await web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                    callback(_rs)
                 } catch (err) {
                     console.log("run error!", err)
                 }

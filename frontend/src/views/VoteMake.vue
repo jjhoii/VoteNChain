@@ -325,27 +325,27 @@ export default {
       console.log("11");
       this.sendData().then((rs) => {
         console.log("22");
-        (this.form = {
+        this.form = {
           userIdx: 1,
           contractAddress: rs,
-        }),
-          axios
-            .post(`${SERVER_URL}/vote/create`, this.form, {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json; charset = utf-8",
-              },
-            })
-            .then((response) => {
-              console.log("gdg");
-              this.voteUrl =
-                "https://votenchain.tk/votepage/" + response.data.hashKey;
-              this.hashKey = response.data.hashKey;
-              this.$refs["url"].show();
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+        };
+        axios
+          .post(`${SERVER_URL}/vote/create`, this.form, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json; charset = utf-8",
+            },
+          })
+          .then((response) => {
+            console.log("gdg");
+            this.voteUrl =
+              "https://votenchain.tk/votepage/" + response.data.hashKey;
+            this.hashKey = response.data.hashKey;
+            this.$refs["url"].show();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
         this.$store.state.loading.enabled = false;
       });
     },
