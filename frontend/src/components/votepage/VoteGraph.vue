@@ -3,7 +3,7 @@
     <div class="graph-container">
       <div
         class="graph-content2"
-        style="margin-right: 160px; margin-top: -40px; margin-bottom: 40px"
+        style="margin-right: 0px; margin-top:-40px; margin-bottom: 40px;width:1000px"
       >
         <h1>{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
@@ -18,7 +18,7 @@
             margin-bottom: -100px;
           "
         />
-        <p>
+        <p style="margin-top:110px">
           {{ mainDescription }}
         </p>
         <!-- <p>메인내용</p> -->
@@ -27,7 +27,7 @@
           type="BarChart"
           :data="chartData"
           :options="chartOptions"
-          style="margin-top: 90px"
+          style="margin-top: 40px ;margin-left:30px;margin-right:30px"
         />
       </div>
     </div>
