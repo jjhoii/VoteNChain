@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ssafy.a306.vnc.entity.VoteVo;
 import ssafy.a306.vnc.model.VoteDto;
-import ssafy.a306.vnc.model.service.VoteService;
 import ssafy.a306.vnc.repository.VoteRepository;
 
 @RestController
@@ -55,7 +54,7 @@ public class VoteController {
 		ResponseEntity entity = null;
 		Map result = new HashMap();
 		VoteVo vote;
-		vote = voteService.read(hashKey);
+		vote = voteRepository.findByHashKey(hashKey).get(0);
 			if (vote != null) {
 				result.put("vote", vote);
 				result.put("success", "success");
