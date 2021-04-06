@@ -120,6 +120,7 @@ export default {
   right: 0;
   top: 0;
   position: fixed !important;
+ 
 }
 .navbar-icon {
   width: 8%;
