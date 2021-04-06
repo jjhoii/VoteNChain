@@ -172,6 +172,19 @@ export default {
 
       this.chartData[parseInt(receiveMessage.sender) + 1][1]++;
       // this.chartData.push([receiveMessage.sender, count + 1]);
+
+      // jjh_test
+      this.chartData = this.chartData.map((item, index) => {
+        if (index != parseInt(receiveMessage.sender) || index == 0) {
+          return item;
+        }
+        return item.map((item, index) => {
+          if (index !== 0) {
+            return item++;
+          }
+          return item;
+        });
+      });
     },
   },
 };
