@@ -102,7 +102,7 @@
           />
         </div>
       </div>
-      <button @click="test()">테스트</button>
+      <!-- <button @click="test()">테스트</button> -->
       <p
         style="padding: 0; margin: 0"
         v-for="(obj, index) in receivedMessages"
@@ -241,7 +241,7 @@ export default {
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
-
+      this.syncSocket();
       // go to graph
       console.log('hashKey2 : ' + this.hashKey);
       this.$router.replace('/votegraph/' + this.hashKey);
@@ -295,7 +295,7 @@ export default {
       this.$refs['status'].show();
     },
 
-    test() {
+    syncSocket() {
       const serverURL = 'http://localhost:8080/ws';
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
