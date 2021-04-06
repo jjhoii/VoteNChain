@@ -7,7 +7,7 @@ var store = new Vuex.Store({
 
     state: {
         enabled: false,
-
+        text: "로딩중입니다..."
     },
 
 
