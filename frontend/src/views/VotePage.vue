@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex">
     <HNavGray />
-    <div class="container" id="doVote" style="margin-top: 200px">
+    <div class="container" id="doVote" style="margin-top: 150px">
       <b-modal
         id="bv-modal-example1"
         hide-header-close
@@ -39,7 +39,7 @@
           <img
             v-if="mainImagePath != ''"
             :src="mainImagePath"
-            style="width: 300px; height: 200px; border-radius: 20px;"
+            style="width: 500px; height: 400px; border-radius: 20px;"
             alt=""
           />
         </div>
