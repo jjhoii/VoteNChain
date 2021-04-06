@@ -136,18 +136,6 @@ export default {
       );
       chart.draw(data, options);
     },
-    async getContractAddress() {
-      try {
-        const res = await axios.get(`${SERVER_URL}/vote/read`, {
-          params: { hashKey: this.$route.params.hashKey },
-        });
-        const idx = res.data.vote.contractAddress * 1;
-        await this.getData(idx);
-        this.n = idx;
-      } catch (err) {
-        console.log(err);
-      }
-    },
   },
 };
 </script>
