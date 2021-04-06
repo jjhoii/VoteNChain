@@ -22,7 +22,7 @@
           {{ mainDescription }}
         </p>
         <!-- <p>메인내용</p> -->
-        <b-button style="margin-top: 40px">참가자 목록</b-button>
+        <!-- <b-button style="margin-top: 40px">참가자 목록</b-button> -->
         <GChart
           type="BarChart"
           :data="chartData"

@@ -21,7 +21,7 @@
         >상세 보기</b-button
       >
 
-      <b-modal ref="detail" title="상세보기">
+      <b-modal ref="detail" title="상세보기" hide-footer>
         <p class="my-4" style="">{{ description }}</p>
       </b-modal>
     </div>

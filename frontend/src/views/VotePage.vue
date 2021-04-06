@@ -26,26 +26,26 @@
       >
         투표현황
       </button>
-      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황">
+      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황" hide-footer>
         <VoteGraph style="" />
       </b-modal>
       <div name="title">
-        <center>
+        <div style="text-align:center">
           <h1>{{ mainTitle }}</h1>
-        </center>
+        </div>
       </div>
       <div name="main-image" style="margin-top: 30px">
-        <center>
+        <div style="text-align:center">
           <img
             v-if="mainImagePath != ''"
             :src="mainImagePath"
-            style="width: 300px; height: 200px; border-radius: 20px"
+            style="width: 300px; height: 200px; border-radius: 20px;"
             alt=""
           />
-        </center>
+        </div>
       </div>
       <div name="content">
-        <center>
+        <div style="text-align:center">
           <p
             style="
               font-size: 25px;
@@ -57,7 +57,7 @@
           >
             {{ mainDescription }}
           </p>
-        </center>
+        </div>
       </div>
 
       <div
@@ -114,10 +114,10 @@
         name="vote-end-button"
         style="margin-top: -10px; margin-bottom: 20px"
       >
-        <center style="margin-bottom: 50px">
-          {{ picked }}
+        <div style="margin-bottom: 50px;text-align:center">
+          
           <a class="button_do" @click="doVote">투표 하기!</a>
-        </center>
+        </div>
         <div class="modal" tabindex="-1" style="margin-top: 200px">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -371,6 +371,7 @@ a {
 a.button_do {
   color: rgba(30, 22, 54, 0.6);
   box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+  cursor: pointer;
 }
 
 a.button_do:hover {

@@ -2,18 +2,18 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img src="../../../public/images/votelogo2.png" @click="gohome" />
+        <img src="../../../public/images/votelogo2.png" @click="gohome" style="cursor: pointer;"/>
       </div>
 
       <div class="navbar-title">
-        <span>Vote & Chain</span>
+        <span style="cursor: pointer;">Vote & Chain</span>
       </div>
 
       <div class="navbar-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')" style="cursor: pointer;"
           >Login</span
         >
-        <span v-if="login" @click="clearToken">Logout</span>
+        <span v-if="login" @click="clearToken" style="cursor: pointer;">Logout</span>
 
         <b-modal
           id="bv-modal-example"
