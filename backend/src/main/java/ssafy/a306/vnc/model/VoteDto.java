@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import ssafy.a306.vnc.entity.UserVo;
 import ssafy.a306.vnc.entity.VoteVo;
 
 @Getter
