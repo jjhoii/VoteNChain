@@ -49,7 +49,7 @@ public class UserController {
 				
 				String userAccount = userService.selectUserAccount(userDto).getAccount();
 				resultMap.put("userAccount", userAccount);
-				resultMap.put("message", "success");
+				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else { // 이메일 없음 : 신규 가입.
 				resultMap.put("message", "needSignup");
@@ -72,11 +72,11 @@ public class UserController {
 		System.out.println("signup / key : " + userDto.getAccount());
 		try {
 			userService.insertUser(userDto);
-			resultMap.put("message", "success");
+			resultMap.put("message", SUCCESS);
 			status = HttpStatus.ACCEPTED;
 
 		} catch (Exception e) {
-			logger.error("회원가입 실패 : {}", e);
+			logger.error("회원가입 실패 : {}", e.getMessage());
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

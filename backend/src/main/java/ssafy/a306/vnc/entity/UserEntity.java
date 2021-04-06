@@ -1,51 +1,38 @@
 package ssafy.a306.vnc.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+//@Data
+@NoArgsConstructor
+@Getter
+@Entity(name="User")
 public class UserEntity {
-	
 	@Id
-	private Long userIdx;
-	private String userEmail;
-	private String userName;
-	//private String loginType;
-	//private String privateKey;
-	private String account;
-	
-	public Long getUserIdx() {
-		return userIdx;
-	}
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long userIdx;
 
-	public void setUserIdx(Long userIdx) {
-		this.userIdx = userIdx;
-	}
-
-	public String getUserEmail() {
-		return userEmail;
-	}
-
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	
+//    @Column(name="userEmail")
+    private String userEmail;
+//    @Column(name="userName")
+    private String userName;
+//    @Column(name="loginType")
+//    private String loginType;
+//    @Column(name="privateKey")
+    private String account;
+    
+    @Builder
+    public UserEntity(Long userIdx, String userEmail, String userName, String account) {
+        this.userIdx = userIdx;
+        this.userEmail = userEmail;
+        this.userName = userName;
+        this.account = account;
+    }
 }

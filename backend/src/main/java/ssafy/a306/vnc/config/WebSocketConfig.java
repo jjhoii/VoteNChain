@@ -22,7 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // 메시지 브로커 구성 (메시지를 브로드캐스팅)
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/topic");
+//        registry.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/socket");
+        registry.enableSimpleBroker("/socket");
     }
+
 
 }

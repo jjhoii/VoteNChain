@@ -35,6 +35,8 @@ import HNavGray from '@/components/common/HNavGray';
 import { GChart } from 'vue-google-charts';
 import { Utils } from '@/utils/index.js';
 import axios from 'axios';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
@@ -61,7 +63,6 @@ export default {
         chart: {
           title: 'Company Performance',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          
         },
         /*  그래프 총넓이 */
         backgroundColor:{
@@ -84,12 +85,17 @@ export default {
   },
   async created() {
     // 오류 발생 임시 주석 처리
-
+    this.test();
     await this.getContractAddress();
+    // setInterval(() => {
+    //   this.chartData[1][1]++;
+    //   console.log(this.chartData);
+    // }, 1000);
   },
   methods: {
     async getContractAddress() {
       // console.log("true");
+      this.$store.state.loading.text = '투표 주소를 가져오는 중입니다...';
       this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
@@ -107,6 +113,7 @@ export default {
 
     async getData(idx) {
       // get vote data
+      this.$store.state.loading.text = '투표 데이터를 가져오는 중입니다...';
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
@@ -146,17 +153,50 @@ export default {
       );
       chart.draw(data, options);
     },
-    async getContractAddress() {
-      try {
-        const res = await axios.get(`${SERVER_URL}/vote/read`, {
-          params: { hashKey: this.$route.params.hashKey },
+    test() {
+      const serverURL = 'http://localhost:8080/ws';
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect('', this.onConnected, this.onError);
+    },
+
+    onConnected() {
+      //sendData
+      var hashcode = this.$route.params.hashKey;
+      this.stompClient.subscribe(
+        '/socket/chart/' + hashcode + '/send',
+        this.onMessageReceived
+      );
+    },
+    onError(error) {
+      console.log('에러임');
+      console.log(error);
+    },
+    onDisconnected() {
+      this.stompClient = null;
+      this.receivedMessages = [];
+    },
+
+    onMessageReceived(payload) {
+      const receiveMessage = JSON.parse(payload.body);
+      console.log(receiveMessage.sender); //얘는 인덱스 값
+      // this.chartData = [['Key', 'Value']];
+      console.log(this.chartData);
+
+      this.chartData[parseInt(receiveMessage.sender) + 1][1]++;
+      // this.chartData.push([receiveMessage.sender, count + 1]);
+      // jjh_test
+      this.chartData = this.chartData.map((item, index) => {
+        if (index != parseInt(receiveMessage.sender) || index == 0) {
+          return item;
+        }
+        return item.map((item, index) => {
+          if (index !== 0) {
+            return item++;
+          }
+          return item;
         });
-        const idx = res.data.vote.contractAddress * 1;
-        await this.getData(idx);
-        this.n = idx;
-      } catch (err) {
-        console.log(err);
-      }
+      });
     },
   },
 };

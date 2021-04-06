@@ -1,7 +1,7 @@
 <template>
-  <div style="display:flex;">
+  <div style="display: flex">
     <HNavGray />
-    <div class="container" id="doVote" style="margin-top: 200px;">
+    <div class="container" id="doVote" style="margin-top: 150px">
       <b-modal
         id="bv-modal-example1"
         hide-header-close
@@ -9,7 +9,7 @@
         no-close-on-backdrop
       >
         <template #modal-title>LOGIN</template>
-        <div style="text-align:center; font-family:sans-serif;">
+        <div style="text-align: center; font-family: sans-serif">
           Login 후 투표를 진행할 수 있습니다.
           <img src="@/assets/votelogo.png" />
         </div>
@@ -19,23 +19,33 @@
         </div>
       </b-modal>
 
-      <button class="button_status" style="margin-top: 20px">투표현황</button>
+      <button
+        @click="openStatus()"
+        class="button_status"
+        style="margin-top: 20px"
+      >
+        투표현황
+      </button>
+      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황" hide-footer>
+        <VoteGraph style="" />
+      </b-modal>
       <div name="title">
-        <center>
+        <div style="text-align:center">
           <h1>{{ mainTitle }}</h1>
-        </center>
+        </div>
       </div>
       <div name="main-image" style="margin-top: 30px">
-        <center>
-          <img v-if="mainImagePath != ''"
+        <div style="text-align:center">
+          <img
+            v-if="mainImagePath != ''"
             :src="mainImagePath"
-            style="width: 300px; height: 200px; border-radius: 20px"
+            style="width: 500px; height: 400px; border-radius: 20px;"
             alt=""
           />
-        </center>
+        </div>
       </div>
       <div name="content">
-        <center>
+        <div style="text-align:center">
           <p
             style="
               font-size: 25px;
@@ -47,7 +57,7 @@
           >
             {{ mainDescription }}
           </p>
-        </center>
+        </div>
       </div>
 
       <div
@@ -92,14 +102,22 @@
           />
         </div>
       </div>
+      <!-- <button @click="test()">테스트</button> -->
+      <p
+        style="padding: 0; margin: 0"
+        v-for="(obj, index) in receivedMessages"
+        :key="index"
+      >
+        {{ obj.sender }} : {{ obj.content }}
+      </p>
       <div
         name="vote-end-button"
         style="margin-top: -10px; margin-bottom: 20px"
       >
-        <center style="margin-bottom: 50px">
-          {{ picked }}
+        <div style="margin-bottom: 50px;text-align:center">
+          
           <a class="button_do" @click="doVote">투표 하기!</a>
-        </center>
+        </div>
         <div class="modal" tabindex="-1" style="margin-top: 200px">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -143,6 +161,9 @@ import TextRadio from '@/components/votepage/TextRadio';
 import axios from 'axios';
 import { Utils } from '@/utils/index.js';
 import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import VoteGraph from '@/components/votepage/VoteGraph';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -152,9 +173,13 @@ export default {
     TextRadio,
     HNavGray,
     kakaoLogin,
+    VoteGraph,
   },
   data: function() {
     return {
+      userName: '',
+      message: '',
+      receivedMessages: [],
       items: [],
       mainTitle: '',
       mainDescription: '',
@@ -216,12 +241,13 @@ export default {
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
-
+      this.syncSocket();
       // go to graph
       console.log('hashKey2 : ' + this.hashKey);
       this.$router.replace('/votegraph/' + this.hashKey);
     },
     async sendVote(idx) {
+      this.$store.state.loading.text = '투표가 진행중입니다...';
       this.$store.state.loading.enabled = true;
       console.log('sending');
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
@@ -265,6 +291,55 @@ export default {
     async selectItem(data) {
       this.picked = data;
     },
+    openStatus() {
+      this.$refs['status'].show();
+    },
+
+    syncSocket() {
+      const serverURL = 'http://localhost:8080/ws';
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect('', this.onConnected, this.onError);
+    },
+
+    onConnected() {
+      //sendData
+      var hashcode = this.$route.params.hashKey;
+      this.stompClient.subscribe(
+        '/socket/chart/' + hashcode + '/send',
+        this.onMessageReceived
+      );
+      // console.log('여기에용 ' + this.items[0].title);
+      this.stompClient.send(
+        '/socket/chart/' + hashcode + '/receive',
+        {},
+        JSON.stringify({
+          content: '',
+          // sender: this.items[this.picked].count,
+          sender: this.picked,
+          type: 'JOIN',
+        })
+      );
+    },
+    onError(error) {
+      console.log('에러임');
+      console.log(error);
+    },
+    onDisconnected() {
+      this.stompClient = null;
+      this.receivedMessages = [];
+    },
+
+    onMessageReceived(payload) {
+      const receiveMessage = JSON.parse(payload.body);
+      console.log(receiveMessage.sender);
+
+      if (receiveMessage.type === 'JOIN') {
+        receiveMessage.content = receiveMessage.sender + ' joined!';
+      }
+
+      this.receivedMessages.push(receiveMessage);
+    },
   },
 };
 </script>
@@ -296,6 +371,7 @@ a {
 a.button_do {
   color: rgba(30, 22, 54, 0.6);
   box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
+  cursor: pointer;
 }
 
 a.button_do:hover {
