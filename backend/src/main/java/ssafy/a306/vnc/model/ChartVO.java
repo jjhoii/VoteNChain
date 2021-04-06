@@ -15,6 +15,6 @@ public class ChartVO {
     private String sender;
 
 
-    private String[] arr;
+//    private String[] arr;
     private String hashcode;
 }

@@ -14,6 +14,7 @@ public class WebSocketController {
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChartVO sendMessage(@Payload ChartVO chatVO) {
+        System.out.println("받았다.");
         return chatVO;
     }
 
@@ -27,7 +28,9 @@ public class WebSocketController {
 
     @MessageMapping("/socket/chart/{hashcode}/receive")
     @SendTo("/socket/chart/{hashcode}/send")
-    public ChartVO chartSocketHandler(@DestinationVariable String hashcode, ChartVO data){
+    public ChartVO chartSocketHandler(@DestinationVariable String hashcode,@Payload ChartVO data){
+
+        System.out.println("받았다.");
         return data;
     }
 }

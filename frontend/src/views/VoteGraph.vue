@@ -16,7 +16,12 @@
       <div class="graph-content2">
         <h1>{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
-        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
+        <img
+          v-if="mainImagePath != ''"
+          :src="mainImagePath"
+          alt=""
+          style="width: 50%; height: 30%"
+        />
         <p>
           {{ mainDescription }}
         </p>
@@ -33,6 +38,8 @@ import HNavGray from '@/components/common/HNavGray';
 import { GChart } from 'vue-google-charts';
 import { Utils } from '@/utils/index.js';
 import axios from 'axios';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
@@ -59,15 +66,18 @@ export default {
         chart: {
           title: 'Company Performance',
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
-          
         },
       },
     };
   },
   async created() {
     // 오류 발생 임시 주석 처리
-
+    this.test();
     await this.getContractAddress();
+    // setInterval(() => {
+    //   this.chartData[1][1]++;
+    //   console.log(this.chartData);
+    // }, 1000);
   },
   methods: {
     async getContractAddress() {
@@ -139,6 +149,40 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+
+    test() {
+      const serverURL = 'http://localhost:8080/ws';
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect('', this.onConnected, this.onError);
+    },
+
+    onConnected() {
+      //sendData
+      var hashcode = this.$route.params.hashKey;
+      this.stompClient.subscribe(
+        '/socket/chart/' + hashcode + '/send',
+        this.onMessageReceived
+      );
+    },
+    onError(error) {
+      console.log('에러임');
+      console.log(error);
+    },
+    onDisconnected() {
+      this.stompClient = null;
+      this.receivedMessages = [];
+    },
+
+    onMessageReceived(payload) {
+      const receiveMessage = JSON.parse(payload.body);
+      console.log(receiveMessage.sender); //얘는 인덱스 값
+      // this.chartData = [['Key', 'Value']];
+      console.log(this.chartData);
+
+      this.chartData[parseInt(receiveMessage.sender) + 1][1]++;
+      // this.chartData.push([receiveMessage.sender, count + 1]);
     },
   },
 };

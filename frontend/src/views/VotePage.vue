@@ -19,9 +19,15 @@
         </div>
       </b-modal>
 
-      <button @click="openStatus()" class="button_status" style="margin-top: 20px">투표현황</button>
-      <b-modal  id="vote_status" ref="status" size="xl" title="투표 현황">
-        <VoteGraph style=""/>
+      <button
+        @click="openStatus()"
+        class="button_status"
+        style="margin-top: 20px"
+      >
+        투표현황
+      </button>
+      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황">
+        <VoteGraph style="" />
       </b-modal>
       <div name="title">
         <center>
@@ -30,7 +36,8 @@
       </div>
       <div name="main-image" style="margin-top: 30px">
         <center>
-          <img v-if="mainImagePath != ''"
+          <img
+            v-if="mainImagePath != ''"
             :src="mainImagePath"
             style="width: 300px; height: 200px; border-radius: 20px"
             alt=""
@@ -95,6 +102,14 @@
           />
         </div>
       </div>
+      <button @click="test()">테스트</button>
+      <p
+        style="padding: 0; margin: 0"
+        v-for="(obj, index) in receivedMessages"
+        :key="index"
+      >
+        {{ obj.sender }} : {{ obj.content }}
+      </p>
       <div
         name="vote-end-button"
         style="margin-top: -10px; margin-bottom: 20px"
@@ -147,6 +162,8 @@ import axios from 'axios';
 import { Utils } from '@/utils/index.js';
 import kakaoLogin from '@/components/socialLogin/kakao.vue';
 import VoteGraph from '@/components/votepage/VoteGraph';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -156,10 +173,13 @@ export default {
     TextRadio,
     HNavGray,
     kakaoLogin,
-    VoteGraph
+    VoteGraph,
   },
   data: function() {
     return {
+      userName: '',
+      message: '',
+      receivedMessages: [],
       items: [],
       mainTitle: '',
       mainDescription: '',
@@ -175,8 +195,8 @@ export default {
     if (this.isLogin == true) {
       await this.getContractAddress();
 
-      const isVoteEnd = await this.isVoteEnd(this.n);
-      const isVote = await this.isVote(this.n);
+      // const isVoteEnd = await this.isVoteEnd(this.n);
+      // const isVote = await this.isVote(this.n);
       console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
@@ -270,8 +290,54 @@ export default {
     async selectItem(data) {
       this.picked = data;
     },
-    openStatus(){
+    openStatus() {
       this.$refs['status'].show();
+    },
+
+    test() {
+      const serverURL = 'http://localhost:8080/ws';
+      let socket = new SockJS(serverURL);
+      this.stompClient = Stomp.over(socket);
+      this.stompClient.connect('', this.onConnected, this.onError);
+    },
+
+    onConnected() {
+      //sendData
+      var hashcode = this.$route.params.hashKey;
+      this.stompClient.subscribe(
+        '/socket/chart/' + hashcode + '/send',
+        this.onMessageReceived
+      );
+      // console.log('여기에용 ' + this.items[0].title);
+      this.stompClient.send(
+        '/socket/chart/' + hashcode + '/receive',
+        {},
+        JSON.stringify({
+          content: '',
+          // sender: this.items[this.picked].count,
+          sender: this.picked,
+          type: 'JOIN',
+        })
+      );
+    },
+    onError(error) {
+      console.log('에러임');
+      console.log(error);
+    },
+    onDisconnected() {
+      this.stompClient = null;
+      this.receivedMessages = [];
+    },
+
+    onMessageReceived(payload) {
+      const receiveMessage = JSON.parse(payload.body);
+      console.log(receiveMessage.sender);
+
+      if (receiveMessage.type === 'JOIN') {
+        receiveMessage.content = receiveMessage.sender + ' joined!';
+      }
+
+      this.receivedMessages.push(receiveMessage);
     },
   },
 };
