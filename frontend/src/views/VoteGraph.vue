@@ -2,13 +2,33 @@
   <div>
     <HNavGray />
     <div class="graph-container">
+      <b-modal
+        id="bv-modal-example2"
+        hide-header-close
+        hide-footer
+        no-close-on-backdrop
+      >
+        <template #modal-title>LOGIN</template>
+        <div style="text-align: center; font-family: sans-serif">
+          Login 후 투표결과를 확인할 수 있습니다.
+          <img src="@/assets/votelogo.png" />
+        </div>
+        <br />
+        <div class="d-block text-center justify-center">
+          <kakaoLogin />
+        </div>
+      </b-modal>
+
       <div class="graph-content1">
         <strong
           >Reliable <br />
           Vote.</strong
         >
         <h3>투표 결과를 확인해보세요!</h3>
-        <p id="votepage_desc" style="margin-left: 0px; margin-top: 0px;font-size: 27px;">
+        <p
+          id="votepage_desc"
+          style="margin-left: 0px; margin-top: 0px;font-size: 27px;"
+        >
           블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
           경험해보세요!
         </p>
@@ -17,90 +37,127 @@
         <h1 id="votepage_title">{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
         <div class="graph-content2-gul">
-        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 400px; height: 300px; border-radius: 20px;margin-top: 30px" />
-        <p  id="votepage_desc">
-          {{ mainDescription }}
-        </p>
-        <hr style="width:80%"/>
-        <h1>투표 결과</h1>
-        <GChart type="BarChart" :data="chartData" :options="chartOptions" />
+          <img
+            v-if="mainImagePath != ''"
+            :src="mainImagePath"
+            alt=""
+            style="width: 400px; height: 300px; border-radius: 20px;margin-top: 30px"
+          />
+          <p id="votepage_desc">
+            {{ mainDescription }}
+          </p>
+          <hr style="width:80%" />
+          <h1>투표 결과</h1>
+          <GChart type="BarChart" :data="chartData" :options="chartOptions" />
         </div>
         <!-- <p>메인내용</p> -->
         <!-- <b-button>참가자 목록</b-button> -->
-        
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HNavGray from '@/components/common/HNavGray';
-import { GChart } from 'vue-google-charts';
-import { Utils } from '@/utils/index.js';
-import axios from 'axios';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import HNavGray from "@/components/common/HNavGray";
+import { GChart } from "vue-google-charts";
+import { Utils } from "@/utils/index.js";
+import axios from "axios";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
     GChart,
     HNavGray,
     axios,
+    kakaoLogin,
   },
   data() {
     return {
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
-      colorIdx:0,
-      color:'',
+      colorIdx: 0,
+      color: "",
+      isLogin: false,
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ['Element', 'Density', { role: 'style' }, { role: 'annotation' }], /* 3번째옵션이 style 4번째옵션이 그래프위숫자표시 */
-        ['Copper', 20, '#b87333', 1],
-        ['Silver', 1, 'silver', 'Ag'],
-        ['Gold', 1, 'gold', 'Au'],
-        ['Platinum', 1, 'color: #e5e4e2', 'Pt'],
+        [
+          "Element",
+          "Density",
+          { role: "style" },
+          { role: "annotation" },
+        ] /* 3번째옵션이 style 4번째옵션이 그래프위숫자표시 */,
+        ["Copper", 20, "#b87333", 1],
+        ["Silver", 1, "silver", "Ag"],
+        ["Gold", 1, "gold", "Au"],
+        ["Platinum", 1, "color: #e5e4e2", "Pt"],
       ],
       chartOptions: {
         chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          title: "Company Performance",
+          subtitle: "Sales, Expenses, and Profit: 2014-2017",
         },
         /*  그래프 총넓이 */
-        backgroundColor:{
-          fill: '#e9ecef',
+        backgroundColor: {
+          fill: "#e9ecef",
           // stroke : '#666',
           // strokeWidth : 5,
         },
         // width: 1000,
         height: 400,
-        legend: { position: 'top', maxLines: 4 }, /* 항목 위치 및 한줄에 최대4개  */
-        bar: { groupWidth: '75%' }, /* 막대그래프 넓이 */
+        legend: {
+          position: "top",
+          maxLines: 4,
+        } /* 항목 위치 및 한줄에 최대4개  */,
+        bar: { groupWidth: "75%" } /* 막대그래프 넓이 */,
         isStacked: true,
-         hAxis: {
-            minValue: 0,
-            format: '0', /* 드디어찾았다... 소수점제거... */
-            gridlines: { count: 4 } ,/* 굵은 그리드 라인개수 */
-          },
+        hAxis: {
+          minValue: 0,
+          format: "0" /* 드디어찾았다... 소수점제거... */,
+          gridlines: { count: 4 } /* 굵은 그리드 라인개수 */,
+        },
       },
     };
   },
   async created() {
+    this.loginCheck();
     // 오류 발생 임시 주석 처리
-    this.test();
-    await this.getContractAddress();
-    // setInterval(() => {
-    //   this.chartData[1][1]++;
-    //   console.log(this.chartData);
-    // }, 1000);
+    if (this.isLogin == true) {
+      this.test();
+      await this.getContractAddress();
+      // setInterval(() => {
+      //   this.chartData[1][1]++;
+      //   console.log(this.chartData);
+      // }, 1000);
+    }
+  },
+  mounted() {
+    if (this.isLogin == false) {
+      this.$bvModal.show("bv-modal-example2");
+    }
+    console.log("Test");
   },
   methods: {
+    loginCheck() {
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
+      if (
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
+      ) {
+        console.log("로그인 안됨.");
+      } else {
+        console.log("로그인 됨.");
+        this.isLogin = true;
+      }
+    },
     async getContractAddress() {
       // console.log("true");
-      this.$store.state.loading.text = '투표 주소를 가져오는 중입니다...';
+      this.$store.state.loading.text = "투표 주소를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
@@ -118,7 +175,7 @@ export default {
 
     async getData(idx) {
       // get vote data
-      this.$store.state.loading.text = '투표 데이터를 가져오는 중입니다...';
+      this.$store.state.loading.text = "투표 데이터를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
@@ -129,26 +186,26 @@ export default {
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
       // set chart
-      this.chartData = [['Key', '득표 수',{ role: 'style'}]];
+      this.chartData = [["Key", "득표 수", { role: "style" }]];
       // var idx = 0;
       rs.items.forEach((el) => {
-        console.log(el.title + '데이터 확인' + el.count + 'dd' + this.colorIdx );
+        console.log(el.title + "데이터 확인" + el.count + "dd" + this.colorIdx);
         //var color = '';
-        if(this.colorIdx % 6 == 0){
-          this.color = '#BCE55C';// #BCE55C 연두
-        }else if(this.colorIdx%6 == 1){
-          this.color = '#A566FF';// #A566FF 보라
-        }else if(this.colorIdx%6 == 2){
-          this.color = '#5CD1E5';// #5CD1E5 하늘
-        }else if(this.colorIdx%6 == 3){
-          this.color = '#F361DC';// #F361DC 분홍
-        }else if(this.colorIdx%6 == 4){
-          this.color = '#E5D85C';// #E5D85C 노랑
-        }else if(this.colorIdx%6 == 5){
-          this.color = '#F15F5F';// #F15F5F 빨강
+        if (this.colorIdx % 6 == 0) {
+          this.color = "#BCE55C"; // #BCE55C 연두
+        } else if (this.colorIdx % 6 == 1) {
+          this.color = "#A566FF"; // #A566FF 보라
+        } else if (this.colorIdx % 6 == 2) {
+          this.color = "#5CD1E5"; // #5CD1E5 하늘
+        } else if (this.colorIdx % 6 == 3) {
+          this.color = "#F361DC"; // #F361DC 분홍
+        } else if (this.colorIdx % 6 == 4) {
+          this.color = "#E5D85C"; // #E5D85C 노랑
+        } else if (this.colorIdx % 6 == 5) {
+          this.color = "#F15F5F"; // #F15F5F 빨강
         }
 
-        this.chartData.push([el.title, el.count * 1,this.color]);
+        this.chartData.push([el.title, el.count * 1, this.color]);
         this.colorIdx++;
       });
 
@@ -158,40 +215,40 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 9],
-        ['Eat', 2],
-        ['TV', 4],
-        ['Gym', 2],
-        ['Sleep', 8],
+        ["Task", "Hours per Day"],
+        ["Work", 9],
+        ["Eat", 2],
+        ["TV", 4],
+        ["Gym", 2],
+        ["Sleep", 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: 'My Average Day', width: 550, height: 400 };
+      var options = { title: "My Average Day", width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById('piechart')
+        document.getElementById("piechart")
       );
       chart.draw(data, options);
     },
     test() {
-      const serverURL = 'http://localhost:8080/ws';
+      const serverURL = "http://localhost:8080/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      this.stompClient.connect('', this.onConnected, this.onError);
+      this.stompClient.connect("", this.onConnected, this.onError);
     },
 
     onConnected() {
       //sendData
       var hashcode = this.$route.params.hashKey;
       this.stompClient.subscribe(
-        '/socket/chart/' + hashcode + '/send',
+        "/socket/chart/" + hashcode + "/send",
         this.onMessageReceived
       );
     },
     onError(error) {
-      console.log('에러임');
+      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {
@@ -261,9 +318,9 @@ export default {
   text-align: center;
   width: 65%;
   background: #e9ecef;
-  padding-top:15px;
+  padding-top: 15px;
 }
-.graph-content2-gul{
-  min-height: 50% ;
+.graph-content2-gul {
+  min-height: 50%;
 }
 </style>
