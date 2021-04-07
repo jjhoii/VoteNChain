@@ -20,15 +20,11 @@
               </div>
               <br />
               <p class="votemake_font">메인 이미지</p>
-              <input
-                id="upload-image"
-                ref="file"
-                type="file"
-                accept=".jpg, .png, .gif"
-                style=""
-                @change="previewImage"
-              />
-              <br />
+              <div class="filebox">
+                <label for="ex_file">업로드</label>
+                <input type="file" ref="file" id="ex_file" accept=".jpg, .png, .gif"
+                @change="previewImage">
+              </div>
               <img
                 class="preimg"
                 :src="previewImageData"
@@ -503,14 +499,10 @@ export default {
 
 
 .button {
-  background-color: #343a40;
-  border: 2px solid #333;
   border-radius: 10px;
   color: #fff;
-  /* line-height: 50px; */
 }
 .button:hover {
-  background-color: #fff;
   border-color: #212529;
   color: #212529;
 }
@@ -528,16 +520,41 @@ export default {
   border-color: rosybrown;
   height: 30px;
 }
-/* #upload-image[type='file']
-   { top:0; left:0; width:350px; height:43px; opacity:0;}
-   */
-   #plus_button{
-     border:0px;
-   }
-
-   .votemake_font{
-     font-family: MaruBuri-Regular;
-     font-size: 28px;
-   }
-
+#plus_button{
+  border:0px;
+}
+.votemake_font{
+  font-family: MaruBuri-Regular;
+  font-size: 28px;
+}
+/*  파일 버튼선택  css 5개 */
+.filebox label {
+  display: inline-block;
+  padding: .5em .75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #D9B79A;
+  cursor: pointer;
+  border-radius: 10px;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.filebox label:hover {
+  color: #212529;
+}
+.filebox label:active {
+  background-color: #367c36;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 </style>
