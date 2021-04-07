@@ -11,7 +11,13 @@
         placeholder="항목명을 입력해주세요."
       />
     </div>
-    <span v-if="imageFlag">
+    <div v-if="imageFlag" class="filebox">
+      <label  :for="index">업로드</label><br>
+      <input type="file" ref="file" :id="index" accept=".jpg, .png, .gif"
+       @change="previewImage">
+       <img v-if="previewImageData" class="preimg" :src="previewImageData" />
+    </div>
+    <!-- <span v-if="imageFlag">
       <input
         id="upload-itemImage"
         ref="file"
@@ -20,7 +26,7 @@
         @change="previewImage"
       /><br />
       <img v-if="previewImageData" class="preimg" :src="previewImageData" />
-    </span>
+    </span> -->
     <div class="form-floating" style="margin-top: 15px; margin-bottom:15px">
       <textarea
         class="form-control"
@@ -34,7 +40,7 @@
       type="button"
       class="button-delete"
       @click="deleteSubject()"
-      value="-"
+      value="삭제"
     />
   </div>
 </template>
@@ -132,7 +138,7 @@ export default {
   border-width: 2px;
   border-color: red;
   background-color: white;
-  border-radius: 100%;
+  border-radius: 20%;
   color: red;
   font-size: 15px;
 }

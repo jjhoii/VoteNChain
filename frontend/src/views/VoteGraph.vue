@@ -20,15 +20,9 @@
       </b-modal>
 
       <div class="graph-content1">
-        <strong
-          >Reliable <br />
-          Vote.</strong
-        >
-        <h3>투표 결과를 확인해보세요!</h3>
-        <p
-          id="votepage_desc"
-          style="margin-left: 0px; margin-top: 0px;font-size: 27px;"
-        >
+        <strong>Reliable <br />Vote.</strong>
+        <h3>투표결과를 확인하세요.</h3>
+        <p id="votepage_desc" style="margin-left: 0px; margin-top: 0px;font-size: 27px;">
           블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
           경험해보세요!
         </p>
@@ -79,9 +73,9 @@ export default {
   },
   data() {
     return {
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
       colorIdx: 0,
       color: '',
@@ -91,38 +85,38 @@ export default {
       loaded: false,
       chartData: [
         [
-          'Element',
-          'Density',
-          { role: 'style' },
-          { role: 'annotation' },
+          "Element",
+          "Density",
+          { role: "style" },
+          { role: "annotation" },
         ] /* 3번째옵션이 style 4번째옵션이 그래프위숫자표시 */,
-        ['Copper', 20, '#b87333', 1],
-        ['Silver', 1, 'silver', 'Ag'],
-        ['Gold', 1, 'gold', 'Au'],
-        ['Platinum', 1, 'color: #e5e4e2', 'Pt'],
+        ["Copper", 20, "#b87333", 1],
+        ["Silver", 1, "silver", "Ag"],
+        ["Gold", 1, "gold", "Au"],
+        ["Platinum", 1, "color: #e5e4e2", "Pt"],
       ],
       chartOptions: {
         chart: {
-          title: 'Company Performance',
-          subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+          title: "Company Performance",
+          subtitle: "Sales, Expenses, and Profit: 2014-2017",
         },
         /*  그래프 총넓이 */
         backgroundColor: {
-          fill: '#e9ecef',
+          fill: "#e9ecef",
           // stroke : '#666',
           // strokeWidth : 5,
         },
         // width: 1000,
         height: 400,
         legend: {
-          position: 'top',
+          position: "none",
           maxLines: 4,
-        } /* 항목 위치 및 한줄에 최대4개  */,
-        bar: { groupWidth: '75%' } /* 막대그래프 넓이 */,
+        } /* 항목 위치 및 한줄에 최대4개  position은 top, 기본, none 조정가능 */,
+        bar: { groupWidth: "75%" } /* 막대그래프 넓이 */,
         isStacked: true,
         hAxis: {
           minValue: 0,
-          format: '0' /* 드디어찾았다... 소수점제거... */,
+          format: "0" /* 드디어찾았다... 소수점제거... */,
           gridlines: { count: 4 } /* 굵은 그리드 라인개수 */,
         },
       },
@@ -170,7 +164,7 @@ export default {
     },
     async getContractAddress() {
       // console.log("true");
-      this.$store.state.loading.text = '투표 주소를 가져오는 중입니다...';
+      this.$store.state.loading.text = "투표 주소를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       try {
         const res = await axios.get(`${SERVER_URL}/vote/read`, {
@@ -188,7 +182,7 @@ export default {
 
     async getData(idx) {
       // get vote data
-      this.$store.state.loading.text = '투표 데이터를 가져오는 중입니다...';
+      this.$store.state.loading.text = "투표 데이터를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
       console.log(rs);
@@ -200,23 +194,23 @@ export default {
       this.imageExist = rs.bImageExist;
       this.endedAt = rs.endedAt;
       // set chart
-      this.chartData = [['Key', '득표 수', { role: 'style' }]];
+      this.chartData = [["Key", "득표 수", { role: "style" }]];
       // var idx = 0;
       rs.items.forEach((el) => {
-        console.log(el.title + '데이터 확인' + el.count + 'dd' + this.colorIdx);
+        console.log(el.title + "데이터 확인" + el.count + "dd" + this.colorIdx);
         //var color = '';
         if (this.colorIdx % 6 == 0) {
-          this.color = '#BCE55C'; // #BCE55C 연두
+          this.color = "#BCE55C"; // #BCE55C 연두
         } else if (this.colorIdx % 6 == 1) {
-          this.color = '#A566FF'; // #A566FF 보라
+          this.color = "#A566FF"; // #A566FF 보라
         } else if (this.colorIdx % 6 == 2) {
-          this.color = '#5CD1E5'; // #5CD1E5 하늘
+          this.color = "#5CD1E5"; // #5CD1E5 하늘
         } else if (this.colorIdx % 6 == 3) {
-          this.color = '#F361DC'; // #F361DC 분홍
+          this.color = "#F361DC"; // #F361DC 분홍
         } else if (this.colorIdx % 6 == 4) {
-          this.color = '#E5D85C'; // #E5D85C 노랑
+          this.color = "#E5D85C"; // #E5D85C 노랑
         } else if (this.colorIdx % 6 == 5) {
-          this.color = '#F15F5F'; // #F15F5F 빨강
+          this.color = "#F15F5F"; // #F15F5F 빨강
         }
 
         this.chartData.push([el.title, el.count * 1, this.color]);
@@ -229,20 +223,20 @@ export default {
     },
     drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 9],
-        ['Eat', 2],
-        ['TV', 4],
-        ['Gym', 2],
-        ['Sleep', 8],
+        ["Task", "Hours per Day"],
+        ["Work", 9],
+        ["Eat", 2],
+        ["TV", 4],
+        ["Gym", 2],
+        ["Sleep", 8],
       ]);
 
       // Optional; add a title and set the width and height of the chart
-      var options = { title: 'My Average Day', width: 550, height: 400 };
+      var options = { title: "My Average Day", width: 550, height: 400 };
 
       // Display the chart inside the <div> element with id="piechart"
       var chart = new google.visualization.PieChart(
-        document.getElementById('piechart')
+        document.getElementById("piechart")
       );
       chart.draw(data, options);
     },
@@ -250,19 +244,19 @@ export default {
       const serverURL = 'http://localhost:8080/ws';
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      this.stompClient.connect('', this.onConnected, this.onError);
+      this.stompClient.connect("", this.onConnected, this.onError);
     },
 
     onConnected() {
       //sendData
       var hashcode = this.$route.params.hashKey;
       this.stompClient.subscribe(
-        '/socket/chart/' + hashcode + '/send',
+        "/socket/chart/" + hashcode + "/send",
         this.onMessageReceived
       );
     },
     onError(error) {
-      console.log('에러임');
+      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {
@@ -304,29 +298,20 @@ export default {
   display: flex;
   justify-content: flex-end;
   background: #f9f9f9;
-  position: relative;
 }
-
 .graph-content1 strong {
-  position: absolute;
-  font-size: 124px;
-  left: 10%;
-  top: 10%;
+  font-size: 140px;
   line-height: 1.25em;
+  position: fixed;
 }
 .graph-content1 h3 {
-  position: absolute;
   font-size: 34px;
-  left: 10%;
-  top: 55%;
   font-weight: 700;
+  position: fixed;
 }
 .graph-content1 p {
-  position: absolute;
   font-size: 24px;
-  left: 10%;
-  top: 65%;
-  z-index: 99;
+   position: fixed;
 }
 .graph-content2 {
   text-align: center;
