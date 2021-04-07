@@ -24,12 +24,12 @@
           no-close-on-esc
         >
           <template #modal-title>LOGIN</template>
-          <div style="text-align:center; font-family:sans-serif;">
+          <div style="text-align:center; font-family:NIXGONM-Vb;">
             Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
-            <img src="../../../public/images/votelogo.png" />
+            <img src="../../../public/images/vnc_logo.png" style="margin-top:-40px"/>
           </div>
           <br />
-          <div class="d-block text-center justify-center">
+          <div class="d-block text-center justify-center" style = "margin-top:-60px">
             <kakaoLogin />
           </div>
           <br />
@@ -37,7 +37,7 @@
             <b-button
               variant="info"
               class="mt-3"
-              style="width: 50%;"
+              style="width: 65%;height:40px;margin-top:30px;background-color:#A68C7C;border-color: white;"
               @click="$bvModal.hide('bv-modal-example')"
               >Close Me</b-button
             >
