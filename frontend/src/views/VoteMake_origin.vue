@@ -24,15 +24,10 @@
                 ref="file"
                 type="file"
                 accept=".jpg, .png, .gif"
-                style=""
                 @change="previewImage"
               />
               <br />
-              <img
-                class="preimg"
-                :src="previewImageData"
-                v-if="previewImageData"
-              />
+              <img class="preimg" :src="previewImageData" v-if="previewImageData" />
               <br />
               <div class="input-group input-group-lg">
                 <textarea
@@ -64,23 +59,19 @@
               text-field="name"
             ></b-form-radio-group>
 
-            <b-button id="tooltip-target-1">
+              <b-button id="tooltip-target-1">
               Tip!
             </b-button>
-            <b-tooltip
-              placement="topright"
-              variant="danger"
-              target="tooltip-target-1"
-              triggers="hover"
-            >
-              글: 이미지가없는 투표 항목 <br />
+            <b-tooltip  placement="topright" variant="danger" target="tooltip-target-1" triggers="hover">
+              글: 이미지가없는 투표 항목 <br>
               이미지: 이미지가있는 투표 항목
             </b-tooltip>
+
+
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
             <div v-if="WrittenCheck" class="border-top border-bottom">
-              <br />
               <VoteWritten
                 :imageFlag="imageFlag"
                 v-for="(list, index) in voteList"
@@ -94,15 +85,9 @@
           </div>
 
           <div>
-            <b-button
-              type="button"
-              class="button"
-              variant="success"
-              style="margin-top: 15px;"
-              @click="AddSubject()"
-            >
+            <button type="button" class="button" style="margin-top: 15px;" @click="AddSubject()">
               항목 추가
-            </b-button>
+            </button>
           </div>
           <div class="continer" style="margin-top: 15px">
             <span>투표마감일</span>
@@ -151,16 +136,15 @@
               >닫기</b-button
             >
           </b-modal>
-          <div style="margin-top: 50px; text-align:center;">
-            <b-button
+          <div style="margin-top: 15px">
+            <button
               @click="createVote()"
               type="button"
               class="button"
-              variant="info"
-              style="width: 60%"
+              style="width: 80px"
             >
-              제출하기!
-            </b-button>
+              제출
+            </button>
           </div>
         </div>
       </div>
@@ -221,14 +205,15 @@ export default {
       contentData1: true,
       contentData2: false,
 
-      voteUrl: "https://votenchain.tk/votepage/",
-      hashKey: "",
-      myInput: "",
-      selected: "",
-      options: [
-        { item: "글", name: "글" },
-        { item: "이미지", name: "이미지" },
-      ],
+      voteUrl: 'https://votenchain.tk/votepage/',
+      hashKey: '',
+      myInput: '',
+      selected: '',
+       options: [
+          { item: '글', name: '글' },
+          { item: '이미지', name: '이미지' },
+         
+        ]
     };
   },
   created() {
@@ -251,12 +236,12 @@ export default {
     },
     changeFlag() {
       // this.imageFlag = !this.imageFlag;
-
-      if (this.selected == "글") {
+      
+      if(this.selected == '글'){
         this.imageFlag = false;
       }
 
-      if (this.selected == "이미지") {
+      if(this.selected == '이미지'){
         this.imageFlag = true;
       }
     },
@@ -340,11 +325,14 @@ export default {
       );
     },
     previewImage(event) {
+      
+    
       var input = event.target;
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = (e) => {
           this.previewImageData = e.target.result;
+          
         };
         reader.readAsDataURL(input.files[0]);
 
@@ -354,6 +342,7 @@ export default {
       } else {
         this.previewImageData = null;
       }
+    
     },
     createVote() {
       if (!this.validationCheck()) {
@@ -385,7 +374,7 @@ export default {
             this.hashKey = response.data.hashKey;
             this.$refs["url"].show();
           })
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
         this.$store.state.loading.enabled = false;
@@ -497,7 +486,7 @@ export default {
   font-size: 1rem;
 }
 .votemake-content-title {
-  font-family: "Playfair Display", serif;
+  font-family: 'Playfair Display', serif;
 }
 
 .button {
@@ -519,14 +508,15 @@ export default {
   margin-bottom: 3px;
   margin-left: 10px;
 }
-#tooltip-target-1 {
-  font-size: 13px;
+#tooltip-target-1{
+  font-size : 13px;
   background: white;
-  color: rosybrown;
+  color :rosybrown;
   border-color: rosybrown;
   height: 30px;
 }
 /* #upload-image[type='file']
    { top:0; left:0; width:350px; height:43px; opacity:0;}
    */
+
 </style>
