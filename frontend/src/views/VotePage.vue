@@ -31,7 +31,7 @@
       </b-modal>
       <div name="title">
         <div style="text-align:center">
-          <h1>{{ mainTitle }}</h1>
+          <h1 id="votepage_title">{{ mainTitle }}</h1>
         </div>
       </div>
       <div name="main-image" style="margin-top: 30px">
@@ -47,13 +47,7 @@
       <div name="content">
         <div style="text-align:center">
           <p
-            style="
-              font-size: 25px;
-              margin-top: 50px;
-              margin-bottom: 50px;
-              margin-left: 50px;
-              margin-right: 50px;
-            "
+            id="votepage_desc"
           >
             {{ mainDescription }}
           </p>
@@ -345,6 +339,33 @@ export default {
 </script>
 
 <style>
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+
+.hanna * {
+ font-family: 'Hanna', fantasy;
+}
+
+@font-face {
+     font-family: 'NIXGONM-Vb';
+     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
+     font-weight: normal;
+     font-style: normal;
+}
+
+@font-face {
+    font-family: 'TmoneyRoundWindExtraBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .wrap {
   position: absolute;
   top: 50%;
@@ -380,15 +401,15 @@ a.button_do:hover {
 }
 
 #doVote {
-  background-color: #e9ecef;
-  border: 1px solid rgb(245, 233, 233);
+  background-color: #ebeff3;
+  /* border: 1px solid rgb(245, 233, 233); */
   border-radius: 20px;
   margin-bottom: 50px;
 }
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Hanna', fantasy;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
@@ -408,5 +429,18 @@ a.button_do:hover {
   box-shadow: 0px 15px 20px #adb5bd;
   color: rgb(10, 10, 10);
   transform: translateY(-7px);
+}
+#votepage_title {
+   font-family:'TmoneyRoundWindExtraBold';
+   font-size: 80px;
+}
+#votepage_desc{
+  font-family: 'NIXGONM-Vb';
+  font-size: 25px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 170px;
+  margin-right: 170px;
+  line-height: 50px;
 }
 </style>

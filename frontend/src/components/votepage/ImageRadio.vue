@@ -8,7 +8,7 @@
       @click="clickItem"
     />
     <div id="img" style="margin-bottom:20px">
-      <h2 style="margin-left:30px;">{{ idx + 1 }} . {{ title }}</h2>
+      <h2 id="option_title">{{ title }}</h2>
       <img
         :src="imagePath"
         style="margin-left:50px;margin-top:10px; width:200px;height:200px;border-radius:10px"
@@ -17,7 +17,7 @@
         pill
         variant="outline-secondary"
         @click="openDetail"
-        style="margin-left:180px;margin-top:30px"
+        style="margin-left:180px;margin-top:20px"
         >상세 보기</b-button
       >
 
@@ -78,5 +78,12 @@ export default {
 }
 #option {
   background-color: white;
+}
+#option_title{
+  font-family: 'NIXGONM-Vb';
+  margin-left:0px;
+  margin-top:0px;
+  padding-top:15px;
+  text-align: center;
 }
 </style>
