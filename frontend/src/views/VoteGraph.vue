@@ -17,10 +17,15 @@
         <h1>{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
         <div class="graph-content2-gul">
-        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
-        <p>
-          {{ mainDescription }}
-        </p>
+          <img
+            v-if="mainImagePath != ''"
+            :src="mainImagePath"
+            alt=""
+            style="width: 50%; height: 30%"
+          />
+          <p>
+            {{ mainDescription }}
+          </p>
         </div>
         <!-- <p>메인내용</p> -->
         <!-- <b-button>참가자 목록</b-button> -->
@@ -53,7 +58,12 @@ export default {
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
-        ['Element', 'Density', { role: 'style' }, { role: 'annotation' }], /* 3번째옵션이 style 4번째옵션이 그래프위숫자표시 */
+        [
+          'Element',
+          'Density',
+          { role: 'style' },
+          { role: 'annotation' },
+        ] /* 3번째옵션이 style 4번째옵션이 그래프위숫자표시 */,
         ['Copper', 20, '#b87333', 1],
         ['Silver', 1, 'silver', 'Ag'],
         ['Gold', 1, 'gold', 'Au'],
@@ -65,27 +75,30 @@ export default {
           subtitle: 'Sales, Expenses, and Profit: 2014-2017',
         },
         /*  그래프 총넓이 */
-        backgroundColor:{
+        backgroundColor: {
           fill: '#f8f8f8',
-          stroke : '#666',
-          strokeWidth : 5,
+          stroke: '#666',
+          strokeWidth: 5,
         },
         width: 600,
         height: 400,
-        legend: { position: 'top', maxLines: 4 }, /* 항목 위치 및 한줄에 최대4개  */
-        bar: { groupWidth: '75%' }, /* 막대그래프 넓이 */
+        legend: {
+          position: 'top',
+          maxLines: 4,
+        } /* 항목 위치 및 한줄에 최대4개  */,
+        bar: { groupWidth: '75%' } /* 막대그래프 넓이 */,
         isStacked: true,
-         hAxis: {
-            minValue: 0,
-            format: '0', /* 드디어찾았다... 소수점제거... */
-            gridlines: { count: 4 } ,/* 굵은 그리드 라인개수 */
-          },
+        hAxis: {
+          minValue: 0,
+          format: '0' /* 드디어찾았다... 소수점제거... */,
+          gridlines: { count: 4 } /* 굵은 그리드 라인개수 */,
+        },
       },
     };
   },
   async created() {
     // 오류 발생 임시 주석 처리
-    this.test();
+    this.syncSocket();
     await this.getContractAddress();
     // setInterval(() => {
     //   this.chartData[1][1]++;
@@ -153,8 +166,9 @@ export default {
       );
       chart.draw(data, options);
     },
-    test() {
-      const serverURL = 'http://localhost:8080/ws';
+    syncSocket() {
+      // const serverURL = 'http://localhost:8080/ws';
+      const serverURL = 'http://votenchain.tk/ws';
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect('', this.onConnected, this.onError);
@@ -240,7 +254,7 @@ export default {
   width: 65%;
   background: #e9ecef;
 }
-.graph-content2-gul{
-  min-height: 50% ;
+.graph-content2-gul {
+  min-height: 50%;
 }
 </style>

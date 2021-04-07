@@ -26,7 +26,13 @@
       >
         투표현황
       </button>
-      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황" hide-footer>
+      <b-modal
+        id="vote_status"
+        ref="status"
+        size="xl"
+        title="투표 현황"
+        hide-footer
+      >
         <VoteGraph style="" />
       </b-modal>
       <div name="title">
@@ -115,7 +121,6 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <div style="margin-bottom: 50px;text-align:center">
-          
           <a class="button_do" @click="doVote">투표 하기!</a>
         </div>
         <div class="modal" tabindex="-1" style="margin-top: 200px">
@@ -296,7 +301,8 @@ export default {
     },
 
     syncSocket() {
-      const serverURL = 'http://localhost:8080/ws';
+      // const serverURL = 'http://localhost:8080/ws';
+      const serverURL = 'http://votenchain.tk/ws';
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect('', this.onConnected, this.onError);
