@@ -2,6 +2,23 @@
   <div>
     <HNavGray />
     <div class="graph-container">
+      <b-modal
+        id="bv-modal-example2"
+        hide-header-close
+        hide-footer
+        no-close-on-backdrop
+      >
+        <template #modal-title>LOGIN</template>
+        <div style="text-align: center; font-family: sans-serif">
+          Login 후 투표결과를 확인할 수 있습니다.
+          <img src="@/assets/votelogo.png" />
+        </div>
+        <br />
+        <div class="d-block text-center justify-center">
+          <kakaoLogin />
+        </div>
+      </b-modal>
+
       <div class="graph-content1">
         <strong>Reliable <br />Vote.</strong>
         <h3>투표결과를 확인하세요.</h3>
@@ -13,6 +30,10 @@
       <div class="graph-content2">
         <h1 id="votepage_title">{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
+        <div>
+          <b-badge variant="success" v-if="this.endDayCheck()">진행중</b-badge>
+          <b-badge variant="secondary" v-else>마감</b-badge>
+        </div>
         <div class="graph-content2-gul">
           <img
             v-if="mainImagePath != ''"
@@ -35,18 +56,20 @@
 </template>
 
 <script>
-import HNavGray from "@/components/common/HNavGray";
-import { GChart } from "vue-google-charts";
-import { Utils } from "@/utils/index.js";
-import axios from "axios";
-import { Stomp } from "@stomp/stompjs";
-import SockJS from "sockjs-client";
+import HNavGray from '@/components/common/HNavGray';
+import { GChart } from 'vue-google-charts';
+import { Utils } from '@/utils/index.js';
+import axios from 'axios';
+import { Stomp } from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import kakaoLogin from '@/components/socialLogin/kakao.vue';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
     GChart,
     HNavGray,
     axios,
+    kakaoLogin,
   },
   data() {
     return {
@@ -55,7 +78,9 @@ export default {
       mainImagePath: "",
       imageExist: false,
       colorIdx: 0,
-      color: "",
+      color: '',
+      isLogin: false,
+      endedAt: '',
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
@@ -98,15 +123,45 @@ export default {
     };
   },
   async created() {
+    this.loginCheck();
     // 오류 발생 임시 주석 처리
-    this.test();
-    await this.getContractAddress();
-    // setInterval(() => {
-    //   this.chartData[1][1]++;
-    //   console.log(this.chartData);
-    // }, 1000);
+    if (this.isLogin == true) {
+      await this.getContractAddress();
+      this.subscribe();
+      // setInterval(() => {
+      //   this.chartData[1][1]++;
+      //   console.log(this.chartData);
+      // }, 1000);
+    }
+  },
+  mounted() {
+    if (this.isLogin == false) {
+      this.$bvModal.show('bv-modal-example2');
+    }
+    console.log('Test');
   },
   methods: {
+    endDayCheck() {
+      //지났음
+      if (this.endedAt * 1000 < Date.now() * 1) {
+        return false;
+      }
+      //안지났음
+      return true;
+    },
+    loginCheck() {
+      console.log(localStorage.getItem('access_token'));
+      console.log(localStorage.getItem('myData'));
+      if (
+        localStorage.getItem('access_token') == undefined ||
+        localStorage.getItem('myData') == undefined
+      ) {
+        console.log('로그인 안됨.');
+      } else {
+        console.log('로그인 됨.');
+        this.isLogin = true;
+      }
+    },
     async getContractAddress() {
       // console.log("true");
       this.$store.state.loading.text = "투표 주소를 가져오는 중입니다...";
@@ -137,6 +192,7 @@ export default {
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
+      this.endedAt = rs.endedAt;
       // set chart
       this.chartData = [["Key", "득표 수", { role: "style" }]];
       // var idx = 0;
@@ -184,8 +240,8 @@ export default {
       );
       chart.draw(data, options);
     },
-    test() {
-      const serverURL = "http://localhost:8080/ws";
+    subscribe() {
+      const serverURL = 'http://localhost:8080/ws';
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect("", this.onConnected, this.onError);

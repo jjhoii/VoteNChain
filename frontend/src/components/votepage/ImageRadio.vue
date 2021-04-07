@@ -7,7 +7,7 @@
       v-model="picked"
       @click="clickItem"
     />
-    <div id="img" style="margin-bottom:20px">
+    <div id="img" style="margin-bottom:20px; word-break:break-all;">
       <h2 id="option_title">{{ title }}</h2>
       <img
         :src="imagePath"
@@ -22,7 +22,7 @@
       >
 
       <b-modal ref="detail" title="상세보기" hide-footer>
-        <p class="my-4" style="">{{ description }}</p>
+        <p class="my-4" style="word-break:break-all;">{{ description }}</p>
       </b-modal>
     </div>
   </label>
@@ -30,30 +30,30 @@
 
 <script>
 export default {
-  props: ['idx', 'title', 'imagePath', 'description'],
+  props: ["idx", "title", "imagePath", "description"],
   data() {
     return {
       confirm: -1,
-      picked: '',
+      picked: "",
     };
   },
 
   methods: {
     openDetail() {
-      this.$refs['detail'].show();
+      this.$refs["detail"].show();
     },
     closeDetail() {
       this.confirm = -1;
     },
     clickItem() {
-      this.$emit('selectItem', this.idx);
+      this.$emit("selectItem", this.idx);
     },
   },
 };
 </script>
 
 <style>
-[type='radio'] {
+[type="radio"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -61,7 +61,7 @@ export default {
 }
 
 /* IMAGE STYLES */
-[type='radio'] + div#img {
+[type="radio"] + div#img {
   cursor: pointer;
   width: 300px;
   height: 350px;
@@ -72,18 +72,18 @@ export default {
 }
 
 /* CHECKED STYLES */
-[type='radio']:checked + div#img {
+[type="radio"]:checked + div#img {
   border: 2px solid #6c757d;
   background-color: #f8f9fa;
 }
 #option {
   background-color: white;
 }
-#option_title{
-  font-family: 'NIXGONM-Vb';
-  margin-left:0px;
-  margin-top:0px;
-  padding-top:15px;
+#option_title {
+  font-family: "NIXGONM-Vb";
+  margin-left: 0px;
+  margin-top: 0px;
+  padding-top: 15px;
   text-align: center;
 }
 </style>
