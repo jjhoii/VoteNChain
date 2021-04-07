@@ -2,7 +2,7 @@
   <div>
     <div class="navbargray">
       <div class="navbargray-icon">
-        <img src="../../../public/images/votelogo.png" @click="gohome"  style="cursor: pointer;"/>
+        <img src="../../../public/images/vnc_logo.png" @click="gohome"  style="cursor: pointer;"/>
       </div>
 
       <div class="navbargray-title">

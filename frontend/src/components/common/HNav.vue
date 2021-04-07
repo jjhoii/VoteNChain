@@ -2,7 +2,7 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img src="../../../public/images/votelogo2.png" @click="gohome" style="cursor: pointer;"/>
+        <img src="../../../public/images/vnc_logo2.png" @click="gohome" style="cursor: pointer;"/>
       </div>
 
       <div class="navbar-title">
@@ -107,14 +107,14 @@ export default {
  
 }
 .navbar-icon {
-  width: 8%;
+  width: 5%;
   height: 100px;
 }
 .navbar-icon img {
   height: 100px;
 }
 .navbar-title {
-  width: 35%;
+  width: 15%;
   height: 100px;
   display: flex;
   align-items: center;
