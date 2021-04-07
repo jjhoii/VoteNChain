@@ -26,11 +26,17 @@
       >
         투표현황
       </button>
-      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황" hide-footer>
+      <b-modal
+        id="vote_status"
+        ref="status"
+        size="xl"
+        title="투표 현황"
+        hide-footer
+      >
         <VoteGraph style="" />
       </b-modal>
       <div name="title">
-        <div style="text-align:center">
+        <div style="text-align:center; word-break:break-all;">
           <h1 id="votepage_title">{{ mainTitle }}</h1>
         </div>
       </div>
@@ -45,10 +51,8 @@
         </div>
       </div>
       <div name="content">
-        <div style="text-align:center">
-          <p
-            id="votepage_desc"
-          >
+        <div style="text-align:center;  word-break:break-all;">
+          <p id="votepage_desc">
             {{ mainDescription }}
           </p>
         </div>
@@ -109,7 +113,6 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <div style="margin-bottom: 50px;text-align:center">
-          
           <a class="button_do" @click="doVote">투표 하기!</a>
         </div>
         <div class="modal" tabindex="-1" style="margin-top: 200px">
@@ -148,16 +151,16 @@
 </template>
 
 <script>
-import HNavGray from '@/components/common/HNavGray';
-import VoteCard from '@/components/votepage/VoteCard';
-import ImageRadio from '@/components/votepage/ImageRadio';
-import TextRadio from '@/components/votepage/TextRadio';
-import axios from 'axios';
-import { Utils } from '@/utils/index.js';
-import kakaoLogin from '@/components/socialLogin/kakao.vue';
-import VoteGraph from '@/components/votepage/VoteGraph';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import HNavGray from "@/components/common/HNavGray";
+import VoteCard from "@/components/votepage/VoteCard";
+import ImageRadio from "@/components/votepage/ImageRadio";
+import TextRadio from "@/components/votepage/TextRadio";
+import axios from "axios";
+import { Utils } from "@/utils/index.js";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
+import VoteGraph from "@/components/votepage/VoteGraph";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -171,17 +174,17 @@ export default {
   },
   data: function() {
     return {
-      userName: '',
-      message: '',
+      userName: "",
+      message: "",
       receivedMessages: [],
       items: [],
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
       isLogin: false,
       picked: 10000,
-      hashKey: '',
+      hashKey: "",
     };
   },
   async created() {
@@ -191,31 +194,31 @@ export default {
 
       const isVoteEnd = await this.isVoteEnd(this.n);
       const isVote = await this.isVote(this.n);
-      console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
+      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
-        this.$router.replace('/votegraph/' + this.$route.params.hashKey);
+        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
         return;
       }
     }
   },
   mounted() {
     if (this.isLogin == false) {
-      this.$bvModal.show('bv-modal-example1');
+      this.$bvModal.show("bv-modal-example1");
     }
-    console.log('Test');
+    console.log("Test");
   },
   methods: {
     loginCheck() {
-      console.log(localStorage.getItem('access_token'));
-      console.log(localStorage.getItem('myData'));
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
       if (
-        localStorage.getItem('access_token') == undefined ||
-        localStorage.getItem('myData') == undefined
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
       ) {
-        console.log('로그인 안됨.');
+        console.log("로그인 안됨.");
       } else {
-        console.log('로그인 됨.');
+        console.log("로그인 됨.");
         this.isLogin = true;
       }
     },
@@ -229,26 +232,27 @@ export default {
     },
     async doVote() {
       if (this.picked == 10000) {
-        alert('항목을 선택해 주세요!');
+        alert("항목을 선택해 주세요!");
+        return;
       } else {
-        console.log(this.picked + '들어옴');
+        console.log(this.picked + "들어옴");
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
       this.syncSocket();
       // go to graph
-      console.log('hashKey2 : ' + this.hashKey);
-      this.$router.replace('/votegraph/' + this.hashKey);
+      console.log("hashKey2 : " + this.hashKey);
+      this.$router.replace("/votegraph/" + this.hashKey);
     },
     async sendVote(idx) {
-      this.$store.state.loading.text = '투표가 진행중입니다...';
+      this.$store.state.loading.text = "투표가 진행중입니다...";
       this.$store.state.loading.enabled = true;
-      console.log('sending');
+      console.log("sending");
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
-      console.log('result: ', rs);
+      console.log("result: ", rs);
       this.$store.state.loading.enabled = false;
-      alert('투표가 완료 되었습니다.');
-      this.$router.replace('/');
+      alert("투표가 완료 되었습니다.");
+      this.$router.replace("/");
     },
     async getContractAddress() {
       try {
@@ -257,7 +261,7 @@ export default {
         });
 
         this.hashKey = res.data.vote.hashKey;
-        console.log('hashKey1 :' + this.hashKey);
+        console.log("hashKey1 :" + this.hashKey);
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
 
@@ -286,37 +290,37 @@ export default {
       this.picked = data;
     },
     openStatus() {
-      this.$refs['status'].show();
+      this.$refs["status"].show();
     },
 
     syncSocket() {
-      const serverURL = 'http://localhost:8080/ws';
+      const serverURL = "http://localhost:8080/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      this.stompClient.connect('', this.onConnected, this.onError);
+      this.stompClient.connect("", this.onConnected, this.onError);
     },
 
     onConnected() {
       //sendData
       var hashcode = this.$route.params.hashKey;
       this.stompClient.subscribe(
-        '/socket/chart/' + hashcode + '/send',
+        "/socket/chart/" + hashcode + "/send",
         this.onMessageReceived
       );
       // console.log('여기에용 ' + this.items[0].title);
       this.stompClient.send(
-        '/socket/chart/' + hashcode + '/receive',
+        "/socket/chart/" + hashcode + "/receive",
         {},
         JSON.stringify({
-          content: '',
+          content: "",
           // sender: this.items[this.picked].count,
           sender: this.picked,
-          type: 'JOIN',
+          type: "JOIN",
         })
       );
     },
     onError(error) {
-      console.log('에러임');
+      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {
@@ -328,8 +332,8 @@ export default {
       const receiveMessage = JSON.parse(payload.body);
       console.log(receiveMessage.sender);
 
-      if (receiveMessage.type === 'JOIN') {
-        receiveMessage.content = receiveMessage.sender + ' joined!';
+      if (receiveMessage.type === "JOIN") {
+        receiveMessage.content = receiveMessage.sender + " joined!";
       }
 
       this.receivedMessages.push(receiveMessage);
@@ -340,30 +344,33 @@ export default {
 
 <style>
 @font-face {
-    font-family: 'BMJUA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "BMJUA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 
 .hanna * {
- font-family: 'Hanna', fantasy;
+  font-family: "Hanna", fantasy;
 }
 
 @font-face {
-     font-family: 'NIXGONM-Vb';
-     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
-     font-weight: normal;
-     font-style: normal;
+  font-family: "NIXGONM-Vb";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'TmoneyRoundWindExtraBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 .wrap {
@@ -431,11 +438,11 @@ a.button_do:hover {
   transform: translateY(-7px);
 }
 #votepage_title {
-   font-family:'TmoneyRoundWindExtraBold';
-   font-size: 80px;
+  font-family: "TmoneyRoundWindExtraBold";
+  font-size: 80px;
 }
-#votepage_desc{
-  font-family: 'NIXGONM-Vb';
+#votepage_desc {
+  font-family: "NIXGONM-Vb";
   font-size: 25px;
   margin-top: 50px;
   margin-bottom: 50px;
