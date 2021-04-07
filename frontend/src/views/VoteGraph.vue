@@ -7,24 +7,27 @@
           >Reliable <br />
           Vote.</strong
         >
-        <h3>신뢰성있는 투표일까?</h3>
-        <p>
+        <h3>투표 결과를 확인해보세요!</h3>
+        <p id="votepage_desc" style="margin-left: 0px; margin-top: 0px;font-size: 27px;">
           블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
           경험해보세요!
         </p>
       </div>
       <div class="graph-content2">
-        <h1>{{ mainTitle }}</h1>
+        <h1 id="votepage_title">{{ mainTitle }}</h1>
         <!-- <h1>메인 제목</h1> -->
         <div class="graph-content2-gul">
-        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 50%; height: 30%" />
-        <p>
+        <img v-if="mainImagePath != ''" :src="mainImagePath" alt="" style="width: 400px; height: 300px; border-radius: 20px;margin-top: 30px" />
+        <p  id="votepage_desc">
           {{ mainDescription }}
         </p>
+        <hr style="width:80%"/>
+        <h1>투표 결과</h1>
+        <GChart type="BarChart" :data="chartData" :options="chartOptions" />
         </div>
         <!-- <p>메인내용</p> -->
         <!-- <b-button>참가자 목록</b-button> -->
-        <GChart type="BarChart" :data="chartData" :options="chartOptions" />
+        
       </div>
     </div>
   </div>
@@ -50,6 +53,8 @@ export default {
       mainDescription: '',
       mainImagePath: '',
       imageExist: false,
+      colorIdx:0,
+      color:'',
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
@@ -66,11 +71,11 @@ export default {
         },
         /*  그래프 총넓이 */
         backgroundColor:{
-          fill: '#f8f8f8',
-          stroke : '#666',
-          strokeWidth : 5,
+          fill: '#e9ecef',
+          // stroke : '#666',
+          // strokeWidth : 5,
         },
-        width: 600,
+        // width: 1000,
         height: 400,
         legend: { position: 'top', maxLines: 4 }, /* 항목 위치 및 한줄에 최대4개  */
         bar: { groupWidth: '75%' }, /* 막대그래프 넓이 */
@@ -124,10 +129,27 @@ export default {
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
       // set chart
-      this.chartData = [['Key', 'Value']];
+      this.chartData = [['Key', '득표 수',{ role: 'style'}]];
+      // var idx = 0;
       rs.items.forEach((el) => {
-        console.log(el.title + '데이터 확인' + el.count);
-        this.chartData.push([el.title, el.count * 1]);
+        console.log(el.title + '데이터 확인' + el.count + 'dd' + this.colorIdx );
+        //var color = '';
+        if(this.colorIdx % 6 == 0){
+          this.color = '#BCE55C';// #BCE55C 연두
+        }else if(this.colorIdx%6 == 1){
+          this.color = '#A566FF';// #A566FF 보라
+        }else if(this.colorIdx%6 == 2){
+          this.color = '#5CD1E5';// #5CD1E5 하늘
+        }else if(this.colorIdx%6 == 3){
+          this.color = '#F361DC';// #F361DC 분홍
+        }else if(this.colorIdx%6 == 4){
+          this.color = '#E5D85C';// #E5D85C 노랑
+        }else if(this.colorIdx%6 == 5){
+          this.color = '#F15F5F';// #F15F5F 빨강
+        }
+
+        this.chartData.push([el.title, el.count * 1,this.color]);
+        this.colorIdx++;
       });
 
       // load complete
@@ -207,7 +229,7 @@ export default {
   padding-top: 100px;
   padding-right: 3rem;
   padding-left: 3rem;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: flex-end;
   background: #f9f9f9;
@@ -216,21 +238,21 @@ export default {
 
 .graph-content1 strong {
   position: absolute;
-  font-size: 120px;
+  font-size: 124px;
   left: 10%;
   top: 10%;
   line-height: 1.25em;
 }
 .graph-content1 h3 {
   position: absolute;
-  font-size: 30px;
+  font-size: 34px;
   left: 10%;
   top: 55%;
   font-weight: 700;
 }
 .graph-content1 p {
   position: absolute;
-  font-size: 20px;
+  font-size: 24px;
   left: 10%;
   top: 65%;
   z-index: 99;
@@ -239,6 +261,7 @@ export default {
   text-align: center;
   width: 65%;
   background: #e9ecef;
+  padding-top:15px;
 }
 .graph-content2-gul{
   min-height: 50% ;

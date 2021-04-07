@@ -6,8 +6,9 @@
         <div class="container-sm">
           <div class="mb-3">
             <div class="">
-              <h2 class="votemake-content-title">Vote Make</h2>
-              <div class="input-group input-group-lg">
+              <h2 class="votemake-content-title votemake_font" style="font-size:60px;margin-bottom:40px;text-align:center">투표 만들기</h2>
+              <div class="votemake_font" style="margin-bottom:10px">투표 제목</div>
+              <div class="input-group input-group-lg">              
                 <input
                   type="text"
                   class="form-control"
@@ -18,7 +19,7 @@
                 />
               </div>
               <br />
-              <p>메인 이미지</p>
+              <p class="votemake_font">메인 이미지</p>
               <input
                 id="upload-image"
                 ref="file"
@@ -72,6 +73,7 @@
           <!-- 계속 추가되는 라인 -->
           <div>
             <div v-if="WrittenCheck" class="border-top border-bottom">
+              <br/>
               <VoteWritten
                 :imageFlag="imageFlag"
                 v-for="(list, index) in voteList"
@@ -84,13 +86,13 @@
             </div>
           </div>
 
-          <div>
-            <button type="button" class="button" style="margin-top: 15px;" @click="AddSubject()">
+          <div style="text-align:right;">
+            <button type="button" class="button" id="plus_button" style="margin-top: 15px;background-color:#D9B79A;height:37px;width:100px" @click="AddSubject()">
               항목 추가
             </button>
           </div>
           <div class="continer" style="margin-top: 15px">
-            <span>투표마감일</span>
+            <span class="votemake_font" style="line-height:70px">투표마감일</span>
             <div style="display: flex">
               <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
@@ -136,15 +138,17 @@
               >닫기</b-button
             >
           </b-modal>
-          <div style="margin-top: 15px">
-            <button
+          <div style="margin-top: 50px;text-align:center">
+            <b-button
               @click="createVote()"
               type="button"
               class="button"
-              style="width: 80px"
+              variant="info"
+              style="width: 60%;height:50px;margin-top:30px;background-color:#A68C7C;border-color: white;"
+
             >
-              제출
-            </button>
+              제출하기!
+            </b-button>
           </div>
         </div>
       </div>
@@ -468,6 +472,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+    font-family: 'MaruBuri-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .votemake-container {
   background: #f9f9f9;
   display: flex;
@@ -484,9 +495,9 @@ export default {
 
   font-weight: 100;
   font-size: 1rem;
+  font-family:'MaruBuri-Regular';
 }
 .votemake-content-title {
-  font-family: 'Playfair Display', serif;
 }
 
 .button {
@@ -494,7 +505,7 @@ export default {
   border: 2px solid #333;
   border-radius: 10px;
   color: #fff;
-  line-height: 50px;
+  /* line-height: 50px; */
 }
 .button:hover {
   background-color: #fff;
@@ -518,5 +529,13 @@ export default {
 /* #upload-image[type='file']
    { top:0; left:0; width:350px; height:43px; opacity:0;}
    */
+   #plus_button{
+     border:0px;
+   }
+
+   .votemake_font{
+     font-family: MaruBuri-Regular;
+     font-size: 28px;
+   }
 
 </style>

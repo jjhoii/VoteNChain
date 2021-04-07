@@ -1,7 +1,7 @@
 <template>
   <div style=" position:relative; margin-bottom: 15px">
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">항목명</label>
+      <label for="exampleFormControlInput1" class="form-label votemake_font">항목명</label>
       <input
         type="input"
         class="form-control"
