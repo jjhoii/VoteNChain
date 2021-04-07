@@ -130,7 +130,7 @@
               id="myInput"
               v-model="voteUrl"
               readonly
-              style="width: 300px; margin-left: 30px"
+              style="width: 300px; margin-left: 30px;height:39px"
             />
             <b-button
               variant="outline-secondary"

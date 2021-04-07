@@ -416,8 +416,8 @@ a.button_do:hover {
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: "Hanna", fantasy;
-  font-size: 11px;
+  font-family: 'Hanna', fantasy;
+  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
