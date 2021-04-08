@@ -30,7 +30,6 @@ export class Utils {
     static async unlockAccount() {
         const web3 = this.web3;
         await web3.eth.personal.unlockAccount(JSON.parse(localStorage.myData).address, "ethereum", 0) // unlock inf time
-        console.log("unlocked");
     }
 
     static async getBalance() {
@@ -42,7 +41,6 @@ export class Utils {
         const web3 = this.web3;
         const ether = web3.utils.toWei("1");
         const currentBalance = await this.web3.eth.getBalance(JSON.parse(localStorage.myData).address)
-        console.log("currentBalance: ", currentBalance);
 
         if (parseInt(currentBalance) < parseInt(ether)) {
             const rs = await web3.eth.sendTransaction({
@@ -50,18 +48,15 @@ export class Utils {
                 to: JSON.parse(localStorage.myData).address,
                 value: ether
             })
-            console.log("balance sended: ", rs);
             return true;
         }
         return false;
     }
 
     static async call(method, args) {
-        console.log("call start")
         const rs = await method(...args).call({
             from: JSON.parse(localStorage.myData).address
         });
-        console.log("call end");
         return rs;
     }
 
@@ -70,9 +65,7 @@ export class Utils {
         // ether가 모자랄 경우 수급
         console.log("get balance: ", await this.receiveBalance())
 
-        console.log("send start")
         const account = JSON.parse(localStorage.myData).address;
-        console.log("account: ", account);
 
         try {
             const rs = await method(...args).send({
