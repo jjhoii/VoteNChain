@@ -126,13 +126,14 @@ Backend 구성 요소
 |     Docker     |   20.10.2   | 컨테이너화 된 애플리케이션 관리            |
 |     Nginx      |   1.19.6    | Vue 클라이언트 웹 서버 사용                |
 
-|  Spring 라이브러리  |  Version   | Comment                      |
-| :-----------------: | :--------: | :--------------------------- |
-|     Spring Web      |     -      |      Rest API 서버 구축      |
-|   Spring Data JPA   |     -      |      DB와의 연결 관리        |
-|       Lombok        |     -      | Getter, Setter 등 빠른 구현  |
-|   Spring Data JDBC  |     -      | JDBC                         |
-|     Mysql Driver    |     -      | Mysql Driver                 |
+|  Spring 라이브러리  |  Version   | Comment                       |
+| :-----------------: | :--------: | :---------------------------  |
+|     Spring Web      |     -      |      Rest API 서버 구축       |
+|   Spring Data JPA   |     -      |      DB와의 연결 관리         |
+|       Lombok        |     -      | Getter, Setter 등 빠른 구현   |
+|   Spring Data JDBC  |     -      | JDBC                          |
+|     Mysql Driver    |     -      | Mysql Driver                  |
+|   json webtoken     | 0.9.1      | 로그인 관리(access token 생성)|
 
 Blockchain 구성 요소
 
