@@ -345,7 +345,7 @@ export default {
 
     syncSocket() {
       // const serverURL = 'http://localhost:8080/ws';
-      const serverURL = 'http://votenchain.tk/ws';
+      const serverURL = `${SERVER_URL}/ws`;
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect('', this.onConnected, this.onError);
