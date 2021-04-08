@@ -97,12 +97,10 @@ export default {
     active: function(index) {
       // Whenever the `active` index changes, update the `deltaY` value
       this.deltaY = index * 35;
-      console.log("asdasd");
     },
     deltaY: function(value) {
       // Whenever the `deltaY` value changes, update the `active` index
       this.active = Math.floor(value / 35);
-      console.log("asdasd");
     },
   },
   methods: {
@@ -120,12 +118,10 @@ export default {
       }
     },
     onScroll() {
-      console.log("asdasd");
     },
     _handleWheel(event) {
       // The navigation is only active when the page has not
       // been scrolled
-      console.log(event);
       if (document.documentElement.scrollTop === 0) {
         // If the last item is currently active then we do not need to
         // listen to `down` scrolls, or, if the first item is active,

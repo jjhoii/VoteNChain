@@ -8,7 +8,6 @@
         <h1 id="votepage_title" style="font-size:60px;margin-bottom:20px">
           투표 현황
         </h1>
-        <!-- <h1>메인 제목</h1> -->
         <div>
           <b-badge variant="success" v-if="this.endDayCheck()">진행중</b-badge>
           <b-badge variant="secondary" v-else>마감</b-badge>
@@ -98,7 +97,6 @@ export default {
     if (this.isLogin == false) {
       this.$bvModal.show("bv-modal-example2");
     }
-    console.log("Test");
   },
   methods: {
     endDayCheck() {
@@ -110,15 +108,11 @@ export default {
       return true;
     },
     loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
       if (
         localStorage.getItem("access_token") == undefined ||
         localStorage.getItem("myData") == undefined
       ) {
-        console.log("로그인 안됨.");
       } else {
-        console.log("로그인 됨.");
         this.isLogin = true;
       }
     },
@@ -145,7 +139,6 @@ export default {
       this.$store.state.loading.text = "투표 데이터를 가져오는 중입니다...";
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
-      console.log(rs);
 
       // set data
       this.mainTitle = rs.title;
@@ -157,7 +150,6 @@ export default {
       this.chartData = [["Key", "득표 수", { role: "style" }]];
       // var idx = 0;
       rs.items.forEach((el) => {
-        console.log(el.title + "데이터 확인" + el.count + "dd" + this.colorIdx);
         //var color = '';
         if (this.colorIdx % 6 == 0) {
           this.color = "#BCE55C"; // #BCE55C 연두
@@ -216,7 +208,6 @@ export default {
       );
     },
     onError(error) {
-      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {

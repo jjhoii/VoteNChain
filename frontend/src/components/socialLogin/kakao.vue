@@ -31,9 +31,6 @@ export default {
             userName: response.kakao_account.profile.nickname,
             account: "",
           };
-          console.log("시작");
-          console.log(user.userEmail);
-          console.log(user.userName);
           await this.$store.dispatch("userStore/getSocialUserinfo", user);
 
           this.$bvModal.hide("bv-modal-example");

@@ -271,11 +271,9 @@ export default {
     },
     async showBalance() {
       const rs = await Utils.getBalance();
-      console.log(rs);
     },
     async getBalance() {
       const rs = await Utils.receiveBalance();
-      console.log(rs);
     },
     sendCallback(data) {
       console.log("result!!: ", data);
@@ -298,20 +296,18 @@ export default {
       };
 
       // send data
-      console.log(dat);
       const rs = await Utils.send(Utils.contract.methods.setVote, [dat]);
       // send complete
-      console.log(
-        "send complete: ",
-        rs,
-        parseInt(rs.events.VoteCreated.raw.data)
-      );
+      // console.log(
+      //   "send complete: ",
+      //   rs,
+      //   parseInt(rs.events.VoteCreated.raw.data)
+      // );
       this.loading = true;
       return parseInt(rs.events.VoteCreated.raw.data);
     },
     uploadImage() {
       this.mainImage = this.$refs.file.files[0];
-      console.log(this.mainImage, "파일 업로드");
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -330,7 +326,6 @@ export default {
       let imageName = this.mainImage.name;
       let imageKey = "images/" + Date.now().toString() + "_" + imageName;
 
-      console.log(imageKey);
 
       s3.upload(
         {
@@ -343,7 +338,6 @@ export default {
             console.log(err);
           } else {
             this.mainImagePath = data.Location;
-            console.log("mainImagePath : " + this.mainImagePath);
           }
         }
       );
@@ -357,9 +351,7 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log("uploadImage start");
         this.uploadImage();
-        console.log("uploadImage end");
       } else {
         this.previewImageData = null;
       }
@@ -373,9 +365,7 @@ export default {
 
       this.$store.state.loading.text = "투표를 생성하는 중입니다...";
       this.$store.state.loading.enabled = true;
-      console.log("11");
       this.sendData().then((rs) => {
-        console.log("22");
         this.form = {
           userIdx: 1,
           contractAddress: rs,
@@ -388,7 +378,6 @@ export default {
             },
           })
           .then((response) => {
-            console.log("gdg");
             this.voteUrl =
               "https://votenchain.tk/votepage/" + response.data.hashKey;
             this.hashKey = response.data.hashKey;
@@ -413,11 +402,9 @@ export default {
         count: 0,
         idx: this.idxCount++,
       });
-      console.log(this.voteList);
     },
 
     deleteIndex(index) {
-      console.log("인덱스", index);
       this.voteList.splice(index, 1);
     },
     validationCheck() {

@@ -50,8 +50,6 @@
           <h1 id="votepage_title" style=font-size:30px>투표 결과</h1>
           <GChart type="BarChart" :data="chartData" :options="chartOptions" />
         </div>
-        <!-- <p>메인내용</p> -->
-        <!-- <b-button>참가자 목록</b-button> -->
       </div>
     </div>
   </div>
@@ -140,7 +138,6 @@ export default {
     if (this.isLogin == false) {
       this.$bvModal.show('bv-modal-example2');
     }
-    console.log('Test');
   },
   methods: {
     endDayCheck() {
@@ -152,15 +149,11 @@ export default {
       return true;
     },
     loginCheck() {
-      console.log(localStorage.getItem('access_token'));
-      console.log(localStorage.getItem('myData'));
       if (
         localStorage.getItem('access_token') == undefined ||
         localStorage.getItem('myData') == undefined
       ) {
-        console.log('로그인 안됨.');
       } else {
-        console.log('로그인 됨.');
         this.isLogin = true;
       }
     },
@@ -187,7 +180,6 @@ export default {
       this.$store.state.loading.text = '투표 데이터를 가져오는 중입니다...';
       this.$store.state.loading.enabled = true;
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
-      console.log(rs);
 
       // set data
       this.mainTitle = rs.title;
@@ -199,7 +191,6 @@ export default {
       this.chartData = [['Key', '득표 수', { role: 'style' }]];
       // var idx = 0;
       rs.items.forEach((el) => {
-        console.log(el.title + '데이터 확인' + el.count + 'dd' + this.colorIdx);
         //var color = '';
         if (this.colorIdx % 6 == 0) {
           this.color = '#BCE55C'; // #BCE55C 연두
@@ -258,7 +249,6 @@ export default {
       );
     },
     onError(error) {
-      console.log('에러임');
       console.log(error);
     },
     onDisconnected() {
@@ -268,9 +258,7 @@ export default {
 
     onMessageReceived(payload) {
       const receiveMessage = JSON.parse(payload.body);
-      console.log(receiveMessage.sender); //얘는 인덱스 값
       // this.chartData = [['Key', 'Value']];
-      console.log(this.chartData);
 
       this.chartData[parseInt(receiveMessage.sender) + 1][1]++;
       // this.chartData.push([receiveMessage.sender, count + 1]);

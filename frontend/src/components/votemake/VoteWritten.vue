@@ -59,8 +59,6 @@ export default {
 
   methods: {
     changed() {
-      console.log(this.imageFlag);
-      console.log("Emit: ", this.list);
 
       this.$emit("changed", this.list);
     },
@@ -69,7 +67,6 @@ export default {
     },
     uploadItemImage() {
       this.itemImage = this.$refs.file.files[0];
-      console.log(this.itemImage, "파일 업로드");
 
       AWS.config.update({
         region: this.bucketRegion,
@@ -88,7 +85,6 @@ export default {
       let imageName = this.itemImage.name;
       let imageKey = "images/" + Date.now().toString() + "_" + imageName;
 
-      console.log(imageKey);
 
       s3.upload(
         {
@@ -116,9 +112,7 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
 
-        console.log("uploadItemImage start");
         this.uploadItemImage();
-        console.log("uploadItemImage end");
       } else {
         this.previewImageData = null;
       }
