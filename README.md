@@ -131,6 +131,7 @@ Backend 구성 요소
 |     Mysql Driver    |     -      | Mysql Driver                 |
 
 Blockchain 구성 요소
+
 |       구성요소      |  Version   | Comment                      |
 | :-----------------: | :--------: | :--------------------------- |
 |      go-ethereum    |    1.9.25  |      블록체인 네트워크 구성   |
@@ -244,11 +245,12 @@ application.properties 설정
 ```bash
 ## MYSQL
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.url=jdbc:mysql://<host>:3306/<database>?serverTimezone=UTC&characterEncoding=UTF-8
-spring.datasource.username=<user>
-spring.datasource.password=<password
+spring.datasource.url=jdbc:mysql://<host>:3306/<database>?serverTimezone=UTC& characterEncoding=UTF-8 # host, database 설정
+spring.datasource.username=<user> # user 설정
+spring.datasource.password=<password # password 설정
 spring.jpa.hibernate.naming.physical-strategy = org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 ```
+
 빌드 및 실행
 ```bash
 $ cd backend
@@ -257,9 +259,24 @@ $ java -jar ./build/libs/*.jar
 ```
 
 #### Frontend
-- .env.local
-- config 파일 수정
-- npm run serve
+.env.local 설정
+```bash
+VUE_APP_CLIENT_ID="728976855685-5opfb7817n7lhqblm7cnadbtdaokt1qq.apps.googleusercontent.com"
+VUE_APP_SERVER_URL=<host> # host 설정
+```
+config 파일 수정
+```javascript
+// frontend/src/config.index.js
+...
+export const gethHost = "http://localhost:8545";
+```
+
+빌드 및 실행
+```bash
+$ cd frontend
+$ npm i
+$ npm run serve
+```
 
 ## 팀원 소개
 
