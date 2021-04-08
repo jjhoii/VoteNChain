@@ -196,6 +196,7 @@ export default {
 }
 .header-content p {
   margin-top: 25px;
+  font-size: 23px;
 }
 /* .header-content button {
   background-color: #ad1315;
@@ -214,14 +215,14 @@ export default {
   display: flex;
   width: 100%;
   background: #0151;
-  height: 100vh;
+  height: 140vh;
 }
 .section2 {
   padding-top: 5vh;
   display: flex;
   width: 100%;
   background: #0151;
-  height: 100vh;
+  height: 140vh;
   background-color: #eed8c8;
 }
 .section-content {
