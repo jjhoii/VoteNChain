@@ -128,6 +128,7 @@ export default {
     _handleWheel(event) {
       // The navigation is only active when the page has not
       // been scrolled
+      console.log(event);
       if (document.documentElement.scrollTop === 0) {
         // If the last item is currently active then we do not need to
         // listen to `down` scrolls, or, if the first item is active,
