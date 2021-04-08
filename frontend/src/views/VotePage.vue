@@ -9,12 +9,14 @@
         no-close-on-backdrop
       >
         <template #modal-title>LOGIN</template>
-        <div style="text-align: center; font-family: sans-serif">
+        <div style="text-align: center; font-family:NIXGONM-Vb;">
           로그인 후 투표를 진행할 수 있습니다.
-          <img src="@/assets/vnc_logo.png" />
+          <img src="@/assets/vnc_logo.png" style="margin-top:-40px" />
         </div>
-        <br />
-        <div class="d-block text-center justify-center">
+        <div
+          class="d-block text-center justify-center"
+          style="margin-top:-60px"
+        >
           <kakaoLogin />
         </div>
       </b-modal>

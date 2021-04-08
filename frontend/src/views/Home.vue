@@ -117,8 +117,7 @@ export default {
         this.$router.push("VoteMake");
       }
     },
-    onScroll() {
-    },
+    onScroll() {},
     _handleWheel(event) {
       // The navigation is only active when the page has not
       // been scrolled

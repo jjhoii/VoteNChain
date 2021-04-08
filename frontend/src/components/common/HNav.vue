@@ -27,7 +27,6 @@
           hide-header-close
           hide-footer
           @mousedown.stop
-          no-close-on-backdrop
           no-close-on-esc
         >
           <template #modal-title>LOGIN</template>
@@ -52,7 +51,7 @@
               class="mt-3"
               style="width: 65%;height:40px;margin-top:30px;background-color:#A68C7C;border-color: white;"
               @click="$bvModal.hide('bv-modal-example')"
-              >Close Me</b-button
+              >닫기</b-button
             >
           </div>
         </b-modal>
