@@ -161,16 +161,16 @@
 </template>
 
 <script>
-import HNavGray from '@/components/common/HNavGray';
-import VoteCard from '@/components/votepage/VoteCard';
-import ImageRadio from '@/components/votepage/ImageRadio';
-import TextRadio from '@/components/votepage/TextRadio';
-import axios from 'axios';
-import { Utils } from '@/utils/index.js';
-import kakaoLogin from '@/components/socialLogin/kakao.vue';
-import VoteStatus from '@/components/votepage/VoteStatus';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import HNavGray from "@/components/common/HNavGray";
+import VoteCard from "@/components/votepage/VoteCard";
+import ImageRadio from "@/components/votepage/ImageRadio";
+import TextRadio from "@/components/votepage/TextRadio";
+import axios from "axios";
+import { Utils } from "@/utils/index.js";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
+import VoteStatus from "@/components/votepage/VoteStatus";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 
 export default {
@@ -184,21 +184,21 @@ export default {
   },
   data: function() {
     return {
-      createdAt: '',
-      endedAt: '',
-      userName: '',
-      message: '',
+      createdAt: "",
+      endedAt: "",
+      userName: "",
+      message: "",
       receivedMessages: [],
       items: [],
-      mainTitle: '',
-      mainDescription: '',
-      mainImagePath: '',
+      mainTitle: "",
+      mainDescription: "",
+      mainImagePath: "",
       imageExist: false,
       isLogin: false,
       picked: 10000,
-      hashKey: '',
-      createDate: '',
-      endDate: '',
+      hashKey: "",
+      createDate: "",
+      endDate: "",
     };
   },
   async created() {
@@ -208,10 +208,10 @@ export default {
 
       const isVoteEnd = await this.isVoteEnd(this.n);
       const isVote = await this.isVote(this.n);
-      console.log('isVoteEnd: ', isVoteEnd, ', isVote: ', isVote);
+      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
-        this.$router.replace('/votegraph/' + this.$route.params.hashKey);
+        this.$router.replace("/votegraph/" + this.$route.params.hashKey);
         return;
       }
     }
@@ -220,9 +220,9 @@ export default {
   },
   mounted() {
     if (this.isLogin == false) {
-      this.$bvModal.show('bv-modal-example1');
+      this.$bvModal.show("bv-modal-example1");
     }
-    console.log('Test');
+    console.log("Test");
   },
   methods: {
     dayCheck() {
@@ -232,23 +232,23 @@ export default {
       var m = createDated.getMonth() + 1;
       var d = createDated.getDate();
       if (m < 10) {
-        m = '0' + m;
+        m = "0" + m;
       }
       if (d < 10) {
-        d = '0' + d;
+        d = "0" + d;
       }
 
-      this.createDate = createDated.getFullYear() + '.' + m + '.' + d;
+      this.createDate = createDated.getFullYear() + "." + m + "." + d;
 
       m = endDated.getMonth() + 1;
       d = endDated.getDate();
       if (m < 10) {
-        m = '0' + m;
+        m = "0" + m;
       }
       if (d < 10) {
-        d = '0' + d;
+        d = "0" + d;
       }
-      this.endDate = endDated.getFullYear() + '.' + m + '.' + d;
+      this.endDate = endDated.getFullYear() + "." + m + "." + d;
     },
 
     endDayCheck() {
@@ -260,15 +260,15 @@ export default {
       return true;
     },
     loginCheck() {
-      console.log(localStorage.getItem('access_token'));
-      console.log(localStorage.getItem('myData'));
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
       if (
-        localStorage.getItem('access_token') == undefined ||
-        localStorage.getItem('myData') == undefined
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
       ) {
-        console.log('로그인 안됨.');
+        console.log("로그인 안됨.");
       } else {
-        console.log('로그인 됨.');
+        console.log("로그인 됨.");
         this.isLogin = true;
       }
     },
@@ -282,26 +282,26 @@ export default {
     },
     async doVote() {
       if (this.picked == 10000) {
-        alert('항목을 선택해 주세요!');
+        alert("항목을 선택해 주세요!");
         return;
       } else {
-        console.log(this.picked + '들어옴');
+        console.log(this.picked + "들어옴");
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
       this.syncSocket();
       // go to graph
-      console.log('hashKey2 : ' + this.hashKey);
-      this.$router.replace('/votegraph/' + this.hashKey);
+      console.log("hashKey2 : " + this.hashKey);
+      this.$router.replace("/votegraph/" + this.hashKey);
     },
     async sendVote(idx) {
-      this.$store.state.loading.text = '투표가 진행중입니다...';
+      this.$store.state.loading.text = "투표가 진행중입니다...";
       this.$store.state.loading.enabled = true;
-      console.log('sending');
+      console.log("sending");
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
-      console.log('result: ', rs);
+      console.log("result: ", rs);
       this.$store.state.loading.enabled = false;
-      alert('투표가 완료 되었습니다.');
+      alert("투표가 완료 되었습니다.");
     },
     async getContractAddress() {
       try {
@@ -310,7 +310,7 @@ export default {
         });
 
         this.hashKey = res.data.vote.hashKey;
-        console.log('hashKey1 :' + this.hashKey);
+        console.log("hashKey1 :" + this.hashKey);
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
 
@@ -341,7 +341,7 @@ export default {
       this.picked = data;
     },
     openStatus() {
-      this.$refs['status'].show();
+      this.$refs["status"].show();
     },
 
     syncSocket() {
@@ -349,26 +349,24 @@ export default {
       const serverURL = `${SERVER_URL}/ws`;
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
-      this.stompClient.connect('', this.onConnected, this.onError);
+      this.stompClient.connect("", this.onConnected, this.onError);
     },
 
     onConnected() {
       //sendData
       var hashcode = this.$route.params.hashKey;
-      // console.log('여기에용 ' + this.items[0].title);
       this.stompClient.send(
-        '/socket/chart/' + hashcode + '/receive',
+        "/socket/chart/" + hashcode + "/receive",
         {},
         JSON.stringify({
-          content: '',
-          // sender: this.items[this.picked].count,
+          content: "",
           sender: this.picked,
-          type: 'JOIN',
+          type: "JOIN",
         })
       );
     },
     onError(error) {
-      console.log('에러임');
+      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {
@@ -381,9 +379,9 @@ export default {
 
 <style>
 @font-face {
-  font-family: 'BMJUA';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff')
-    format('woff');
+  font-family: "BMJUA";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -391,22 +389,22 @@ export default {
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 
 .hanna * {
-  font-family: 'Hanna', fantasy;
+  font-family: "Hanna", fantasy;
 }
 
 @font-face {
-  font-family: 'NIXGONM-Vb';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff')
-    format('woff');
-  font-family: 'Hanna', fantasy;
+  font-family: "NIXGONM-Vb";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff")
+    format("woff");
+  font-family: "Hanna", fantasy;
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'TmoneyRoundWindExtraBold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff')
-    format('woff');
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -454,7 +452,7 @@ a.button_do:hover {
 .button_status {
   width: 140px;
   height: 45px;
-  font-family: 'Hanna', fantasy;
+  font-family: "Hanna", fantasy;
   font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
@@ -476,11 +474,11 @@ a.button_do:hover {
   transform: translateY(-7px);
 }
 #votepage_title {
-  font-family: 'TmoneyRoundWindExtraBold';
+  font-family: "TmoneyRoundWindExtraBold";
   font-size: 80px;
 }
 #votepage_desc {
-  font-family: 'NIXGONM-Vb';
+  font-family: "NIXGONM-Vb";
 
   font-size: 25px;
   margin-top: 50px;
