@@ -135,7 +135,7 @@ export default {
   right: 0;
   top: 0;
   position: absolute;
-  margin-top : 15px;
+  margin-top : 10px;
   border-width: 2px;
   border-color: red;
   background-color: white;
