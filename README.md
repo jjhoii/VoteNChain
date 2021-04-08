@@ -119,9 +119,9 @@ Backend 구성 요소
 | :------------: | :---------: | :----------------------------------------- |
 |    OpenJDK     |      11     | Java                                       |
 |   SpringBoot   |    2.4.2    | Rest API 웹 애플리케이션 개발              |
-|     Gradle      |      -     | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
-|     Mysql      |      -      | DB                                        |
-|      JPA       |    2.1.2    | 서버와 DB의 연동을 위해 사용               |
+|     Gradle     |      6.8.3  | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
+|     Mysql      |      -      | DB                                         |
+|      JPA       |    2.4.3    | 자바객체와 DB테이블간 매핑                 |
 |     Ubuntu     | 20.04.2 LTS | 서비스 제공을 위해 리눅스 서버 구축        |
 |     Docker     |   20.10.2   | 컨테이너화 된 애플리케이션 관리            |
 |     Nginx      |   1.19.6    | Vue 클라이언트 웹 서버 사용                |
@@ -130,10 +130,11 @@ Backend 구성 요소
 | :-----------------: | :--------: | :---------------------------  |
 |     Spring Web      |     -      |      Rest API 서버 구축       |
 |   Spring Data JPA   |     -      |      DB와의 연결 관리         |
-|       Lombok        |     -      | Getter, Setter 등 빠른 구현   |
+|       Lombok        |     1.18.18     | Getter, Setter, toString 등의 간편한 구현   |
 |   Spring Data JDBC  |     -      | JDBC                          |
-|     Mysql Driver    |     -      | Mysql Driver                  |
+|     Mysql Driver    |     8.0.23      | Mysql Driver                  |
 |   json webtoken     | 0.9.1      | 로그인 관리(access token 생성)|
+|   websocket      | 2.4.3      | 그래프 결과의 실시간 통신을 위한 웹소켓통신|
 
 Blockchain 구성 요소
 
