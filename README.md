@@ -270,8 +270,3 @@ $ java -jar ./build/libs/*.jar
 - **이석호** - *Backend*
 - **이지환** - *Backend*
 - **정지환** - *Blockchain, Server*
-
----
-
-
-
