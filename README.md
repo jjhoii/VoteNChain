@@ -105,10 +105,20 @@ Frontend 구성 요소
 |    Vue 라이브러리   | Version | Comment                                              |
 | :-----------------: | :-----: | :--------------------------------------------------- |
 |       axios         | 0.21.1  | 서버로 요청을 보내기 위해 사용                       |
+<<<<<<< HEAD
 |    bootstrap-vue    | 2.21.2   | UI 구성을 위해 사용                           |
 |    sockjs-client    | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
+=======
+|        bootstrap-vue      | 2.21.2   | UI 구성을 위해 사용                           |
+|        sockjs-client      | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
+>>>>>>> 6d6e719039ea1eb48bd3efeb38b203ce310983cb
 |        vuex         | 3.4.0   | 상태 관리를 위해 사용                                |
 |        web3         | 1.3.4   | 스마트 컨트랙트와 상호작용을 하기 위해 사용           |
+|       aws-sdk  |  2.877.0 | 이미지파일을 S3저장소에 올리기 위해 사용 |
+|       Vue     |  2.6.12 | 웹 프론트 개발 |
+|      Vue-google-charts | 0.3.3 | 결과페이지에 차트를 보여주기 위해 사용|
+|     Vue-router | 3.2.0 | 모듈화된, 컴포넌트 기반의 라우터 설정 |
+
 
 Backend 구성 요소
 
@@ -116,12 +126,19 @@ Backend 구성 요소
 | :------------: | :---------: | :----------------------------------------- |
 |    OpenJDK     |      11     | OpenJDK                                    |
 |   SpringBoot   |    2.4.2    | Rest API 웹 애플리케이션 개발              |
+<<<<<<< HEAD
 |     Gradle     |    6.8.3    | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
 |      Mysql     |   8.0.23    | DB                                        |
+=======
+|     Gradle     |      6.8.3  | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
+|     Mysql      |      -      | DB                                         |
+|      JPA       |    2.4.3    | 자바객체와 DB테이블간 매핑                 |
+>>>>>>> 6d6e719039ea1eb48bd3efeb38b203ce310983cb
 |     Ubuntu     | 20.04.2 LTS | 서비스 제공을 위해 리눅스 서버 구축        |
 |     Docker     |   20.10.2   | 컨테이너화 된 애플리케이션 관리            |
 |     Nginx      |   1.19.6    | Vue 클라이언트 웹 서버 사용                |
 
+<<<<<<< HEAD
 |  Spring 라이브러리  |  Version   | Comment                      |
 | :-----------------: | :--------: | :--------------------------- |
 |     Spring Web      |     -      | Rest API 서버 구축           |
@@ -130,6 +147,17 @@ Backend 구성 요소
 |        JWT          |   0.9.1    | access token 생성            |
 |   Mysql Connector   |   8.0.23   | Mysql Driver                 |
 |       websocket     |    2.4.3   | 실시간 통신을 위한 웹 소켓 라이브러리 |
+=======
+|  Spring 라이브러리  |  Version   | Comment                       |
+| :-----------------: | :--------: | :---------------------------  |
+|     Spring Web      |     -      |      Rest API 서버 구축       |
+|   Spring Data JPA   |     2.4.3      |      DB와의 연결 관리         |
+|       Lombok        |     1.18.18     | Getter, Setter, toString 등의 간편한 구현   |
+|   Spring Data JDBC  |     -      | JDBC                          |
+|     Mysql Driver    |     8.0.23      | Mysql Driver                  |
+|   json webtoken     | 0.9.1      | 로그인 관리(access token 생성)|
+|   websocket      | 2.4.3      | 그래프 결과의 실시간 통신을 위한 웹소켓통신|
+>>>>>>> 6d6e719039ea1eb48bd3efeb38b203ce310983cb
 
 Blockchain 구성 요소
 
