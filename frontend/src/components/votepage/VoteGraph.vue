@@ -13,7 +13,7 @@
           alt=""
           style="
             width: 50%;
-            height: 30%;
+            height: 30%;  
             margin-top: 20px;
             margin-bottom: -100px;
           "
