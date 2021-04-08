@@ -41,7 +41,9 @@
 >
 > 세상에서 가장 안전한 블록체인 기반 투표 솔루션
 
-온라인에서 안전하고 투명한 투표를 진행해 보세요!
+블록체인 기반의 투표 솔루션 개발 프로젝트입니다.  
+Ethereum을 사용했으며, Solidity 언어로 Smart Contract를 작성하여 투표 시스템을 배포했습니다.  
+배포된 컨트랙트는 수정할 수 없고, 수정이 필요할 경우 재배포 해야 하기 때문에 로직이 바뀔 염려 없이 안전하고 투명한 투표 진행이 가능합니다.
 
 ## 산출물
 ### 기능 정의서
@@ -103,9 +105,8 @@ Frontend 구성 요소
 |    Vue 라이브러리   | Version | Comment                                              |
 | :-----------------: | :-----: | :--------------------------------------------------- |
 |       axios         | 0.21.1  | 서버로 요청을 보내기 위해 사용                       |
-|        bootstrap-vue      | 2.21.2   | UI 구성을 위해 사용                           |
-|        sockjs-client      | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
-|        sockjs-client      | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
+|    bootstrap-vue    | 2.21.2   | UI 구성을 위해 사용                           |
+|    sockjs-client    | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
 |        vuex         | 3.4.0   | 상태 관리를 위해 사용                                |
 |        web3         | 1.3.4   | 스마트 컨트랙트와 상호작용을 하기 위해 사용           |
 
@@ -113,22 +114,22 @@ Backend 구성 요소
 
 |   기술 스택    |   Version   | Comment                                    |
 | :------------: | :---------: | :----------------------------------------- |
-|    OpenJDK     |      11     | Java                                       |
+|    OpenJDK     |      11     | OpenJDK                                    |
 |   SpringBoot   |    2.4.2    | Rest API 웹 애플리케이션 개발              |
-|     Gradle      |      -     | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
-|     Mysql      |      -      | DB                                        |
-|      JPA       |    2.1.2    | 서버와 DB의 연동을 위해 사용               |
+|     Gradle     |    6.8.3    | 프로젝트를 빌드하고 라이브러리를 관리 도구 |
+|      Mysql     |   8.0.23    | DB                                        |
 |     Ubuntu     | 20.04.2 LTS | 서비스 제공을 위해 리눅스 서버 구축        |
 |     Docker     |   20.10.2   | 컨테이너화 된 애플리케이션 관리            |
 |     Nginx      |   1.19.6    | Vue 클라이언트 웹 서버 사용                |
 
 |  Spring 라이브러리  |  Version   | Comment                      |
 | :-----------------: | :--------: | :--------------------------- |
-|     Spring Web      |     -      |      Rest API 서버 구축      |
-|   Spring Data JPA   |     -      |      DB와의 연결 관리        |
-|       Lombok        |     -      | Getter, Setter 등 빠른 구현  |
-|   Spring Data JDBC  |     -      | JDBC                         |
-|     Mysql Driver    |     -      | Mysql Driver                 |
+|     Spring Web      |     -      | Rest API 서버 구축           |
+|   Spring Data JPA   |   2.4.3    | DB와의 연결 관리             |
+|       Lombok        |  1.18.18   | Getter, Setter 등 빠른 구현  |
+|        JWT          |   0.9.1    | access token 생성            |
+|   Mysql Connector   |   8.0.23   | Mysql Driver                 |
+|       websocket     |    2.4.3   | 실시간 통신을 위한 웹 소켓 라이브러리 |
 
 Blockchain 구성 요소
 
