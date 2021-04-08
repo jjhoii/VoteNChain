@@ -26,12 +26,27 @@
       >
         투표현황
       </button>
-      <b-modal id="vote_status" ref="status" size="xl" title="투표 현황" hide-footer>
+      <b-modal
+        id="vote_status"
+        ref="status"
+        size="xl"
+        title="투표 현황"
+        hide-footer
+      >
         <VoteGraph style="" />
       </b-modal>
       <div name="title">
-        <div style="text-align:center">
+        <div style="text-align:center; word-break:break-all;">
           <h1 id="votepage_title">{{ mainTitle }}</h1>
+          <br />
+          <div>{{ createDate }} ~ {{ endDate }}</div>
+
+          <div>
+            <b-badge variant="success" v-if="this.endDayCheck()"
+              >진행중</b-badge
+            >
+            <b-badge variant="secondary" v-else>마감</b-badge>
+          </div>
         </div>
       </div>
       <div name="main-image" style="margin-top: 30px">
@@ -45,10 +60,8 @@
         </div>
       </div>
       <div name="content">
-        <div style="text-align:center">
-          <p
-            id="votepage_desc"
-          >
+        <div style="text-align:center;  word-break:break-all;">
+          <p id="votepage_desc">
             {{ mainDescription }}
           </p>
         </div>
@@ -109,7 +122,6 @@
         style="margin-top: -10px; margin-bottom: 20px"
       >
         <div style="margin-bottom: 50px;text-align:center">
-          
           <a class="button_do" @click="doVote">투표 하기!</a>
         </div>
         <div class="modal" tabindex="-1" style="margin-top: 200px">
@@ -171,6 +183,8 @@ export default {
   },
   data: function() {
     return {
+      createdAt: '',
+      endedAt: '',
       userName: '',
       message: '',
       receivedMessages: [],
@@ -182,6 +196,8 @@ export default {
       isLogin: false,
       picked: 10000,
       hashKey: '',
+      createDate: '',
+      endDate: '',
     };
   },
   async created() {
@@ -198,6 +214,8 @@ export default {
         return;
       }
     }
+    this.dayCheck();
+    this.endDayCheck();
   },
   mounted() {
     if (this.isLogin == false) {
@@ -206,6 +224,40 @@ export default {
     console.log('Test');
   },
   methods: {
+    dayCheck() {
+      var createDated = new Date(this.createdAt * 1000);
+      var endDated = new Date(this.endedAt * 1000);
+
+      var m = createDated.getMonth() + 1;
+      var d = createDated.getDate();
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (d < 10) {
+        d = '0' + d;
+      }
+
+      this.createDate = createDated.getFullYear() + '.' + m + '.' + d;
+
+      m = endDated.getMonth() + 1;
+      d = endDated.getDate();
+      if (m < 10) {
+        m = '0' + m;
+      }
+      if (d < 10) {
+        d = '0' + d;
+      }
+      this.endDate = endDated.getFullYear() + '.' + m + '.' + d;
+    },
+
+    endDayCheck() {
+      //지났음
+      if (this.endedAt * 1000 < Date.now() * 1) {
+        return false;
+      }
+      //안지났음
+      return true;
+    },
     loginCheck() {
       console.log(localStorage.getItem('access_token'));
       console.log(localStorage.getItem('myData'));
@@ -230,6 +282,7 @@ export default {
     async doVote() {
       if (this.picked == 10000) {
         alert('항목을 선택해 주세요!');
+        return;
       } else {
         console.log(this.picked + '들어옴');
         await this.sendVote(this.picked);
@@ -248,7 +301,6 @@ export default {
       console.log('result: ', rs);
       this.$store.state.loading.enabled = false;
       alert('투표가 완료 되었습니다.');
-      this.$router.replace('/');
     },
     async getContractAddress() {
       try {
@@ -277,6 +329,8 @@ export default {
       this.mainDescription = rs.description;
       this.mainImagePath = rs.imagePath;
       this.imageExist = rs.bImageExist;
+      this.endedAt = rs.endedAt;
+      this.createdAt = rs.createdAt;
       this.items = rs.items;
 
       // load complete
@@ -299,10 +353,6 @@ export default {
     onConnected() {
       //sendData
       var hashcode = this.$route.params.hashKey;
-      this.stompClient.subscribe(
-        '/socket/chart/' + hashcode + '/send',
-        this.onMessageReceived
-      );
       // console.log('여기에용 ' + this.items[0].title);
       this.stompClient.send(
         '/socket/chart/' + hashcode + '/receive',
@@ -323,47 +373,40 @@ export default {
       this.stompClient = null;
       this.receivedMessages = [];
     },
-
-    onMessageReceived(payload) {
-      const receiveMessage = JSON.parse(payload.body);
-      console.log(receiveMessage.sender);
-
-      if (receiveMessage.type === 'JOIN') {
-        receiveMessage.content = receiveMessage.sender + ' joined!';
-      }
-
-      this.receivedMessages.push(receiveMessage);
-    },
   },
 };
 </script>
 
 <style>
 @font-face {
-    font-family: 'BMJUA';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'BMJUA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @import url(//fonts.googleapis.com/earlyaccess/hanna.css);
 
 .hanna * {
- font-family: 'Hanna', fantasy;
+  font-family: 'Hanna', fantasy;
 }
 
 @font-face {
-     font-family: 'NIXGONM-Vb';
-     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
-     font-weight: normal;
-     font-style: normal;
+  font-family: 'NIXGONM-Vb';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff')
+    format('woff');
+  font-family: 'Hanna', fantasy;
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'TmoneyRoundWindExtraBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'TmoneyRoundWindExtraBold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 .wrap {
@@ -410,7 +453,7 @@ a.button_do:hover {
   width: 140px;
   height: 45px;
   font-family: 'Hanna', fantasy;
-  font-size: 11px;
+  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
@@ -431,11 +474,12 @@ a.button_do:hover {
   transform: translateY(-7px);
 }
 #votepage_title {
-   font-family:'TmoneyRoundWindExtraBold';
-   font-size: 80px;
+  font-family: 'TmoneyRoundWindExtraBold';
+  font-size: 80px;
 }
-#votepage_desc{
+#votepage_desc {
   font-family: 'NIXGONM-Vb';
+
   font-size: 25px;
   margin-top: 50px;
   margin-bottom: 50px;
