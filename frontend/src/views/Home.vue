@@ -47,16 +47,13 @@
       </section>
       <section class="section2">
         <div class="section-video">
-          <img
-            src="video/완벽테스트.gif"
+          <video
+            src="video/s2video.mp4"
             muted="muted"
             autoplay="true"
             loop="true"
             style="width: 900px"
-          />
-          <!-- <video
-            
-          ></video> -->
+          ></video>
         </div>
         <div class="section-content">
           <p>
