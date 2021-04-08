@@ -4,14 +4,11 @@ import javax.persistence.*;
 
 import lombok.*;
 
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Getter
 @Entity(name="Vote")
 public class VoteVo {
-	//d
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int voteIdx;

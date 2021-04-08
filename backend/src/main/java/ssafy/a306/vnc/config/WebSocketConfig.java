@@ -13,16 +13,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // 웹소켓 엔드포인트 정의 ws://localhost:8080/ws
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-//        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
         registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
-//        registry.addEndpoint("/ws").setAllowedOrigins("*").setAllowedOrigins().withSockJS();
     }
 
 
     // 메시지 브로커 구성 (메시지를 브로드캐스팅)
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-//        registry.setApplicationDestinationPrefixes("/app").enableSimpleBroker("/socket");
         registry.enableSimpleBroker("/socket");
     }
 

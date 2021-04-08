@@ -23,6 +23,7 @@ public class UserController {
 	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+	private static final String MESSAGE = "message";
 
 	@Autowired
 	private UserService userService;
@@ -36,8 +37,7 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		String email = userDto.getUserEmail();
-		System.out.println("checkUser / email : " + userDto.getUserEmail());
-		System.out.println("checkUser / key : " + userDto.getAccount());
+
 		try {
 			// 이메일 중복 검사
 			boolean userExists = userService.selectUserEmail(userDto);
@@ -49,14 +49,14 @@ public class UserController {
 				
 				String userAccount = userService.selectUserAccount(userDto).getAccount();
 				resultMap.put("userAccount", userAccount);
-				resultMap.put("message", SUCCESS);
+				resultMap.put(MESSAGE, SUCCESS);
 				status = HttpStatus.ACCEPTED;
 			} else { // 이메일 없음 : 신규 가입.
-				resultMap.put("message", "needSignup");
+				resultMap.put(MESSAGE, "needSignup");
 				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
-			resultMap.put("message", e.getMessage());
+			resultMap.put(MESSAGE, e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
@@ -68,16 +68,14 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		System.out.println("signup / email : " + userDto.getUserEmail());
-		System.out.println("signup / key : " + userDto.getAccount());
 		try {
 			userService.insertUser(userDto);
-			resultMap.put("message", SUCCESS);
+			resultMap.put(MESSAGE, SUCCESS);
 			status = HttpStatus.ACCEPTED;
 
 		} catch (Exception e) {
 			logger.error("회원가입 실패 : {}", e.getMessage());
-			resultMap.put("message", e.getMessage());
+			resultMap.put(MESSAGE, e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);

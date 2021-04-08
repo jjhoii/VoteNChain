@@ -39,7 +39,6 @@ public class VoteController {
 
 			
 			String hashKey = getHash(format1.format (System.currentTimeMillis()) + Double.toString(Math.random())).substring(0,9);
-			System.out.println(hashKey);
 			vote.setHashKey(hashKey);
 			entity = new ResponseEntity<VoteVo>(voteRepository.save(vote.toEntity()), HttpStatus.OK);
 		} catch (Exception e) {
