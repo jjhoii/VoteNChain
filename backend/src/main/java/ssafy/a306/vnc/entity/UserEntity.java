@@ -6,11 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-//@Data
+
 @NoArgsConstructor
 @Getter
 @Entity(name="User")
@@ -19,13 +18,8 @@ public class UserEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long userIdx;
 
-//    @Column(name="userEmail")
     private String userEmail;
-//    @Column(name="userName")
     private String userName;
-//    @Column(name="loginType")
-//    private String loginType;
-//    @Column(name="privateKey")
     private String account;
     
     @Builder
