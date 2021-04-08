@@ -10,8 +10,8 @@
       >
         <template #modal-title>LOGIN</template>
         <div style="text-align: center; font-family: sans-serif">
-          Login 후 투표를 진행할 수 있습니다.
-          <img src="@/assets/votelogo.png" />
+          로그인 후 투표를 진행할 수 있습니다.
+          <img src="@/assets/vnc_logo.png" />
         </div>
         <br />
         <div class="d-block text-center justify-center">
@@ -181,7 +181,7 @@ export default {
     kakaoLogin,
     VoteStatus,
   },
-  data: function () {
+  data: function() {
     return {
       createdAt: "",
       endedAt: "",
