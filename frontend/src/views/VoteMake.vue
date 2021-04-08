@@ -116,6 +116,7 @@
               <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
           </div>
+          <!-- <b-button v-b-modal.modal-1>Launch demo modal</b-button> -->
           <b-modal
             ref="url"
             title="투표 링크"
@@ -123,39 +124,46 @@
             no-close-on-backdrop
             hide-footer
             hide-header
+            size="lg"
           >
-            <h3>투표 링크</h3>
+            <h3 style="margin-left:0px;text-align:center">투표 링크</h3>
+            <hr/>
+            <div>
             <a
               @click="moveToVotePage"
               href=""
               style="
-                font-size: 20px;
-                margin-left: 0px;
+                font-size: 25px;
+                margin-left: 30px;
                 margin-top: 0px;
                 margin-bottom: 0px;
               "
               >{{ voteUrl }}</a
             >
+
             <input
-              type="text"
+              type="hidden"
               id="myInput"
               v-model="voteUrl"
               readonly
-              style="width: 300px; margin-left: 30px;height:39px"
+              style="width: 300px; margin-left: 0px;height:39px"
             />
+            
             <b-button
               variant="outline-secondary"
               id="copy_button"
               @click="copyToClipboard('myInput')"
+              style="margin-top:-97px;margin-left:570px"
               >링크 복사</b-button
-            >
+            ></div>
+            <div style="text-align:center">
             <b-button
               pill
               variant="outline-secondary"
               @click="moveToPage()"
-              style="margin-left: 210px; margin-top: 30px"
+              style="margin-left: 0px; margin-top: 0px;"
               >닫기</b-button
-            >
+            ></div>
           </b-modal>
           <div style="margin-top: 50px;text-align:center">
             <b-button
