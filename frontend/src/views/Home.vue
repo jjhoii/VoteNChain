@@ -16,7 +16,7 @@
         <div class="header-content">
           <strong>Block Chain <br />Vote Solution</strong>
           <p>Vote & Chain은 블록체인을 적용한 신뢰성있는 전자투표입니다.</p>
-          <button @click="PageChange()">투표만들기</button>
+          <button @click="PageChange()" class="button_status" id="button_make" >투표 만들기</button>
         </div>
       </section>
 
@@ -171,7 +171,7 @@ export default {
 .header-content p {
   margin-top: 25px;
 }
-.header-content button {
+/* .header-content button {
   background-color: #ad1315;
   width: 150px;
   height: 150px;
@@ -182,7 +182,7 @@ export default {
   font-size: 20px;
   vertical-align: middle;
   line-height: 150px;
-}
+} */
 .section1 {
   margin-top: 18vh;
   display: flex;
@@ -220,5 +220,39 @@ export default {
     padding-right: 3rem;
     padding-left: 3rem;
   }
+}
+
+/* .btn_make {
+  background: #96c6e5;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn_make:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+} */
+#button_make{
+  width:250px;height:100px;margin-top:30px;font-size: 30px;background-color: #BF7256;color:#ffffff;
+}
+#button_make:hover {
+  box-shadow: none;
+
 }
 </style>
