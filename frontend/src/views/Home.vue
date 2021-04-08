@@ -195,18 +195,6 @@ export default {
   margin-top: 25px;
   font-size: 23px;
 }
-/* .header-content button {
-  background-color: #ad1315;
-  width: 150px;
-  height: 150px;
-  color: #fff;
-  border-radius: 75px;
-  text-align: center;
-  margin: 0 auto;
-  font-size: 20px;
-  vertical-align: middle;
-  line-height: 150px;
-} */
 .section1 {
   padding-top: 18vh;
   display: flex;
@@ -236,7 +224,6 @@ export default {
 .section-video {
   width: 60%;
   height: 85vh;
-  /* background: #fff; */
   display: flex;
 
   justify-items: center;
@@ -253,33 +240,6 @@ export default {
     padding-left: 3rem;
   }
 }
-
-/* .btn_make {
-  background: #96c6e5;
-  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-  background-image: -o-linear-gradient(top, #3498db, #2980b9);
-  background-image: linear-gradient(to bottom, #3498db, #2980b9);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
-}
-
-.btn_make:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
-} */
 #button_make {
   width: 250px;
   height: 100px;

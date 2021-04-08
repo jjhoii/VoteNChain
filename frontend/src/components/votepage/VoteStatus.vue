@@ -1,33 +1,34 @@
 <template>
   <div>
-    
     <div class="graph-container" style="padding-top: 30px;padding-bottom: 30px">
-
-      <div class="graph-content2" style="text-align: center;width: 100%;background: #e9ecef;padding-top: 15px;">
-        <h1 id="votepage_title" style="font-size:60px;margin-bottom:20px">투표 현황</h1>
+      <div
+        class="graph-content2"
+        style="text-align: center;width: 100%;background: #e9ecef;padding-top: 15px;"
+      >
+        <h1 id="votepage_title" style="font-size:60px;margin-bottom:20px">
+          투표 현황
+        </h1>
         <!-- <h1>메인 제목</h1> -->
         <div>
           <b-badge variant="success" v-if="this.endDayCheck()">진행중</b-badge>
           <b-badge variant="secondary" v-else>마감</b-badge>
         </div>
         <div class="graph-content2-gul">
-
           <GChart type="BarChart" :data="chartData" :options="chartOptions" />
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import HNavGray from '@/components/common/HNavGray';
-import { GChart } from 'vue-google-charts';
-import { Utils } from '@/utils/index.js';
-import axios from 'axios';
-import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
-import kakaoLogin from '@/components/socialLogin/kakao.vue';
+import HNavGray from "@/components/common/HNavGray";
+import { GChart } from "vue-google-charts";
+import { Utils } from "@/utils/index.js";
+import axios from "axios";
+import { Stomp } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
+import kakaoLogin from "@/components/socialLogin/kakao.vue";
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export default {
   components: {
@@ -43,9 +44,9 @@ export default {
       mainImagePath: "",
       imageExist: false,
       colorIdx: 0,
-      color: '',
+      color: "",
       isLogin: false,
-      endedAt: '',
+      endedAt: "",
       // Array will be automatically processed with visualization.arrayToDataTable function
       loaded: false,
       chartData: [
@@ -68,8 +69,6 @@ export default {
         /*  그래프 총넓이 */
         backgroundColor: {
           fill: "#e9ecef",
-          // stroke : '#666',
-          // strokeWidth : 5,
         },
         width: 1000,
         height: 400,
@@ -93,17 +92,13 @@ export default {
     if (this.isLogin == true) {
       await this.getContractAddress();
       this.subscribe();
-      // setInterval(() => {
-      //   this.chartData[1][1]++;
-      //   console.log(this.chartData);
-      // }, 1000);
     }
   },
   mounted() {
     if (this.isLogin == false) {
-      this.$bvModal.show('bv-modal-example2');
+      this.$bvModal.show("bv-modal-example2");
     }
-    console.log('Test');
+    console.log("Test");
   },
   methods: {
     endDayCheck() {
@@ -115,15 +110,15 @@ export default {
       return true;
     },
     loginCheck() {
-      console.log(localStorage.getItem('access_token'));
-      console.log(localStorage.getItem('myData'));
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
       if (
-        localStorage.getItem('access_token') == undefined ||
-        localStorage.getItem('myData') == undefined
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
       ) {
-        console.log('로그인 안됨.');
+        console.log("로그인 안됨.");
       } else {
-        console.log('로그인 됨.');
+        console.log("로그인 됨.");
         this.isLogin = true;
       }
     },
@@ -206,7 +201,7 @@ export default {
       chart.draw(data, options);
     },
     subscribe() {
-      const serverURL = 'http://localhost:8080/ws';
+      const serverURL = `${SERVER_URL}/ws`;
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect("", this.onConnected, this.onError);

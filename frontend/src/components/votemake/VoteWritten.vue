@@ -1,7 +1,9 @@
 <template>
   <div style=" position:relative; ">
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label votemake_font">항목명</label>
+      <label for="exampleFormControlInput1" class="form-label votemake_font"
+        >항목명</label
+      >
       <input
         type="input"
         class="form-control"
@@ -12,21 +14,16 @@
       />
     </div>
     <div v-if="imageFlag" class="filebox">
-      <label  :for="index">업로드</label><br>
-      <input type="file" ref="file" :id="index" accept=".jpg, .png, .gif"
-       @change="previewImage">
-       <img v-if="previewImageData" class="preimg" :src="previewImageData" />
-    </div>
-    <!-- <span v-if="imageFlag">
+      <label :for="index">업로드</label><br />
       <input
-        id="upload-itemImage"
-        ref="file"
         type="file"
+        ref="file"
+        :id="index"
         accept=".jpg, .png, .gif"
         @change="previewImage"
-      /><br />
+      />
       <img v-if="previewImageData" class="preimg" :src="previewImageData" />
-    </span> -->
+    </div>
     <div class="form-floating" style="margin-top: 15px; margin-bottom:15px">
       <textarea
         class="form-control"
@@ -135,7 +132,7 @@ export default {
   right: 0;
   top: 0;
   position: absolute;
-  margin-top : 10px;
+  margin-top: 10px;
   border-width: 2px;
   border-color: red;
   background-color: white;

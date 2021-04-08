@@ -2,16 +2,25 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img src="../../../public/images/vnc_logo2.png" @click="gohome" style="cursor: pointer;"/>
-    
+        <img
+          src="../../../public/images/vnc_logo2.png"
+          @click="gohome"
+          style="cursor: pointer;"
+        />
+
         <span style="cursor: pointer;">Vote & Chain</span>
       </div>
 
       <div class="navbar-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')" style="cursor: pointer;"
+        <span
+          v-if="!login"
+          @click="$bvModal.show('bv-modal-example')"
+          style="cursor: pointer;"
           >Login</span
         >
-        <span v-if="login" @click="clearToken" style="cursor: pointer;">Logout</span>
+        <span v-if="login" @click="clearToken" style="cursor: pointer;"
+          >Logout</span
+        >
 
         <b-modal
           id="bv-modal-example"
@@ -24,10 +33,16 @@
           <template #modal-title>LOGIN</template>
           <div style="text-align:center; font-family:NIXGONM-Vb;">
             Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
-            <img src="../../../public/images/vnc_logo.png" style="margin-top:-40px"/>
+            <img
+              src="../../../public/images/vnc_logo.png"
+              style="margin-top:-40px"
+            />
           </div>
           <br />
-          <div class="d-block text-center justify-center" style = "margin-top:-60px">
+          <div
+            class="d-block text-center justify-center"
+            style="margin-top:-60px"
+          >
             <kakaoLogin />
           </div>
           <br />
@@ -59,7 +74,6 @@ export default {
   },
   data() {
     return {
-      // loding:false,
       user: {
         email: "",
         password: "",
@@ -102,7 +116,6 @@ export default {
   right: 0;
   top: 0;
   position: fixed !important;
- 
 }
 .navbar-icon {
   width: 50%;
