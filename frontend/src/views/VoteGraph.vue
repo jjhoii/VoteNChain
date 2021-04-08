@@ -24,15 +24,14 @@
         <h3>투표결과를 확인하세요.</h3>
         <p
           id="votepage_desc"
-          style="margin-left: 0px; margin-top: 0px;font-size: 27px;"
+          style="margin-left: 0px; margin-top: 0px;font-size: 24px;"
         >
           블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
-          경험해보세요!
+          확인 해보세요!
         </p>
       </div>
       <div class="graph-content2">
         <h1 id="votepage_title">{{ mainTitle }}</h1>
-        <!-- <h1>메인 제목</h1> -->
         <div>
           <b-badge variant="success" v-if="this.endDayCheck()">진행중</b-badge>
           <b-badge variant="secondary" v-else>마감</b-badge>
@@ -303,17 +302,17 @@ export default {
   background: #f9f9f9;
 }
 .graph-content1 strong {
-  font-size: 140px;
+  font-size: 115px;
   line-height: 1.25em;
   position: fixed;
 }
 .graph-content1 h3 {
-  font-size: 34px;
+  font-size: 33px;
   font-weight: 700;
   position: fixed;
 }
 .graph-content1 p {
-  font-size: 24px;
+  font-size: 20px;
   position: fixed;
 }
 .graph-content2 {
@@ -321,6 +320,8 @@ export default {
   width: 65%;
   background: #e9ecef;
   padding-top: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 .graph-content2-gul {
   min-height: 50%;
