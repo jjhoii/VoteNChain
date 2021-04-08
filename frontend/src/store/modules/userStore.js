@@ -18,8 +18,6 @@ const userStore = {
   },
   mutations: {
     setUserinfo(state, payload) {
-      console.log("setuserinfo");
-      console.log(payload);
       state.isLogined = true;
       state.user.userIdx = payload.userIdx;
       state.user.userEmail = payload.userEmail;
@@ -57,18 +55,14 @@ const userStore = {
           account: user.account,
         },
       });
-      console.log(response.data["message"]);
       if (response.data["message"] == "needSignup") {
-        console.log(user.account);
         const resp = await Utils.createAccount();
         user.account = resp;
-        console.log("account : " + user.account);
         context.commit("setUserinfo", user);
         await context.dispatch("socialSignup", user);
       }
       //자동 로그인
       else if (response.data["message"] == "success") {
-        console.log(response.data["access-token"]);
         localStorage.setItem("access_token", response.data["access-token"]);
         localStorage.setItem(
           "myData",
