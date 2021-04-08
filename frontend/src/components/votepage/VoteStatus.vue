@@ -1,55 +1,20 @@
 <template>
   <div>
-    <HNavGray />
-    <div class="graph-container">
-      <b-modal
-        id="bv-modal-example2"
-        hide-header-close
-        hide-footer
-        no-close-on-backdrop
-      >
-        <template #modal-title>LOGIN</template>
-        <div style="text-align: center; font-family: sans-serif">
-          Login 후 투표결과를 확인할 수 있습니다.
-          <img src="@/assets/votelogo.png" />
-        </div>
-        <br />
-        <div class="d-block text-center justify-center">
-          <kakaoLogin />
-        </div>
-      </b-modal>
+    
+    <div class="graph-container" style="padding-top: 30px;padding-bottom: 30px">
 
-      <div class="graph-content1">
-        <strong>Reliable <br />Vote.</strong>
-        <h3>투표결과를 확인하세요.</h3>
-        <p id="votepage_desc" style="margin-left: 0px; margin-top: 0px;font-size: 27px;">
-          블록체인을 적용한 신뢰성있는 통계 시스템! <br />눈으로 직접
-          경험해보세요!
-        </p>
-      </div>
-      <div class="graph-content2">
-        <h1 id="votepage_title">{{ mainTitle }}</h1>
+      <div class="graph-content2" style="text-align: center;width: 100%;background: #e9ecef;padding-top: 15px;">
+        <h1 id="votepage_title" style="font-size:60px;margin-bottom:20px">투표 현황</h1>
         <!-- <h1>메인 제목</h1> -->
         <div>
           <b-badge variant="success" v-if="this.endDayCheck()">진행중</b-badge>
           <b-badge variant="secondary" v-else>마감</b-badge>
         </div>
         <div class="graph-content2-gul">
-          <img
-            v-if="mainImagePath != ''"
-            :src="mainImagePath"
-            alt=""
-            style="width: 400px; height: 300px; border-radius: 20px;margin-top: 30px"
-          />
-          <p id="votepage_desc">
-            {{ mainDescription }}
-          </p>
-          <hr style="width:80%" />
-          <h1 id="votepage_title" style=font-size:30px>투표 결과</h1>
+
           <GChart type="BarChart" :data="chartData" :options="chartOptions" />
         </div>
-        <!-- <p>메인내용</p> -->
-        <!-- <b-button>참가자 목록</b-button> -->
+
       </div>
     </div>
   </div>
@@ -106,7 +71,7 @@ export default {
           // stroke : '#666',
           // strokeWidth : 5,
         },
-        // width: 1000,
+        width: 1000,
         height: 400,
         legend: {
           position: "none",
@@ -294,32 +259,37 @@ export default {
   padding-top: 100px;
   padding-right: 3rem;
   padding-left: 3rem;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: flex-end;
   background: #f9f9f9;
+  position: relative;
 }
+
 .graph-content1 strong {
-  font-size: 140px;
+  position: absolute;
+  font-size: 120px;
+  left: 10%;
+  top: 10%;
   line-height: 1.25em;
-  position: fixed;
 }
 .graph-content1 h3 {
-  font-size: 34px;
+  position: absolute;
+  font-size: 30px;
+  left: 10%;
+  top: 55%;
   font-weight: 700;
-  position: fixed;
 }
 .graph-content1 p {
-  font-size: 24px;
-   position: fixed;
+  position: absolute;
+  font-size: 20px;
+  left: 10%;
+  top: 65%;
+  z-index: 99;
 }
 .graph-content2 {
   text-align: center;
-  width: 65%;
+  width: 80%;
   background: #e9ecef;
-  padding-top: 15px;
-}
-.graph-content2-gul {
-  min-height: 50%;
 }
 </style>
