@@ -271,8 +271,21 @@ export default {
       console.log(receiveMessage.sender); //얘는 인덱스 값
       // this.chartData = [['Key', 'Value']];
       console.log(this.chartData);
-
+      if (receiveMessage.sender % 6 == 0) {
+          this.color = '#BCE55C'; // #BCE55C 연두
+        } else if (receiveMessage.sender % 6 == 1) {
+          this.color = '#A566FF'; // #A566FF 보라
+        } else if (receiveMessage.sender % 6 == 2) {
+          this.color = '#5CD1E5'; // #5CD1E5 하늘
+        } else if (receiveMessage.sender % 6 == 3) {
+          this.color = '#F361DC'; // #F361DC 분홍
+        } else if (receiveMessage.sender % 6 == 4) {
+          this.color = '#E5D85C'; // #E5D85C 노랑
+        } else if (receiveMessage.sender % 6 == 5) {
+          this.color = '#F15F5F'; // #F15F5F 빨강
+        }
       this.chartData[parseInt(receiveMessage.sender) + 1][1]++;
+      this.chartData[parseInt(receiveMessage.sender) + 1][2] = this.color;
       // this.chartData.push([receiveMessage.sender, count + 1]);
       // jjh_test
       this.chartData = this.chartData.map((item, index) => {
