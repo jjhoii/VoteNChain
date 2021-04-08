@@ -7,7 +7,7 @@
 <img src="images/main.png" align=center>
 
 <h3><a href="https://votenchain.tk">DEMO 바로가기</a></h3>
-<h3><a href="https://youtu.be/">UCC 바로가기</a></h3>
+<h3><a href="https://youtu.be/bYXbropDL0E">UCC 바로가기</a></h3>
 
 <div>
   	Vote&Chain에서는 블록체인의 특징과 스마트 컨트랙트를 활용하여 안전하게 투표 데이터가 관리됩니다.<br>
@@ -267,6 +267,7 @@ VUE_APP_SERVER_URL=<host> # host 설정
 config 파일 수정
 ```javascript
 // frontend/src/config.index.js
+export const contractAddress = "<contract_address>"; // 이전에 배포했던 컨트랙트 주소
 ...
 export const gethHost = "http://localhost:8545";
 ```
