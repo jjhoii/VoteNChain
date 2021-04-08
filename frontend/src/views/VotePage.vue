@@ -110,7 +110,6 @@
           />
         </div>
       </div>
-      <!-- <button @click="test()">테스트</button> -->
       <p
         style="padding: 0; margin: 0"
         v-for="(obj, index) in receivedMessages"
@@ -208,7 +207,6 @@ export default {
 
       const isVoteEnd = await this.isVoteEnd(this.n);
       const isVote = await this.isVote(this.n);
-      console.log("isVoteEnd: ", isVoteEnd, ", isVote: ", isVote);
       if (isVoteEnd || isVote) {
         // route to voteGraph
         this.$router.replace("/votegraph/" + this.$route.params.hashKey);
@@ -222,7 +220,6 @@ export default {
     if (this.isLogin == false) {
       this.$bvModal.show("bv-modal-example1");
     }
-    console.log("Test");
   },
   methods: {
     dayCheck() {
@@ -260,15 +257,11 @@ export default {
       return true;
     },
     loginCheck() {
-      console.log(localStorage.getItem("access_token"));
-      console.log(localStorage.getItem("myData"));
       if (
         localStorage.getItem("access_token") == undefined ||
         localStorage.getItem("myData") == undefined
       ) {
-        console.log("로그인 안됨.");
       } else {
-        console.log("로그인 됨.");
         this.isLogin = true;
       }
     },
@@ -285,21 +278,17 @@ export default {
         alert("항목을 선택해 주세요!");
         return;
       } else {
-        console.log(this.picked + "들어옴");
         await this.sendVote(this.picked);
       }
       // 추가 소켓 통신
       this.syncSocket();
       // go to graph
-      console.log("hashKey2 : " + this.hashKey);
       this.$router.replace("/votegraph/" + this.hashKey);
     },
     async sendVote(idx) {
       this.$store.state.loading.text = "투표가 진행중입니다...";
       this.$store.state.loading.enabled = true;
-      console.log("sending");
       const rs = await Utils.send(Utils.contract.methods.voteTo, [this.n, idx]);
-      console.log("result: ", rs);
       this.$store.state.loading.enabled = false;
       alert("투표가 완료 되었습니다.");
     },
@@ -310,7 +299,6 @@ export default {
         });
 
         this.hashKey = res.data.vote.hashKey;
-        console.log("hashKey1 :" + this.hashKey);
         const idx = res.data.vote.contractAddress * 1;
         await this.getData(idx);
 
@@ -323,7 +311,6 @@ export default {
     async getData(idx) {
       // get vote data
       const rs = await Utils.call(Utils.contract.methods.getVote, [idx]);
-      console.log(rs);
 
       // set data
       this.mainTitle = rs.title;
@@ -366,7 +353,6 @@ export default {
       );
     },
     onError(error) {
-      console.log("에러임");
       console.log(error);
     },
     onDisconnected() {
