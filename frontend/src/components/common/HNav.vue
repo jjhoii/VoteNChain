@@ -3,9 +3,7 @@
     <div class="navbar">
       <div class="navbar-icon">
         <img src="../../../public/images/vnc_logo2.png" @click="gohome" style="cursor: pointer;"/>
-      </div>
-
-      <div class="navbar-title">
+    
         <span style="cursor: pointer;">Vote & Chain</span>
       </div>
 
@@ -107,19 +105,15 @@ export default {
  
 }
 .navbar-icon {
-  width: 5%;
-  height: 100px;
-}
-.navbar-icon img {
-  height: 100px;
-}
-.navbar-title {
-  width: 15%;
+  width: 50%;
   height: 100px;
   display: flex;
   align-items: center;
 }
-.navbar-title span {
+.navbar-icon img {
+  height: 100px;
+}
+.navbar-icon span {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #fff;
   font-size: 35px;
@@ -127,7 +121,6 @@ export default {
 .navbar-list {
   width: 50%;
   height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: flex-end;

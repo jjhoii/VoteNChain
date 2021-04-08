@@ -160,10 +160,10 @@
           <div style="margin-top: 50px;text-align:center">
             <b-button
               @click="createVote()"
+              class = "createbutton"
               type="button"
-              class="button"
               variant="info"
-              style="width: 60%;height:50px;margin-top:30px;background-color:#A68C7C;border-color: white;"
+              style="width: 60%;height:50px;margin-top:30px;background-color:#A68C7C;border-color: white; color:white;"
             >
               제출하기!
             </b-button>
@@ -541,6 +541,7 @@ export default {
   font-family: MaruBuri-Regular;
   font-size: 28px;
 }
+
 /*  파일 버튼선택  css 5개 */
 .filebox label {
   display: inline-block;

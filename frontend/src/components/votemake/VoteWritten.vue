@@ -143,6 +143,10 @@ export default {
   color: red;
   font-size: 15px;
 }
+.button-delete:hover {
+  background: red;
+  color: white;
+}
 .preimg {
   width: 300px;
   height: 300px;
