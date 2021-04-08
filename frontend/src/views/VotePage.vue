@@ -32,8 +32,9 @@
         size="xl"
         title="투표 현황"
         hide-footer
+        hide-header
       >
-        <VoteGraph style="" />
+        <VoteStatus style="" />
       </b-modal>
       <div name="title">
         <div style="text-align:center; word-break:break-all;">
@@ -167,7 +168,7 @@ import TextRadio from '@/components/votepage/TextRadio';
 import axios from 'axios';
 import { Utils } from '@/utils/index.js';
 import kakaoLogin from '@/components/socialLogin/kakao.vue';
-import VoteGraph from '@/components/votepage/VoteGraph';
+import VoteStatus from '@/components/votepage/VoteStatus';
 import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 const SERVER_URL = process.env.VUE_APP_SERVER_URL;
@@ -179,7 +180,7 @@ export default {
     TextRadio,
     HNavGray,
     kakaoLogin,
-    VoteGraph,
+    VoteStatus,
   },
   data: function() {
     return {
