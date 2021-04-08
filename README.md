@@ -129,7 +129,7 @@ Backend 구성 요소
 |  Spring 라이브러리  |  Version   | Comment                       |
 | :-----------------: | :--------: | :---------------------------  |
 |     Spring Web      |     -      |      Rest API 서버 구축       |
-|   Spring Data JPA   |     -      |      DB와의 연결 관리         |
+|   Spring Data JPA   |     2.4.3      |      DB와의 연결 관리         |
 |       Lombok        |     1.18.18     | Getter, Setter, toString 등의 간편한 구현   |
 |   Spring Data JDBC  |     -      | JDBC                          |
 |     Mysql Driver    |     8.0.23      | Mysql Driver                  |
