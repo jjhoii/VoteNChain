@@ -2,18 +2,15 @@
   <div>
     <div class="navbargray">
       <div class="navbargray-icon">
-        <img src="../../../public/images/votelogo.png" @click="gohome" />
-      </div>
-
-      <div class="navbargray-title">
-        <span @click="gohome">Vote & Chain</span>
+        <img src="../../../public/images/vnc_logo.png" @click="gohome"  style="cursor: pointer;"/>
+        <span @click="gohome" style="cursor: pointer;">Vote & Chain</span>
       </div>
 
       <div class="navbargray-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+        <span v-if="!login" @click="$bvModal.show('bv-modal-example')" style="cursor: pointer;"
           >Login</span
         >
-        <span v-if="login" @click="clearToken">Logout</span>
+        <span v-if="login" @click="clearToken" style="cursor: pointer;">Logout</span>
         <b-modal
           id="bv-modal-example"
           hide-header-close
@@ -85,10 +82,6 @@ export default {
       localStorage.clear();
       window.location.href = '/';
     },
-    clearToken() {
-      localStorage.clear();
-      window.location.href = '/';
-    },
   },
   created() {
     if (localStorage.getItem('access_token') != undefined) {
@@ -108,22 +101,19 @@ export default {
   right: 0;
   top: 0;
   position: fixed !important;
+ 
 }
 .navbargray-icon {
-  width: 8%;
-  height: 100px;
-}
-.navbargray-icon img {
-  height: 100px;
-}
-.navbargray-title {
-  width: 40%;
+  width: 50%;
   height: 100px;
   display: flex;
   align-items: center;
 }
-.navbargray-title span {
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.navbargray-icon img {
+  height: 100px;
+}
+.navbargray-icon span {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #000;
   font-size: 35px;
 }

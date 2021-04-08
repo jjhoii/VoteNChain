@@ -2,18 +2,25 @@
   <div>
     <div class="navbar">
       <div class="navbar-icon">
-        <img src="../../../public/images/votelogo2.png" @click="gohome" />
-      </div>
+        <img
+          src="../../../public/images/vnc_logo2.png"
+          @click="gohome"
+          style="cursor: pointer;"
+        />
 
-      <div class="navbar-title">
-        <span>Vote & Chain</span>
+        <span style="cursor: pointer;">Vote & Chain</span>
       </div>
 
       <div class="navbar-list">
-        <span v-if="!login" @click="$bvModal.show('bv-modal-example')"
+        <span
+          v-if="!login"
+          @click="$bvModal.show('bv-modal-example')"
+          style="cursor: pointer;"
           >Login</span
         >
-        <span v-if="login" @click="clearToken">Logout</span>
+        <span v-if="login" @click="clearToken" style="cursor: pointer;"
+          >Logout</span
+        >
 
         <b-modal
           id="bv-modal-example"
@@ -24,12 +31,18 @@
           no-close-on-esc
         >
           <template #modal-title>LOGIN</template>
-          <div style="text-align:center; font-family:sans-serif;">
+          <div style="text-align:center; font-family:NIXGONM-Vb;">
             Kakao 계정으로 VNC의 서비스를 이용할 수 있습니다.
-            <img src="../../../public/images/votelogo.png" />
+            <img
+              src="../../../public/images/vnc_logo.png"
+              style="margin-top:-40px"
+            />
           </div>
           <br />
-          <div class="d-block text-center justify-center">
+          <div
+            class="d-block text-center justify-center"
+            style="margin-top:-60px"
+          >
             <kakaoLogin />
           </div>
           <br />
@@ -37,7 +50,7 @@
             <b-button
               variant="info"
               class="mt-3"
-              style="width: 50%;"
+              style="width: 65%;height:40px;margin-top:30px;background-color:#A68C7C;border-color: white;"
               @click="$bvModal.hide('bv-modal-example')"
               >Close Me</b-button
             >
@@ -61,7 +74,6 @@ export default {
   },
   data() {
     return {
-      // loding:false,
       user: {
         email: "",
         password: "",
@@ -106,19 +118,15 @@ export default {
   position: fixed !important;
 }
 .navbar-icon {
-  width: 8%;
-  height: 100px;
-}
-.navbar-icon img {
-  height: 100px;
-}
-.navbar-title {
-  width: 35%;
+  width: 50%;
   height: 100px;
   display: flex;
   align-items: center;
 }
-.navbar-title span {
+.navbar-icon img {
+  height: 100px;
+}
+.navbar-icon span {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #fff;
   font-size: 35px;
@@ -126,7 +134,6 @@ export default {
 .navbar-list {
   width: 50%;
   height: 100%;
-
   display: flex;
   align-items: center;
   justify-content: flex-end;

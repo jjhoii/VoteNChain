@@ -1,12 +1,20 @@
 <template>
   <div class="votemake-container">
     <HNavGray />
-    <form class="votemake-content2">
-      <div class="container d-flex p-2 bd-highlight" style="margin-top: 100px">
+    <form class="votemake-content">
+      <div class="container d-flex p-1 bd-highlight" style="margin-top: 50px">
         <div class="container-sm">
           <div class="mb-3">
             <div class="">
-              <h2 class="votemake-content2-title">Vote Make</h2>
+              <h2
+                class="votemake-content-title votemake_font"
+                style="font-size:60px;margin-bottom:40px;text-align:center"
+              >
+                투표 만들기
+              </h2>
+              <div class="votemake_font" style="margin-bottom:10px">
+                투표 제목
+              </div>
               <div class="input-group input-group-lg">
                 <input
                   type="text"
@@ -18,19 +26,23 @@
                 />
               </div>
               <br />
-
-              Main Image
+              <p class="votemake_font">메인 이미지</p>
+              <div class="filebox">
+                <label for="ex_file">업로드</label>
+                <input
+                  type="file"
+                  ref="file"
+                  id="ex_file"
+                  accept=".jpg, .png, .gif"
+                  @change="previewImage"
+                />
+              </div>
+              <img
+                class="preimg"
+                :src="previewImageData"
+                v-if="previewImageData"
+              />
               <br />
-
-              <input
-                id="upload-image"
-                ref="file"
-                type="file"
-                accept=".jpg, .png, .gif"
-                @change="previewImage"
-              /><br />
-              <img id="previewimage" :src="previewImageData" />
-
               <div class="input-group input-group-lg">
                 <textarea
                   class="form-control"
@@ -43,15 +55,28 @@
             </div>
           </div>
 
-          <div style="margin-bottom: 15px">
-            <button
-              type="button"
-              class="button"
-              :imageFlag="this.imageFlag"
-              @click="changeFlag()"
+          <div style="margin-bottom: 15px; display:flex;">
+            <b-form-radio-group
+              v-on:change="changeFlag()"
+              v-model="selected"
+              :options="options"
+              class="mb-3"
+              value-field="item"
+              text-field="name"
+            ></b-form-radio-group>
+
+            <b-button id="tooltip-target-1">
+              Tip!
+            </b-button>
+            <b-tooltip
+              placement="topright"
+              variant="danger"
+              target="tooltip-target-1"
+              triggers="hover"
             >
-              항목 / 이미지 투표 전환
-            </button>
+              글: 이미지가없는 투표 항목 <br />
+              이미지: 이미지가있는 투표 항목
+            </b-tooltip>
           </div>
           <!-- 계속 추가되는 라인 -->
           <div>
@@ -68,13 +93,21 @@
             </div>
           </div>
 
-          <div>
-            <button type="button" class="button" @click="AddSubject()">
+          <div style="text-align:right;">
+            <button
+              type="button"
+              class="button"
+              id="plus_button"
+              style="margin-top: 15px;background-color:#D9B79A;height:37px;width:100px"
+              @click="AddSubject()"
+            >
               항목 추가
             </button>
           </div>
           <div class="continer" style="margin-top: 15px">
-            <span>투표마감일</span>
+            <span class="votemake_font" style="line-height:70px"
+              >투표마감일</span
+            >
             <div style="display: flex">
               <b-form-input type="date" v-model="endDate"></b-form-input>
             </div>
@@ -86,49 +119,59 @@
             no-close-on-backdrop
             hide-footer
             hide-header
+            size="lg"
           >
-            <h3>투표 링크</h3>
-            <a
-              @click="moveToVotePage"
-              href=""
-              style="
-                font-size: 20px;
-                margin-left: 0px;
+            <h3 style="margin-left:0px;text-align:center">투표 링크</h3>
+            <hr />
+            <div>
+              <a
+                @click="moveToVotePage"
+                href=""
+                style="
+                font-size: 25px;
+                margin-left: 30px;
                 margin-top: 0px;
                 margin-bottom: 0px;
               "
-              >{{ voteUrl }}</a
-            >
-            <input
-              type="text"
-              id="myInput"
-              v-model="voteUrl"
-              readonly
-              style="width: 300px; margin-left: 30px"
-            />
-            <b-button
-              variant="outline-secondary"
-              id="copy_button"
-              @click="copyToClipboard('myInput')"
-              >링크 복사</b-button
-            >
-            <b-button
-              pill
-              variant="outline-secondary"
-              @click="moveToPage()"
-              style="margin-left: 210px; margin-top: 30px"
-              >닫기</b-button
-            >
+                >{{ voteUrl }}</a
+              >
+
+              <input
+                type="hidden"
+                id="myInput"
+                v-model="voteUrl"
+                readonly
+                style="width: 300px; margin-left: 0px;height:39px"
+              />
+
+              <b-button
+                variant="outline-secondary"
+                id="copy_button"
+                @click="copyToClipboard('myInput')"
+                style="margin-top:-97px;margin-left:570px"
+                >링크 복사</b-button
+              >
+            </div>
+            <div style="text-align:center">
+              <b-button
+                pill
+                variant="outline-secondary"
+                @click="moveToPage()"
+                style="margin-left: 0px; margin-top: 0px;"
+                >닫기</b-button
+              >
+            </div>
           </b-modal>
-          <div style="margin-top: 15px">
-            <button
+          <div style="margin-top: 50px;text-align:center">
+            <b-button
               @click="createVote()"
+              class="createbutton"
               type="button"
-              class="button"
-              style="width: 80px"
+              variant="info"
+              style="width: 60%;height:50px;margin-top:30px;background-color:#A68C7C;border-color: white; color:white;"
             >
-              제출
-            </button>
+              제출하기!
+            </b-button>
           </div>
         </div>
       </div>
@@ -192,6 +235,11 @@ export default {
       voteUrl: "https://votenchain.tk/votepage/",
       hashKey: "",
       myInput: "",
+      selected: "글",
+      options: [
+        { item: "글", name: "글" },
+        { item: "이미지", name: "이미지" },
+      ],
     };
   },
   created() {
@@ -213,7 +261,13 @@ export default {
       return y + "-" + m + "-" + d;
     },
     changeFlag() {
-      this.imageFlag = !this.imageFlag;
+      if (this.selected == "글") {
+        this.imageFlag = false;
+      }
+
+      if (this.selected == "이미지") {
+        this.imageFlag = true;
+      }
     },
     async showBalance() {
       const rs = await Utils.getBalance();
@@ -309,9 +363,6 @@ export default {
       } else {
         this.previewImageData = null;
       }
-
-      document.getElementById("previewimage").style =
-        "width:200px; height:200px";
     },
     createVote() {
       if (!this.validationCheck()) {
@@ -343,7 +394,7 @@ export default {
             this.hashKey = response.data.hashKey;
             this.$refs["url"].show();
           })
-          .catch(function (error) {
+          .catch(function(error) {
             console.log(error);
           });
         this.$store.state.loading.enabled = false;
@@ -400,7 +451,6 @@ export default {
 
       return true;
     },
-    test() {},
     moveToVotePage() {
       window.open("/votepage/" + this.hashKey, "_blank");
       this.$router.replace("/");
@@ -438,31 +488,20 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: "MaruBuri-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .votemake-container {
   background: #f9f9f9;
   display: flex;
 }
-.votemake-content1 {
-  padding: 180px 0px 0px 0px;
-  margin: 0px 0px 70px 150px;
-  width: 30%;
-  background: #f9f9f9;
-  display: flex;
-  flex-direction: column;
-}
-.votemake-content1 div {
-  height: 60px;
-  width: 100%;
-  margin-left: 10px;
-}
-.votemake-content1 div strong {
-  font-size: 20px;
-}
-.votemake-content1-img {
-  width: 50px;
-  height: 50px;
-}
-.votemake-content2 {
+
+.votemake-content {
   background: white;
   margin: 140px 270px 70px 270px;
   padding: 0px 100px 50px 100px;
@@ -473,20 +512,14 @@ export default {
 
   font-weight: 100;
   font-size: 1rem;
-}
-.votemake-content2-title {
-  font-family: "Playfair Display", serif;
+  font-family: "MaruBuri-Regular";
 }
 
 .button {
-  background-color: #343a40;
-  border: 2px solid #333;
   border-radius: 10px;
   color: #fff;
-  line-height: 50px;
 }
 .button:hover {
-  background-color: #fff;
   border-color: #212529;
   color: #212529;
 }
@@ -496,5 +529,50 @@ export default {
   width: 100px;
   margin-bottom: 3px;
   margin-left: 10px;
+}
+#tooltip-target-1 {
+  font-size: 13px;
+  background: white;
+  color: rosybrown;
+  border-color: rosybrown;
+  height: 30px;
+}
+#plus_button {
+  border: 0px;
+}
+.votemake_font {
+  font-family: MaruBuri-Regular;
+  font-size: 28px;
+}
+
+/*  파일 버튼선택  css 5개 */
+.filebox label {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  color: #fff;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #d9b79a;
+  cursor: pointer;
+  border-radius: 10px;
+  -webkit-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.filebox label:hover {
+  color: #212529;
+}
+.filebox label:active {
+  background-color: #367c36;
+}
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 </style>

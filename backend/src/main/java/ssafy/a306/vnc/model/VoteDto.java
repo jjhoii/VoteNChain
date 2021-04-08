@@ -5,63 +5,36 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-//@Entity(name="Vote")
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import ssafy.a306.vnc.entity.VoteVo;
+
+@Getter
+@Data
+@NoArgsConstructor
 public class VoteDto {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+
 	private int voteIdx;
 	private int userIdx;
 	private String contractAddress;
 	private String hashKey;
 	
-	public VoteDto() {
-		// TODO Auto-generated constructor stub
-	}
-
 
 	public VoteDto(int voteIdx, int userIdx, String contractAddress, String hashKey) {
-		super();
 		this.voteIdx = voteIdx;
 		this.userIdx = userIdx;
 		this.contractAddress = contractAddress;
 		this.hashKey = hashKey;
 	}
 
-
-	public int getVoteIdx() {
-		return voteIdx;
+	public VoteVo toEntity(){
+		return VoteVo.builder()
+				.userIdx(userIdx)
+				.contractAddress(contractAddress)
+				.hashKey(hashKey)
+				.build();
 	}
-
-	public void setVoteIdx(int voteIdx) {
-		this.voteIdx = voteIdx;
-	}
-
-	public int getUserIdx() {
-		return userIdx;
-	}
-
-	public void setUserIdx(int userIdx) {
-		this.userIdx = userIdx;
-	}
-
-	public String getContractAddress() {
-		return contractAddress;
-	}
-
-	public void setContractAddress(String contractAddress) {
-		this.contractAddress = contractAddress;
-	}
-
-
-	public String getHashKey() {
-		return hashKey;
-	}
-
-
-	public void setHashKey(String hashKey) {
-		this.hashKey = hashKey;
-	}
-
 
 	@Override
 	public String toString() {
