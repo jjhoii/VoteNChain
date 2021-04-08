@@ -77,7 +77,6 @@
           <!-- 계속 추가되는 라인 -->
           <div>
             <div v-if="WrittenCheck" class="border-top border-bottom">
-              <br/>
               <VoteWritten
                 :imageFlag="imageFlag"
                 v-for="(list, index) in voteList"

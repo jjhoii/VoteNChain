@@ -1,5 +1,5 @@
 <template>
-  <div style=" position:relative; margin-bottom: 15px">
+  <div style=" position:relative; ">
     <div class="mb-3">
       <label for="exampleFormControlInput1" class="form-label votemake_font">항목명</label>
       <input
@@ -135,6 +135,7 @@ export default {
   right: 0;
   top: 0;
   position: absolute;
+  margin-top : 15px;
   border-width: 2px;
   border-color: red;
   background-color: white;
