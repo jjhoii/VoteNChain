@@ -16,7 +16,9 @@
         <div class="header-content">
           <strong>Block Chain <br />Vote Solution</strong>
           <p>Vote & Chain은 블록체인을 적용한 신뢰성있는 전자투표입니다.</p>
-          <button @click="PageChange()" class="button_status" id="button_make" >투표 만들기</button>
+          <button @click="PageChange()" class="button_status" id="button_make">
+            투표 만들기
+          </button>
         </div>
       </section>
 
@@ -35,7 +37,7 @@
         </div>
         <div class="section-video">
           <video
-            src="video/video.mp4"
+            src="video/bcvideo.mp4"
             muted="muted"
             autoplay="true"
             loop="true"
@@ -43,12 +45,34 @@
           ></video>
         </div>
       </section>
+      <section class="section2">
+        <div class="section-video">
+          <img
+            src="video/완벽테스트.gif"
+            muted="muted"
+            autoplay="true"
+            loop="true"
+            style="width: 900px"
+          />
+          <!-- <video
+            
+          ></video> -->
+        </div>
+        <div class="section-content">
+          <p>
+            <strong>Vote&Chain</strong>을 <br />
+            활용해<br />
+            다양한 투표를<br />
+            진행해보세요.<br />
+          </p>
+        </div>
+      </section>
     </div>
   </div>
 </template>
 
 <script>
-import HNav from '@/components/common/HNav';
+import HNav from "@/components/common/HNav";
 export default {
   components: {
     HNav,
@@ -56,18 +80,18 @@ export default {
 
   data() {
     return {
-      items: ['x', 'y', 'z'],
+      items: ["x", "y", "z"],
       active: 0, // Define the active index
       deltaY: 0, // This is used for the scroll wheel navigation
     };
   },
   created() {
     // Register the `wheel` event
-    window.addEventListener('wheel', this._handleWheel, { passive: true });
+    window.addEventListener("wheel", this._handleWheel, { passive: true });
   },
   destroyed() {
     // Remove the `wheel` event
-    window.removeEventListener('wheel', this._handleWheel, { passive: true });
+    window.removeEventListener("wheel", this._handleWheel, { passive: true });
   },
   watch: {
     // I have added watchers to both `deltaY` and `active`, however,
@@ -76,30 +100,30 @@ export default {
     active: function(index) {
       // Whenever the `active` index changes, update the `deltaY` value
       this.deltaY = index * 35;
-      console.log('asdasd');
+      console.log("asdasd");
     },
     deltaY: function(value) {
       // Whenever the `deltaY` value changes, update the `active` index
       this.active = Math.floor(value / 35);
-      console.log('asdasd');
+      console.log("asdasd");
     },
   },
   methods: {
     PageChange() {
-      console.log(localStorage.getItem('access_token'));
-      console.log(localStorage.getItem('myData'));
+      console.log(localStorage.getItem("access_token"));
+      console.log(localStorage.getItem("myData"));
       if (
-        localStorage.getItem('access_token') == undefined ||
-        localStorage.getItem('myData') == undefined
+        localStorage.getItem("access_token") == undefined ||
+        localStorage.getItem("myData") == undefined
       ) {
-        alert('로그인 후에 진행해주세요.');
-        this.$bvModal.show('bv-modal-example');
+        alert("로그인 후에 진행해주세요.");
+        this.$bvModal.show("bv-modal-example");
       } else {
-        this.$router.push('VoteMake');
+        this.$router.push("VoteMake");
       }
     },
     onScroll() {
-      console.log('asdasd');
+      console.log("asdasd");
     },
     _handleWheel(event) {
       // The navigation is only active when the page has not
@@ -129,7 +153,7 @@ export default {
 .body {
   display: flex;
   flex-direction: column;
-  font-family: Roboto, 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  font-family: Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
   font-size: 1rem;
   height: 100vh;
   width: 100%;
@@ -150,6 +174,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: -2;
+  background-color: rgb(197, 172, 140);
 }
 
 .fullscreen-vid-wrap video {
@@ -184,11 +209,19 @@ export default {
   line-height: 150px;
 } */
 .section1 {
-  margin-top: 18vh;
+  padding-top: 18vh;
   display: flex;
   width: 100%;
   background: #0151;
   height: 100vh;
+}
+.section2 {
+  padding-top: 5vh;
+  display: flex;
+  width: 100%;
+  background: #0151;
+  height: 100vh;
+  background-color: #eed8c8;
 }
 .section-content {
   display: flex;
@@ -204,7 +237,7 @@ export default {
 .section-video {
   width: 60%;
   height: 85vh;
-  background: #fff;
+  /* background: #fff; */
   display: flex;
 
   justify-items: center;
@@ -248,11 +281,15 @@ export default {
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
 } */
-#button_make{
-  width:250px;height:100px;margin-top:30px;font-size: 30px;background-color: #BF7256;color:#ffffff;
+#button_make {
+  width: 250px;
+  height: 100px;
+  margin-top: 30px;
+  font-size: 30px;
+  background-color: #bf7256;
+  color: #ffffff;
 }
 #button_make:hover {
   box-shadow: none;
-
 }
 </style>
