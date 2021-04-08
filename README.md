@@ -105,9 +105,10 @@ Frontend 구성 요소
 |       axios         | 0.21.1  | 서버로 요청을 보내기 위해 사용                       |
 |        bootstrap-vue      | 2.21.2   | UI 구성을 위해 사용                           |
 |        sockjs-client      | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
-|        sockjs-client      | 1.5.0   | Backend 서버와 소켓 통신을 위해 사용           |
 |        vuex         | 3.4.0   | 상태 관리를 위해 사용                                |
 |        web3         | 1.3.4   | 스마트 컨트랙트와 상호작용을 하기 위해 사용           |
+|       aws-sdk  |  2.877.0 | 이미지파일을 S3저장소에 올리기 위해 사용 |
+|       Vue     |  2.6.12 | 웹 프론트 개발 |
 
 Backend 구성 요소
 
