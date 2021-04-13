@@ -6,12 +6,11 @@
 </div>
 <img src="images/main.png" align=center>
 
-<h3><a href="https://votenchain.tk">DEMO 바로가기</a></h3>
-<h3><a href="https://youtu.be/bYXbropDL0E">UCC 바로가기</a></h3>
+<h3><a href="https://votenchain.tk">DEMO</a></h3>
 
 <div>
   	Vote&Chain에서는 블록체인의 특징과 스마트 컨트랙트를 활용하여 안전하게 투표 데이터가 관리됩니다.<br>
-    데모 페이지에서 가장 안전한 투표 솔루션을 경험해보세요.
+    데모 페이지에서 안전한 투표 솔루션을 경험해보세요.
 </div>
 
 ## 목차
@@ -39,7 +38,7 @@
 
 > **Vote&Chain**
 >
-> 세상에서 가장 안전한 블록체인 기반 투표 솔루션
+> 가장 안전한 블록체인 기반 투표 솔루션
 
 블록체인 기반의 투표 솔루션 개발 프로젝트입니다.  
 Ethereum을 사용했으며, Solidity 언어로 Smart Contract를 작성하여 투표 시스템을 배포했습니다.  
