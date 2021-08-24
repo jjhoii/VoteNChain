@@ -101,7 +101,7 @@ contract Vote is Ownable {
 
         data.items[itemId].count++;
 
-        VoteSuccess(data);
+        emit VoteSuccess(data);
     }
 
     function isVoteEnd() public view returns (bool) {
